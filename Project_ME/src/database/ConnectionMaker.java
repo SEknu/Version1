@@ -9,7 +9,7 @@ public class ConnectionMaker {
 			SQLException {
 		Class.forName("com.mysql.jdbc.Driver");
 		Connection c = DriverManager.getConnection(
-				"jdbc:mysql://localhost/test", "root", "cjswo2");
+				"jdbc:mysql://localhost/test", "root", "me2015");
 		return c;
 	}
 }

@@ -1,4 +1,6 @@
 package gui;
+import gui.Register_Commodity_Dialog;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;

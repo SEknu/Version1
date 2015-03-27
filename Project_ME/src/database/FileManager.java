@@ -492,6 +492,7 @@ public class FileManager {
 		return result;
 	}
 
+
 	public Vector<Trainer> allTrainer() {
 		Vector<Trainer> result = new Vector<Trainer>();
 		try {
