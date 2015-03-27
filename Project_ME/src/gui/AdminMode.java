@@ -108,7 +108,15 @@ public class AdminMode extends JFrame implements ActionListener{
 		else if (e.getSource() == commodity) {
 			setVisible(false);
 			panel_content.removeAll();
-			panel_content.add(new Commodity_Panel());
+			try {
+				panel_content.add(new Commodity_Panel());
+			} catch (ClassNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			setResizable(false);
 			pack();
 			setVisible(true);

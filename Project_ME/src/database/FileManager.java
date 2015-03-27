@@ -68,7 +68,61 @@ public class FileManager {
 	}
 	/* getInstance */
 	
+	/*commodity*/
+	public void addCommodity(final Commodity commodity) throws ClassNotFoundException, SQLException {
+		jdbcContextWithStatementStrategy(
+				new StatementStrategy() {
+			@Override
+			public PreparedStatement makePreparedStatement(Connection c)
+					throws SQLException {
+					PreparedStatement ps = c.prepareStatement("insert into commodity(id, name, buy_date, inventory, price, state, comment) values(?,?,?,?,?,?,?)");
+					ps.setString(1, commodity.getID());
+					ps.setString(2, commodity.getName());
+					ps.setString(3, commodity.getBuyDate());
+					ps.setInt(4, commodity.getInventory());
+					ps.setInt(5, commodity.getPrice());
+					ps.setInt(6, commodity.getState());
+					ps.setString(7, commodity.getComment());
+					return ps;
+				}
+			}
+		);
+	}
 
+	public Vector<Commodity> getAllCommodity() throws ClassNotFoundException, SQLException {
+		Commodity commodity;
+		ResultSet rs = null;
+		Vector<Commodity> vectorCommodity = new Vector<Commodity>();
+		
+		rs = resultSetStatementStrategy(
+				new StatementStrategy() {
+			@Override
+			public PreparedStatement makePreparedStatement(Connection c)
+					throws SQLException {
+					PreparedStatement ps = c.prepareStatement("select * from commodity");
+					return ps;
+				}
+			}
+		);
+		
+		while(rs.next()) {
+			commodity = new Commodity();
+			commodity.setID(rs.getString("id"));
+			commodity.setName(rs.getString("name"));
+			commodity.setBuyDate(rs.getString("buy_date"));
+			commodity.setInventory(rs.getInt("inventory"));
+			commodity.setPrice(rs.getInt("price"));
+			commodity.setState(rs.getInt("state"));
+			commodity.setComment(rs.getString("comment"));
+			vectorCommodity.add(commodity);
+		}
+		if(rs != null) {	
+			try { rs.close(); } catch(SQLException e) {}
+		}	
+		return vectorCommodity;
+	}
+	
+	/*program*/
 	public void addProgram(final Program program) throws ClassNotFoundException, SQLException {
 		jdbcContextWithStatementStrategy(
 				new StatementStrategy() {
@@ -118,6 +172,19 @@ public class FileManager {
 		return vectorProgram;
 	}
 	
+	/*delete*/
+	public void deletetemp(final String id, final String table) throws ClassNotFoundException, SQLException {
+		jdbcContextWithStatementStrategy(
+				new StatementStrategy() {
+			@Override
+			public PreparedStatement makePreparedStatement(Connection c)
+					throws SQLException {
+					PreparedStatement ps = c.prepareStatement("delete from " + table + " where id='" + id +"'");
+					return ps;
+				}
+			}
+		);
+	}
 	/* Generic select, insert, update, delete */
 	public Object select(String ID, String tableName) {
 		try {
@@ -171,7 +238,8 @@ public class FileManager {
 						d = rs.getDate("final_check");
 						if (d != null)
 							fCheck = d.toString();
-						Commodity commodity = new Commodity(rs.getString("id"), rs.getString("name"), rs.getString("date"),
+						Commodity commodity = new Commodity(
+						rs.getString("id"), rs.getString("name"), rs.getString("date"),
 								rs.getInt("inventory"),
 								rs.getInt("price"), rs.getInt("state"), rs.getString("comment"));
 						
@@ -244,17 +312,7 @@ public class FileManager {
 						clt.getWeek() + ", " +
 						clt.getTime() + ")";
 			}
-			else if (tableName.equalsIgnoreCase("commodity")) {
-				Commodity c = (Commodity) obj;
-				sql += 	" (id, name, buy_date, inventory, price, state" +
-						") VALUES ('" +
-						c.getID() + "', '" +
-						c.getName() + "', '" +
-						c.getBuyDate() + "', " +
-						c.getInventory() + ", " +
-						c.getPrice() + ", '" +
-						c.getState() + "')";
-			}
+
 
 			else if (tableName.equalsIgnoreCase("plan")) {
 				obj = (Plan) obj;
@@ -336,12 +394,7 @@ public class FileManager {
 			else if (tableName.equalsIgnoreCase("client")) {
 				id = ((Client)obj).getID();
 			}
-			else if (tableName.equalsIgnoreCase("commodity")) {
-				id = ((Commodity)obj).getID();
-			}
-			else if (tableName.equalsIgnoreCase("program")) {
-				id = ((Program)obj).getID();
-			}
+
 			else if (tableName.equalsIgnoreCase("plan")) {
 				id = ((Plan)obj).getPlanNum();
 			}
@@ -439,40 +492,6 @@ public class FileManager {
 		return result;
 	}
 
-	public Vector<Commodity> allCommodity() {
-		Vector<Commodity> result = new Vector<Commodity>();
-		try {
-			String query = 	"SELECT *" +
-							" FROM commodity";
-			stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery(query);
-			
-			while (rs.next()) {
-				String bDate = null, fcd = null;
-				Date d = rs.getDate("buy_date");
-				if (d != null)
-					bDate = d.toString();
-				d = rs.getDate("final_check");
-				if (d != null)
-					fcd = d.toString();
-				
-				Commodity c = new Commodity(
-						rs.getString("id"), rs.getString("name"), rs.getString("date"),
-						rs.getInt("inventory"),
-						rs.getInt("price"), rs.getInt("state"), rs.getString("comment"));
-				
-				result.add(c);
-			}
-			
-			rs.close();
-			stmt.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return result;
-	}
-	
 	public Vector<Trainer> allTrainer() {
 		Vector<Trainer> result = new Vector<Trainer>();
 		try {

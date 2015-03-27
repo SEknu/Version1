@@ -19,7 +19,6 @@ public class TraingProgram extends JPanel implements ActionListener{
 	JScrollPane scroll;
 	FileManager filemanager;
 	
-	Vector<Program> allProgram = new Vector<Program>();
 	Vector<Vector<String>> row = new Vector<Vector<String>>();
 	Vector<String> col = new Vector<String>();
 	
@@ -102,7 +101,15 @@ public class TraingProgram extends JPanel implements ActionListener{
 			int index = jtable.getSelectedRow();
 			
 			if (index != -1 )
-				database.FileManager.getInstance().delete(this.allProgram.get(index), "program");
+				try {
+					filemanager.deletetemp(filemanager.getAllProgram().get(index).getID(), "program");
+				} catch (ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 		}
 		
 		try {

@@ -13,6 +13,7 @@ name			VARCHAR(10),
 difficulty		CHAR(6),
 part_of_body	VARCHAR(20),
 comment		VARCHAR2(200),
+아직 밑의 제약사항은 없음 ㅠㅠ
 PRIMARY KEY (id),
 FOREIGN KEY (commodity) REFERENCES commodity (id)
 	 */
@@ -34,26 +35,6 @@ FOREIGN KEY (commodity) REFERENCES commodity (id)
 		this.setPartOfBody(p);
 		this.setComment(c);
 	}
-	/*
-	public Program(int minute, String name)
-	{
-		this.minute = minute;
-		this.name = name;
-	}
-	*/
-	/* constructor */
-
-
-//	public Vector<String> toStringArray()
-//	{
-//		Vector<String> result = new Vector<String>();
-//		
-//		result.add(name);
-//		result.add(Integer.toString(minute));
-//		
-//		return result;
-//	}
-	
 	
 	/* set & get function */
 	public void setID(String id)
