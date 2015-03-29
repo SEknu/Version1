@@ -203,10 +203,8 @@ public class FileManager {
 						Date d = rs.getDate("regi_date");
 						if (d != null)
 							date = d.toString();
-						Trainer trainer =  new Trainer(rs.getString("id"), rs.getString("grade"), date,
-								rs.getInt("attend"), rs.getInt("vacation_day"), rs.getInt("salary"),
-								rs.getString("password"), rs.getString("name"), rs.getInt("age"),
-								rs.getString("addr"), rs.getString("phone"));
+						Trainer trainer =  new Trainer(rs.getString("id"), date, rs.getInt("salary"),
+											rs.getString("name"), rs.getString("addr"), rs.getString("phone"));
 						
 						rs.close();
 						stmt.close();
@@ -277,14 +275,13 @@ public class FileManager {
 			
 			if (tableName.equalsIgnoreCase("trainer")) {
 				Trainer tra = (Trainer) obj;
-				sql += 	" (id, regi_date, name, age, addr, phone) VALUES ('" +
+				sql += 	" (id, regi_date, name, addr, phone) VALUES ('" +
 						tra.getID() + "', '" +
 						tra.getRegistDate() + "', '" +
-						tra.getName() + "', " +
-						tra.getAge() + ", '" +
+						tra.getName() + "', '" +
+						//tra.getAge() + ", '" +
 						tra.getAddress() + "', '" +
 						tra.getPhone() + "')";
-						
 			}
 			else if (tableName.equalsIgnoreCase("client")) {
 				Client clt = (Client) obj;				
@@ -507,11 +504,8 @@ public class FileManager {
 				if (d != null){
 					rDate = d.toString();
 				}
-				Trainer c = new Trainer(
-						rs.getString("id"), rs.getString("grade"), rDate, rs.getInt("attend"),
-						rs.getInt("vacation_day"), rs.getInt("salary"), rs.getString("password"),
-						rs.getString("name"), rs.getInt("age"), rs.getString("addr"), rs.getString("phone")
-						);
+				Trainer c = new Trainer(rs.getString("id"), rDate, rs.getInt("salary"),
+						rs.getString("name"), rs.getString("addr"), rs.getString("phone"));
 								
 				result.add(c);
 			}

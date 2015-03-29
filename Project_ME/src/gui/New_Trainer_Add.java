@@ -6,6 +6,7 @@ import java.util.Vector;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -81,9 +82,11 @@ public class New_Trainer_Add extends JPanel implements ActionListener {
 		} else if(e.getSource() == Button_Delete) {
 			int index = jtable.getSelectedRow();
 			
-			if (index != -1)
-				database.FileManager.getInstance().delete(this.allTrainer.get(index), "trainer");
-			
+			if (index != -1){
+				int delete = JOptionPane.showConfirmDialog(null, "정말 삭제하시겠습니까?", "", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+				if(delete==JOptionPane.YES_OPTION)
+					database.FileManager.getInstance().delete(this.allTrainer.get(index), "trainer");
+			}
 			Patch(getRow());
 		}
 	}
