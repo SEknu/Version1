@@ -39,8 +39,8 @@ public class FileManager {
 		}
 		
 		url = "jdbc:mysql://localhost:3306/test";
-		user = "database";	// 트레이너 테이블과 유저 테이블의 id와 pw만을 select 할 수 있는 id
-		pass = "cjswo2";	// 비밀번호
+		user = "root";	// 트레이너 테이블과 유저 테이블의 id와 pw만을 select 할 수 있는 id
+		pass = "me2015";	// 비밀번호
 		
 		try {
 			conn = DriverManager.getConnection(url, user, pass);

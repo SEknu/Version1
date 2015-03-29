@@ -104,7 +104,8 @@ public class Commodity_Panel extends JPanel implements ActionListener{
 			}
 		}
 		else if(e.getSource() == Button_Info) {
-			
+			int index = jtable.getSelectedRow();
+			new Detail_Commodity_Panel(this.allCommo.get(index));
 		}
 		try {
 			Patch(getRow());

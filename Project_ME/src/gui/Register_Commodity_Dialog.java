@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -88,13 +89,16 @@ public class Register_Commodity_Dialog extends JDialog implements ActionListener
 			commdity.setState(0);
 			commdity.setComment(this.TF_Comment.getText());
 			
-			int result = database.FileManager.getInstance().insert(commdity, "commodity");
-			
-			if (result != -1)
-				JOptionPane.showMessageDialog(null, "성공");
-			else
-				JOptionPane.showMessageDialog(null, "실패");
-		}
+			try {
+				database.FileManager.getInstance().addCommodity(commdity);
+			} catch (ClassNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			}
 		
 		dispose();
 	}
