@@ -2,6 +2,7 @@ package gui;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -209,12 +210,14 @@ public class Register extends JDialog implements ActionListener {
 				time = 1;
 
 			Client clt = new Client(id, name, addr, phone, height, weight, fat, muscle, purpose, week, time);
+
 			
-//			System.out.println(clt.toString());
-			
-			int success = FileManager.getInstance().insert(clt,	"client");
-			
-			if (success != -1)
+			try {
+				FileManager.getInstance().addClient(clt);
+			} catch (ClassNotFoundException | SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 				dispose();
 		}
 		else if (e.getSource() == close)

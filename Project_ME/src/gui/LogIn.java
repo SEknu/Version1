@@ -47,30 +47,33 @@ public class LogIn extends JDialog implements ActionListener, KeyListener {
 		if (e.getSource() == LogIn) {
 			String id = this.JF_PW.getText();
 			if (admin.isSelected() == true) { // 관리자 로그인
-				Trainer login_trainer = (Trainer) FileManager.getInstance().select(id, "trainer");
 				
+//				Trainer login_trainer = (Trainer) FileManager.getInstance().select("phone", "id");
+// 트레이너 로그인 구현 필요~
 				
 				if (id.equals("root")) {
 					dispose();
 					new SuperAdminMode();
-				} else if (login_trainer != null) {
-					JOptionPane.showMessageDialog(null, "로그인 성공");
-					dispose();
-					new AdminMode(login_trainer);
+					
+//				} else if (login_trainer != null) {
+//					JOptionPane.showMessageDialog(null, "로그인 성공");
+//					dispose();
+//					new AdminMode(login_trainer);
+					
 				} else
 					JOptionPane.showMessageDialog(null, "패스워드가 틀렸습니다.");
 			}
-			else {	// client 로그인 
-				Client login_client = (Client) FileManager.getInstance().select(id, "client");
-
-				if (login_client != null) {
-					JOptionPane.showMessageDialog(null, "로그인 성공");
-					dispose();
-					login_client.incAttendance();
-				//	new UserMode(login);
-					new MyFrame(login_client);
-				} else
-					JOptionPane.showMessageDialog(null, "패스워드가 틀렸습니다.");
+			else {	// client 로그인 , 아직 안됨 쿼리 안만듬 !
+//				Client login_client = (Client) FileManager.getInstance().select(id, "client");
+//
+//				if (login_client != null) {
+//					JOptionPane.showMessageDialog(null, "로그인 성공");
+//					dispose();
+//					login_client.incAttendance();
+//				//	new UserMode(login);
+//					new MyFrame(login_client);
+//				} else
+//					JOptionPane.showMessageDialog(null, "패스워드가 틀렸습니다.");
 			}
 		} else if (e.getSource() == Regist) {
 			new Register();

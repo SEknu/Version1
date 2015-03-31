@@ -312,12 +312,6 @@ trainer			VARCHAR2(10),
 		return this.time;
 	}
 	/* set & get function */
-
-	// √‚ºÆ ¥√∏Æ±‚
-	public void incAttendance() {
-		this.setAttendance(getAttendance()+1);
-		database.FileManager.getInstance().update(this, "client");
-	}
 	
 	@Override
 	public String toString() {

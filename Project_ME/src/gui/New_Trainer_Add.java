@@ -2,6 +2,7 @@ package gui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.Vector;
 
 import javax.swing.BoxLayout;
@@ -12,11 +13,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import object.Trainer;
+import database.FileManager;
 
 public class New_Trainer_Add extends JPanel implements ActionListener {
 	JTable jtable;
 	JScrollPane scroll;
-	
+	FileManager filemanager;
 	Vector<Trainer> allTrainer = new Vector<Trainer>();
 	Vector<Vector<String>> row = new Vector<Vector<String>>();
 	Vector<String> col = new Vector<String>();
@@ -25,7 +27,8 @@ public class New_Trainer_Add extends JPanel implements ActionListener {
 	JButton Button_Add = new JButton("등록");
 	JButton Button_Delete = new JButton("삭제");
 	
-	public New_Trainer_Add() {
+	public New_Trainer_Add() throws ClassNotFoundException, SQLException {
+		filemanager = new FileManager();
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
 		JPanel panel = new JPanel();
@@ -55,10 +58,10 @@ public class New_Trainer_Add extends JPanel implements ActionListener {
 		jtable.updateUI();
 	}
 	
-	public Vector<Vector<String>> getRow() {
+	public Vector<Vector<String>> getRow() throws ClassNotFoundException, SQLException {
 		Vector<Vector<String>> result = new Vector<Vector<String>>();
 
-		allTrainer = database.FileManager.getInstance().allTrainer();
+		allTrainer = filemanager.getTrainer("all");
 		for (Trainer t : this.allTrainer) {
 			Vector<String> v = new Vector<String>();
 			
@@ -78,16 +81,31 @@ public class New_Trainer_Add extends JPanel implements ActionListener {
 		if(e.getSource() == Button_Add) {
 			new Add_trainer();
 			
-			Patch(getRow());
+			try {
+				Patch(getRow());
+			} catch (ClassNotFoundException | SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		} else if(e.getSource() == Button_Delete) {
 			int index = jtable.getSelectedRow();
 			
 			if (index != -1){
 				int delete = JOptionPane.showConfirmDialog(null, "정말 삭제하시겠습니까?", "", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 				if(delete==JOptionPane.YES_OPTION)
-					database.FileManager.getInstance().delete(this.allTrainer.get(index), "trainer");
+					try {
+						filemanager.delete(this.allTrainer.get(index).getID(), "trainer");
+					} catch (ClassNotFoundException | SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 			}
-			Patch(getRow());
+			try {
+				Patch(getRow());
+			} catch (ClassNotFoundException | SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 	}
 }

@@ -1,6 +1,7 @@
 package gui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.Vector;
 
 import javax.swing.BoxLayout;
@@ -20,7 +21,7 @@ public class Client_Info extends JPanel implements ActionListener {
 
 	JTable jtable;
 	JScrollPane scroll;
-	
+	FileManager filemanager;
 	Vector<Client> allClient;
 	Vector<Vector<String>> row = new Vector<Vector<String>>();
 	Vector<String> col = new Vector<String>();
@@ -35,7 +36,8 @@ public class Client_Info extends JPanel implements ActionListener {
 	JTextField TF_Name = new JTextField(10);
 	
 	/* constructor */
-	public Client_Info() {
+	public Client_Info() throws ClassNotFoundException, SQLException {
+		filemanager = new FileManager();
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
 		JPanel panel = new JPanel();
@@ -100,10 +102,25 @@ public class Client_Info extends JPanel implements ActionListener {
 			
 			if (index != -1) {
 				Client obj = new Client();
-				obj.setID(this.allClient.get(index).getID());
-				FileManager.getInstance().delete(obj, "client");
-				this.allClient = FileManager.getInstance().allClient();
-				Patch(getRow());
+				try {
+					filemanager.delete(this.allClient.get(index).getID(), "client");
+				} catch (ClassNotFoundException | SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				try {
+					FileManager filemanager = new FileManager();
+					this.allClient = filemanager.getClient("all");
+				} catch (ClassNotFoundException | SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				try {
+					Patch(getRow());
+				} catch (ClassNotFoundException | SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		}
 		// 트레이너 배정
@@ -111,7 +128,12 @@ public class Client_Info extends JPanel implements ActionListener {
 			int index = jtable.getSelectedRow();
 			Assign_Dialog<Trainer> ad;
 			if (index != -1)
-				ad = new Assign_Dialog<Trainer>(FileManager.getInstance().allTrainer(), this.allClient.get(index));
+				try {
+					ad = new Assign_Dialog<Trainer>(filemanager.getTrainer("all"), this.allClient.get(index));
+				} catch (ClassNotFoundException | SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 		}
 		// 프로그램 배정
 		else if(e.getSource() == Button_Program_Assign) {
@@ -140,10 +162,10 @@ public class Client_Info extends JPanel implements ActionListener {
 		jtable.updateUI();
 	}
 	
-	public Vector<Vector<String>> getRow() {
+	public Vector<Vector<String>> getRow() throws ClassNotFoundException, SQLException {
 		Vector<Vector<String>> result = new Vector<Vector<String>>();
 
-		this.allClient = FileManager.getInstance().allClient();
+		this.allClient = FileManager.getInstance().getClient("all");
 		for (Client c : this.allClient) {
 			Vector<String> e = new Vector<String>();
 			

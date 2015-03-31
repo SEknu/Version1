@@ -4,6 +4,7 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -13,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import object.Trainer;
+import database.FileManager;
 
 public class Add_trainer extends JDialog implements ActionListener{
 	JButton Button_OK = new JButton("등록");
@@ -108,16 +110,17 @@ public class Add_trainer extends JDialog implements ActionListener{
 				JOptionPane.showMessageDialog(null, "주소의 길이가  너무 깁니다.", "", JOptionPane.ERROR_MESSAGE);
 			
 			else{
-				Trainer obj = new Trainer(id, rDate, name, addr, phone);
+				Trainer trainer = new Trainer(id, rDate, name, addr, phone);
+				FileManager filemanager = new FileManager();
 				
-				int result = database.FileManager.getInstance().insert(obj, "trainer");
-				
-				if (result != -1){
+				try {
+					filemanager.addTrainer(trainer);
 					JOptionPane.showMessageDialog(null, "등록되었습니다.");
-					dispose();
-				}
-				else //같은 id 존재, 같은 휴대폰 존재, 날짜포맷 이상
+				} catch (ClassNotFoundException | SQLException e1) {
 					JOptionPane.showMessageDialog(null, "같은 id가 존재합니다.");
+					dispose();
+					e1.printStackTrace();
+				}
 			}
 			
 		}

@@ -2,13 +2,16 @@ package gui;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 
-import object.*;
+import object.Client;
+import object.Trainer;
+import database.FileManager;
 
 
 public class Assign_Dialog<T> extends JDialog implements ActionListener{
@@ -46,8 +49,13 @@ public class Assign_Dialog<T> extends JDialog implements ActionListener{
 			
 			if (index != -1) {
 				clt.setTrainer((this.list.get(index)).getID());
-				
-				database.FileManager.getInstance().update(clt, "client");
+				FileManager filemanager = new FileManager();
+				try {
+					filemanager.updateClient(clt);
+				} catch (ClassNotFoundException | SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		}
 		dispose();

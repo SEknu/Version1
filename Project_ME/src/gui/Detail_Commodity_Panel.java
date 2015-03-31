@@ -4,6 +4,7 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -32,8 +33,7 @@ public class Detail_Commodity_Panel  extends JDialog implements ActionListener {
 	JPanel panel2 = new JPanel();
 	JPanel[] pan = new JPanel[6];
 	
-	public Detail_Commodity_Panel(Commodity commodity)
-	{
+	public Detail_Commodity_Panel(Commodity commodity)	{
 		this.commodity = commodity;
 		
 		//버튼추가
@@ -80,8 +80,7 @@ public class Detail_Commodity_Panel  extends JDialog implements ActionListener {
 		panel3.add(panel2);
 		add(panel3);
 		//체크박스 DB에서 정보 읽어서 설정
-		if(commodity.getState() == 1)
-		{
+		if(commodity.getState() == 1) {
 			checkbox.setSelected(true);
 		}
 		//수정 못하도록 비활성화
@@ -119,26 +118,21 @@ public class Detail_Commodity_Panel  extends JDialog implements ActionListener {
 			//commodity정보 수정
 			commodity.setName(namefield.getText());
 			commodity.setBuyDate(yearfield.getText()+"-"+monthfield.getText()+"-"+dayfield.getText());
-			if(!Isdate(yearfield.getText(), monthfield.getText(), dayfield.getText()))
-			{
+			if(!Isdate(yearfield.getText(), monthfield.getText(), dayfield.getText())) {
 				return ;
 			}
 			commodity.setInventory(Integer.parseInt(Inventoryfield.getText()));
 			commodity.setPrice(Integer.parseInt(pricefield.getText()));
 			commodity.setComment(commentfield.getText());
-			if(checkbox.isSelected())
-			{
+			if(checkbox.isSelected()) {
 				commodity.setState(1);
 			}
-			else
-			{
+			else {
 				commodity.setState(0);
 			}
 			//DB에 저장.
-			int result = FileManager.getInstance().update(commodity, "commodity");
-			//저장 성공시
-			if (result != -1)
-			{
+			try {
+				FileManager.getInstance().updateCommodity(commodity);
 				JOptionPane.showMessageDialog(null, "저장했습니다.");
 				Button_Save.setEnabled(false);
 				Button_Cancel.setEnabled(false);
@@ -146,15 +140,14 @@ public class Detail_Commodity_Panel  extends JDialog implements ActionListener {
 					pan[i].getComponent(1).setEnabled(false);
 				pan[1].getComponent(2).setEnabled(false);
 				pan[1].getComponent(3).setEnabled(false);
-			}
-			else
-				JOptionPane.showMessageDialog(null, "Database 저장실패");		
+			} catch (ClassNotFoundException | SQLException e1) {
+				JOptionPane.showMessageDialog(null, "Database 저장실패");
+			}				
 		}
 		//취소버튼 클릭시.
 		else if(e.getSource() == Button_Cancel) {
 			int result = JOptionPane.showConfirmDialog(null, "수정을 취소하시겠습니까?", null, JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null);
-			if(result == 0)
-			{
+			if(result == 0)	{
 				//수정필요 jtextfeild내용이 원래내용으로 돌아가도록 해야됨.
 				Button_Save.setEnabled(false);
 				Button_Cancel.setEnabled(false);
@@ -167,23 +160,19 @@ public class Detail_Commodity_Panel  extends JDialog implements ActionListener {
 	}
 	
 	//★수정부분 - 날짜 형식이 잘못되었을 경우(추가된 메소드)
-	public boolean Isdate(String syear, String smonth, String sday)
-	{
+	public boolean Isdate(String syear, String smonth, String sday)	{
 		int year, month, day;
-		try
-		{
+		try	{
 			year = Integer.parseInt(syear);
 			month = Integer.parseInt(smonth);
 			day = Integer.parseInt(sday);
 			
-			if(year <=0 || month <=0 || month > 12 || day <=0 || day > 31)
-			{
+			if(year <=0 || month <=0 || month > 12 || day <=0 || day > 31){
 				JOptionPane.showMessageDialog(null, "날짜를 정확하게 입력하세요.");
 				return false;
 			}
 		} 
-		catch(NumberFormatException e)
-		{
+		catch(NumberFormatException e) {
 			JOptionPane.showMessageDialog(null, "구입날짜는 숫자를 입력하셔야합니다.");
 			return false;
 		}	

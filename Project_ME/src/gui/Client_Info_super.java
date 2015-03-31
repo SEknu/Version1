@@ -1,6 +1,7 @@
 package gui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -21,7 +22,7 @@ public class Client_Info_super extends JPanel implements ActionListener {
 
 	JTable jtable;
 	JScrollPane scroll;
-
+	FileManager filemanager;
 	Vector<Client> allClient;
 	Vector<Vector<String>> row = new Vector<Vector<String>>();
 	Vector<String> col = new Vector<String>();
@@ -35,7 +36,8 @@ public class Client_Info_super extends JPanel implements ActionListener {
 	JButton Button_Detail = new JButton("상세정보 보기");
 	JTextField TF_Name = new JTextField(10);
 	
-	public Client_Info_super() {
+	public Client_Info_super() throws ClassNotFoundException, SQLException {
+		filemanager = new FileManager();
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
 		JPanel panel = new JPanel();
@@ -49,7 +51,7 @@ public class Client_Info_super extends JPanel implements ActionListener {
 		for(int i=0; i<colArray.length; i++)
 			col.add(colArray[i]);
 
-		this.allClient = FileManager.getInstance().allClient();
+		this.allClient = filemanager.getClient("all");
 		row = getRow();
 		jtable = new JTable(row, col);
 		scroll = new JScrollPane(jtable);
@@ -119,9 +121,21 @@ public class Client_Info_super extends JPanel implements ActionListener {
 			
 			if (index != -1) {
 				Client obj = new Client();
-				obj.setID(this.allClient.get(index).getID());
-				FileManager.getInstance().delete(obj, "client");
-				this.allClient = FileManager.getInstance().allClient();
+				
+				//obj.setID(this.allClient.get(index).getID());
+				try {
+					filemanager.delete(this.allClient.get(index).getID(), "client");
+				} catch (ClassNotFoundException | SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				try {
+					FileManager filemanager = new FileManager();
+					this.allClient = filemanager.getClient("all");
+				} catch (ClassNotFoundException | SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				Patch(getRow());
 			}
 		} else if(e.getSource() == Button_Assign) {

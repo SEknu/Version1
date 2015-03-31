@@ -1,7 +1,5 @@
 package gui;
 
-import gui.program.TraingProgram;
-
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -84,7 +82,12 @@ public class AdminMode extends JFrame implements ActionListener{
 		if (e.getSource() == client_info) {
 			setVisible(false);
 			panel_content.removeAll();
-			panel_content.add(new Client_Info());
+			try {
+				panel_content.add(new Client_Info());
+			} catch (ClassNotFoundException | SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			setResizable(false);
 			pack();
 			setVisible(true);
@@ -126,7 +129,12 @@ public class AdminMode extends JFrame implements ActionListener{
 		else if (e.getSource() == new_trainer) {
 			setVisible(false);
 			panel_content.removeAll();
-			panel_content.add(new New_Trainer());
+			try {
+				panel_content.add(new New_Trainer());
+			} catch (ClassNotFoundException | SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			setResizable(false);
 			pack();
 			setVisible(true);

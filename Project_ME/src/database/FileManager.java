@@ -16,51 +16,10 @@ import object.Plan;
 import object.Program;
 import object.Trainer;
 
-
+// select 메소드 필요~ get을 수정하던지 해야지..
 
 public class FileManager {	
 	static private FileManager instance = new FileManager();
-	
-	private Connection conn = null;	// DB 접속 핸들
-	private Statement stmt = null;
-	private String url = null;
-	private String user = null;
-	private String pass = null;
-	
-//	/* constructor */
-	public FileManager() {
-		try {
-			Class.forName("com.mysql.jdbc.Driver");  // 1. Load the JDBC Driver
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-			System.exit(1);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		url = "jdbc:mysql://localhost:3306/test";
-		user = "root";	// 트레이너 테이블과 유저 테이블의 id와 pw만을 select 할 수 있는 id
-		pass = "me2015";	// 비밀번호
-		
-		try {
-			conn = DriverManager.getConnection(url, user, pass);
-			conn.setAutoCommit(false);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	/* constructor */
-	
-	public void disConnet() {
-		try {
-			conn.commit();
-			conn.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}	
 	
 	/* getInstance */
 	static public FileManager getInstance() {
@@ -68,38 +27,150 @@ public class FileManager {
 	}
 	/* getInstance */
 	
-	/*commodity*/
-	public void addCommodity(final Commodity commodity) throws ClassNotFoundException, SQLException {
-		jdbcContextWithStatementStrategy(
-				new StatementStrategy() {
-			@Override
-			public PreparedStatement makePreparedStatement(Connection c)
-					throws SQLException {
-					PreparedStatement ps = c.prepareStatement("insert into commodity(id, name, buy_date, inventory, price, state, comment) values(?,?,?,?,?,?,?)");
-					ps.setString(1, commodity.getID());
-					ps.setString(2, commodity.getName());
-					ps.setString(3, commodity.getBuyDate());
-					ps.setInt(4, commodity.getInventory());
-					ps.setInt(5, commodity.getPrice());
-					ps.setInt(6, commodity.getState());
-					ps.setString(7, commodity.getComment());
-					return ps;
-				}
-			}
-		);
-	}
-
-	public Vector<Commodity> getAllCommodity() throws ClassNotFoundException, SQLException {
-		Commodity commodity;
+	// client 수정해주세요~
+	/*****************client ********************/
+	public Vector<Client> getClient(final String id) throws ClassNotFoundException, SQLException {
+		Client client;
 		ResultSet rs = null;
-		Vector<Commodity> vectorCommodity = new Vector<Commodity>();
-		
+		Vector<Client> vectorClient = new Vector<Client>();
+			
 		rs = resultSetStatementStrategy(
 				new StatementStrategy() {
 			@Override
 			public PreparedStatement makePreparedStatement(Connection c)
 					throws SQLException {
-					PreparedStatement ps = c.prepareStatement("select * from commodity");
+					PreparedStatement ps;
+					if(id.equals("all")) {
+						ps = c.prepareStatement("select * from client");
+					} else {
+						ps = c.prepareStatement("select * from client where id = " + id);
+					}
+					return ps;
+				}
+			}
+		);
+		
+		// client 수정할 부분!
+		while(rs.next()) {
+			client = new Client();
+			client.setID(rs.getString("id"));
+			client.setName(rs.getString("name"));
+//			client.setRegistDate(rs.getString("regi_date"));
+//			client.setSalary(rs.getInt("salary"));
+//			client.setAddress(rs.getString("address"));
+//			client.setPhone(rs.getString("phone"));
+			vectorClient.add(client);
+		}
+		if(rs != null) {	
+			try { rs.close(); } catch(SQLException e) {}
+		}	
+		return vectorClient;
+	}
+	
+	public void addClient(final Client client) throws ClassNotFoundException, SQLException {
+		jdbcContextWithStatementStrategy(
+				new StatementStrategy() {
+			@Override
+			public PreparedStatement makePreparedStatement(Connection c)
+					throws SQLException {                     //여기 수정 바람
+					PreparedStatement ps = c.prepareStatement("insert into client(id, name, ..) values(?,?,?,?,?,?)");
+
+					return ps;
+				}
+			}
+		);
+	}
+	
+	public void updateClient(final Client client) throws ClassNotFoundException, SQLException {
+		jdbcContextWithStatementStrategy(
+				new StatementStrategy() {
+			@Override
+			public PreparedStatement makePreparedStatement(Connection c)
+					throws SQLException {
+					PreparedStatement ps = c.prepareStatement("update client set ...");
+
+					return ps;
+				}
+			}
+		);
+	}
+	
+	/*****************trainer********************/
+	/*get all commodity or get commodity by searching id*/
+	public Vector<Trainer> getTrainer(final String id) throws ClassNotFoundException, SQLException {
+		Trainer trainer;
+		ResultSet rs = null;
+		Vector<Trainer> vectorTrainer = new Vector<Trainer>();
+			
+		rs = resultSetStatementStrategy(
+				new StatementStrategy() {
+			@Override
+			public PreparedStatement makePreparedStatement(Connection c)
+					throws SQLException {
+					PreparedStatement ps;
+					if(id.equals("all")) {
+						ps = c.prepareStatement("select * from trainer");
+					} else {
+						ps = c.prepareStatement("select * from trainer where id = " + id);
+					}
+					return ps;
+				}
+			}
+		);
+		
+		while(rs.next()) {
+			trainer = new Trainer();
+			trainer.setID(rs.getString("id"));
+			trainer.setName(rs.getString("name"));
+			trainer.setRegistDate(rs.getString("regi_date"));
+			trainer.setSalary(rs.getInt("salary"));
+			trainer.setAddress(rs.getString("address"));
+			trainer.setPhone(rs.getString("phone"));
+			vectorTrainer.add(trainer);
+		}
+		if(rs != null) {	
+			try { rs.close(); } catch(SQLException e) {}
+		}	
+		return vectorTrainer;
+	}
+	
+	public void addTrainer(final Trainer trainer) throws ClassNotFoundException, SQLException {
+		jdbcContextWithStatementStrategy(
+				new StatementStrategy() {
+			@Override
+			public PreparedStatement makePreparedStatement(Connection c)
+					throws SQLException {
+					PreparedStatement ps = c.prepareStatement("insert into commodity(id, name, regi_date, salary, address, phone) values(?,?,?,?,?,?)");
+					ps.setString(1, trainer.getID());
+					ps.setString(2, trainer.getName());
+					ps.setString(3, trainer.getRegistDate());
+					ps.setInt(4, trainer.getSalary());
+					ps.setString(5, trainer.getAddress());
+					ps.setString(6, trainer.getPhone());
+					return ps;
+				}
+			}
+		);
+	}
+	
+	/*****************commodity********************/
+	/*get all commodity or get commodity by searching id*/
+	public Vector<Commodity> getCommodity(final String id) throws ClassNotFoundException, SQLException {
+		Commodity commodity;
+		ResultSet rs = null;
+		Vector<Commodity> vectorCommodity = new Vector<Commodity>();
+			
+		rs = resultSetStatementStrategy(
+				new StatementStrategy() {
+			@Override
+			public PreparedStatement makePreparedStatement(Connection c)
+					throws SQLException {
+					PreparedStatement ps;
+					if(id.equals("all")) {
+						ps = c.prepareStatement("select * from commodity");
+					} else {
+						ps = c.prepareStatement("select * from commodity where id = " + id);
+					}
 					return ps;
 				}
 			}
@@ -122,6 +193,50 @@ public class FileManager {
 		return vectorCommodity;
 	}
 	
+	/*add commodity*/
+	public void addCommodity(final Commodity commodity) throws ClassNotFoundException, SQLException {
+		jdbcContextWithStatementStrategy(
+				new StatementStrategy() {
+			@Override
+			public PreparedStatement makePreparedStatement(Connection c)
+					throws SQLException {
+					PreparedStatement ps = c.prepareStatement("insert into commodity(id, name, buy_date, inventory, price, state, comment) values(?,?,?,?,?,?,?)");
+					ps.setString(1, commodity.getID());
+					ps.setString(2, commodity.getName());
+					ps.setString(3, commodity.getBuyDate());
+					ps.setInt(4, commodity.getInventory());
+					ps.setInt(5, commodity.getPrice());
+					ps.setInt(6, commodity.getState());
+					ps.setString(7, commodity.getComment());
+					return ps;
+				}
+			}
+		);
+	}
+
+	/*update commodity*/
+	public void updateCommodity(final Commodity commodity) throws ClassNotFoundException, SQLException {
+		jdbcContextWithStatementStrategy(
+				new StatementStrategy() {
+			@Override
+			public PreparedStatement makePreparedStatement(Connection c)
+					throws SQLException {
+					PreparedStatement ps = c.prepareStatement("update commodity set name=?, "
+							+ "buy_date=?, inventory=?, price=?, state=?, comment=? where id=?");
+					ps.setString(1, commodity.getName());
+					ps.setString(2, commodity.getBuyDate());
+					ps.setInt(3, commodity.getInventory());
+					ps.setInt(4, commodity.getPrice());
+					ps.setInt(5, commodity.getState());
+					ps.setString(6, commodity.getComment());
+					ps.setString(7, commodity.getID());
+					return ps;
+				}
+			}
+		);
+	}
+	
+	/*****************program********************/
 	/*program*/
 	public void addProgram(final Program program) throws ClassNotFoundException, SQLException {
 		jdbcContextWithStatementStrategy(
@@ -171,369 +286,33 @@ public class FileManager {
 		}	
 		return vectorProgram;
 	}
-	
+
+	/*****************delete********************/
 	/*delete*/
-	public void deletetemp(final String id, final String table) throws ClassNotFoundException, SQLException {
+	public void delete(final String id, final String table) throws ClassNotFoundException, SQLException {
 		jdbcContextWithStatementStrategy(
 				new StatementStrategy() {
 			@Override
 			public PreparedStatement makePreparedStatement(Connection c)
 					throws SQLException {
-					PreparedStatement ps = c.prepareStatement("delete from " + table + " where id='" + id +"'");
+					PreparedStatement ps = c.prepareStatement("delete from ? where id=?");
+					ps.setString(1, table);
+					ps.setString(2, id);
 					return ps;
 				}
 			}
 		);
 	}
-	/* Generic select, insert, update, delete */
-	public Object select(String ID, String tableName) {
-		try {
-			String query = 	"SELECT *" +
-							" FROM " + tableName +
-							" WHERE id = '" + ID + "'";
-			stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery(query);
 			
-			if (rs.next()) {
-				//System.out.println(rs.getString("id"));
-				if (ID.equals(rs.getString("id"))) {
-					
-					if (tableName.equalsIgnoreCase("trainer")) {
-						String date = null;
-						Date d = rs.getDate("regi_date");
-						if (d != null)
-							date = d.toString();
-						Trainer trainer =  new Trainer(rs.getString("id"), date, rs.getInt("salary"),
-											rs.getString("name"), rs.getString("addr"), rs.getString("phone"));
-						
-						rs.close();
-						stmt.close();
-						return trainer;
-					}
-					else if (tableName.equalsIgnoreCase("client")) {
-						String rDate = null, tDate = null;
-						Date d = rs.getDate("regi_date");
-						if (d != null)
-							rDate = d.toString();
-						d = rs.getDate("terminate_date");
-						if (d != null)
-							tDate = d.toString();
-						Client client = new Client(rs.getString("id"), rs.getString("grade"), rDate,
-								rs.getInt("attend"), tDate, rs.getBoolean("state"),
-								rs.getInt("height"), rs.getInt("weight"), rs.getInt("fat"), rs.getInt("muscle"),
-								rs.getString("password"), rs.getString("note"), rs.getString("name"), rs.getInt("age"),
-								rs.getString("addr"), rs.getString("phone"), rs.getString("trainer"));
-						
-						rs.close();
-						stmt.close();
-						return client;
-					}
-					else if (tableName.equalsIgnoreCase("commodity")) {
-						String bDate = null, fCheck = null;
-						Date d = rs.getDate("buy_date");
-						if (d != null)
-							bDate = d.toString();
-						d = rs.getDate("final_check");
-						if (d != null)
-							fCheck = d.toString();
-						Commodity commodity = new Commodity(
-						rs.getString("id"), rs.getString("name"), rs.getString("date"),
-								rs.getInt("inventory"),
-								rs.getInt("price"), rs.getInt("state"), rs.getString("comment"));
-						
-						rs.close();
-						stmt.close();
-						return commodity;
-					}
-
-					else if (tableName.equalsIgnoreCase("plan")) {
-						Plan plan = new Plan(rs.getString("id"), rs.getString("client"), rs.getString("program"),
-								rs.getString("time"), rs.getInt("repeat"), rs.getString("day"), rs.getString("purpose"));
-						
-						rs.close();
-						stmt.close();
-						return plan;
-					}
-				}
-			}
-			
-			rs.close();
-			stmt.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null; // 없음
-	}
-	
-	public int insert(Object obj, String tableName) {
-		int result = -1;
-		
-		try {
-			stmt = conn.createStatement();
-		
-			String sql = "INSERT INTO " + tableName;
-			
-			if (tableName.equalsIgnoreCase("trainer")) {
-				Trainer tra = (Trainer) obj;
-				sql += 	" (id, regi_date, name, addr, phone) VALUES ('" +
-						tra.getID() + "', '" +
-						tra.getRegistDate() + "', '" +
-						tra.getName() + "', '" +
-						//tra.getAge() + ", '" +
-						tra.getAddress() + "', '" +
-						tra.getPhone() + "')";
-			}
-			else if (tableName.equalsIgnoreCase("client")) {
-				Client clt = (Client) obj;				
-				sql += 	" (id, grade, regi_date, attend, terminate_date, state, " +
-						"height, weight, fat, muscle, name, age, addr, phone, " +
-						"password, note, purpose, week, time" +
-						") VALUES ('" + 
-						clt.getID() + "', '" +
-						clt.getGrade() + "', '" +
-						clt.getRegistDate() + "', " +
-						clt.getAttendance() + ", '" +
-						clt.getTerminateDate() + "', '" +
-						(clt.getCurrentStatus() == true ? '1' : '0') + "', " +
-						clt.getHeight() + ", " +
-						clt.getWeight() + ", " +
-						clt.getBodyFat() + ", " +
-						clt.getBodyMuscle() + ", '" +
-						clt.getName() + "', " +
-						clt.getAge() + ", '" +
-						clt.getAddress() + "', '" +
-						clt.getPhone() + "', '" +
-						clt.getPW() + "', '" +
-						clt.getNote() + "', '" +
-						clt.getPurpose() + "', " +
-						clt.getWeek() + ", " +
-						clt.getTime() + ")";
-			}
-
-
-			else if (tableName.equalsIgnoreCase("plan")) {
-				obj = (Plan) obj;
-			}
-			
-			result = stmt.executeUpdate(sql);
-
-			conn.commit();
-			stmt.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return result;
-	}
-	
-	public int update(Object obj, String tableName) {
-		int result = -1;
-		try {
-			stmt = conn.createStatement();
-			
-			String sql = "UPDATE " + tableName;
-			String id = "";
-			
-			if (tableName.equalsIgnoreCase("trainer")) {
-				Trainer trainer = (Trainer)obj;
-				sql += " SET " + trainer;
-				id = trainer.getID();
-			}
-			else if (tableName.equalsIgnoreCase("client")) {
-				Client client = (Client)obj;
-				sql += 	" SET" +
-						" attend = " + client.getAttendance() +
-						", trainer = '" + client.getTrainer() + "'";
-				id = client.getID();
-			}
-			else if (tableName.equalsIgnoreCase("commodity")) {
-				Commodity commodity = (Commodity)obj;
-				sql += " SET name = '" + commodity.getName();
-				sql += "' , buy_date = '" + commodity.getBuyDate();
-				sql += "' , inventory = '" + commodity.getInventory();
-				sql += "' , price = '" + commodity.getPrice();
-				sql += "' , state = '" + commodity.getState();
-				sql += "' , comment = '" + commodity.getComment() +"' ";
-				id = commodity.getID();
-			}
-			else if (tableName.equalsIgnoreCase("program")) {
-				Program program = (Program)obj;
-				sql += " SET " + program;
-				id = program.getID();
-			}
-			else if (tableName.equalsIgnoreCase("plan")) {
-				Plan plan = (Plan)obj;
-				sql += " SET " + plan;
-				id = plan.getPlanNum();
-			}
-			
-			sql +=  " WHERE id = " + id;
-			
-			result = stmt.executeUpdate(sql);
-	
-			conn.commit();
-			stmt.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return result;
-	}
-	
-	public int delete(Object obj, String tableName) {
-		int result = -1;
-		try {
-			stmt = conn.createStatement();
-			
-			String id = "";
-			if (tableName.equalsIgnoreCase("trainer")) {
-				id = ((Trainer)obj).getID();
-			}
-			else if (tableName.equalsIgnoreCase("client")) {
-				id = ((Client)obj).getID();
-			}
-
-			else if (tableName.equalsIgnoreCase("plan")) {
-				id = ((Plan)obj).getPlanNum();
-			}
-			
-			String sql = "DELETE FROM " + tableName +
-						 " WHERE id = " + id;
-			
-			result = stmt.executeUpdate(sql);
-			
-			conn.commit();
-			stmt.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		
-		return result;
-	}
 	/* Generic select, insert, update, delete */
 	
 	/* another SQL */
 	public int selectCount(String colName, Object con, String tableName) {
 		int count = 0;
-		try {
-			stmt = conn.createStatement();
-			String query = 	"SELECT count(*)" + 
-							" FROM " + tableName;
-			if (colName == null){
-			}
-			else if (tableName.equalsIgnoreCase("trainer")) {
-			}
-			else if (tableName.equalsIgnoreCase("client")) {
-				if (colName.equalsIgnoreCase("week") || colName.equalsIgnoreCase("time")) {
-					int condition = (Integer) con;
-					query += " WHERE " + colName + "=" + condition;
-				}
-			}
-			else if (tableName.equalsIgnoreCase("commodity")) {
-			}
-			else if (tableName.equalsIgnoreCase("program")) {
-			}
-			else if (tableName.equalsIgnoreCase("plan")) {
-			}
-			
-			ResultSet rs = stmt.executeQuery(query);
-			
-			if (rs.next()) {
-				count = rs.getInt(1);
-				rs.close();
-				stmt.close();
-				
-				return count;
-			}
-			
-			rs.close();
-			stmt.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+
 		return count; // 없음
 	}
-	
-	public Vector<Client> allClient() {
-		Vector<Client> result = new Vector<Client>();
-		try {
-			String query = 	"SELECT *" +
-							" FROM client";
-			stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery(query);
-			
-			while (rs.next()) {
-				String rDate = null, tDate = null;
-				Date d = rs.getDate("regi_date");
-				if (d != null)
-					rDate = d.toString();
-				d = rs.getDate("terminate_date");
-				if (d != null)
-					tDate = d.toString();
-				
-				Client client = new Client(rs.getString("id"), rs.getString("grade"), rDate,
-						rs.getInt("attend"), tDate, rs.getBoolean("state"),
-						rs.getInt("height"), rs.getInt("weight"), rs.getInt("fat"), rs.getInt("muscle"),
-						rs.getString("password"), rs.getString("note"), rs.getString("name"), rs.getInt("age"),
-						rs.getString("addr"), rs.getString("phone"), rs.getString("trainer"));
-				
-				result.add(client);
-			}
-			
-			rs.close();
-			stmt.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return result;
-	}
 
-
-	public Vector<Trainer> allTrainer() {
-		Vector<Trainer> result = new Vector<Trainer>();
-		try {
-			String query = 	"SELECT *" +
-							" FROM trainer";
-			stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery(query);
-			
-			while (rs.next()) {
-				String rDate = null;
-				Date d = rs.getDate("regi_date");
-				if (d != null){
-					rDate = d.toString();
-				}
-				Trainer c = new Trainer(rs.getString("id"), rDate, rs.getInt("salary"),
-						rs.getString("name"), rs.getString("addr"), rs.getString("phone"));
-								
-				result.add(c);
-			}
-			
-			rs.close();
-			stmt.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return result;
-	}
-	/* another SQL */
-	
-	
-	public ArrayList<Client> getClientByName(String name)
-	{
-		ArrayList<Client> result = new ArrayList<Client>();
-		
-		/*
-		for(int i=0; i<Client_List.size(); i++)
-		{
-			if(Client_List.get(i).getName().indexOf(name) != -1)
-				result.add(Client_List.get(i));
-		}
-		*/
-		return result;
-	}
 	
 	//executeupdate 실행
 	public void jdbcContextWithStatementStrategy(StatementStrategy stmt) throws SQLException, ClassNotFoundException {
@@ -583,6 +362,8 @@ public class FileManager {
 //			} // connection 어떻게 닫아야 하쥐 ㅠㅠㅠ
 		}	
 	}
+
+
 
 	
 } // end class

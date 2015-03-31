@@ -3,14 +3,9 @@ package object;
 public class Trainer {
 	
 	private String ID;			// 트레이너 번호 & 로그인 ID
-	//private String grade;		// 트레이너 등급
 	private String Regist_Date;	// 입사일
-	//private int attendance;		// 출석일
-	//private int vacation;		// 휴가 일수
 	private int salary;			// 월급
-	//private String PW;			// 로그인시 비밀번호
 	private String Name;		// 개인정보 : 이름
-	//private int Age;			// 개인정보 : 나이
 	private String Address;		// 개인정보 : 주소
 	private String Phone;		// 개인전호 : 전화번호
 	/*

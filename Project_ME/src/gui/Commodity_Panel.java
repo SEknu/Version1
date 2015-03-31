@@ -70,7 +70,7 @@ public class Commodity_Panel extends JPanel implements ActionListener{
 	{
 		Vector<Vector<String>> result = new Vector<Vector<String>>();	
 		filemanager = new FileManager(); //메소드 수정으로 인한 객체 생성
-		allCommo = filemanager.getAllCommodity();
+		allCommo = filemanager.getCommodity("all");
 		for (Commodity c : this.allCommo) {
 			Vector<String> commodity = new Vector<String>();	
 			commodity.add(c.getName());
@@ -94,7 +94,7 @@ public class Commodity_Panel extends JPanel implements ActionListener{
 			if(index != -1)
 			{
 				try {
-					filemanager.deletetemp(this.allCommo.get(index).getID(), "commodity");
+					filemanager.delete(this.allCommo.get(index).getID(), "commodity");
 				} catch (ClassNotFoundException e1) {
 					e1.printStackTrace();
 				} catch (SQLException e1) {

@@ -1,5 +1,6 @@
 package gui;
 
+import java.sql.SQLException;
 import java.util.Vector;
 
 import javax.swing.BoxLayout;
@@ -21,7 +22,7 @@ public class New_Trainer extends JPanel {
 /*	JButton Button_Add = new JButton("등록");
 	JButton Button_Delete = new JButton("삭제");
 */	
-	public New_Trainer() {
+	public New_Trainer() throws ClassNotFoundException, SQLException {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
 		JPanel panel = new JPanel();
@@ -51,10 +52,10 @@ public class New_Trainer extends JPanel {
 		jtable.updateUI();
 	}
 	
-	public Vector<Vector<String>> getRow() {
+	public Vector<Vector<String>> getRow() throws ClassNotFoundException, SQLException {
 		Vector<Vector<String>> result = new Vector<Vector<String>>();
 		
-		allTrainer = database.FileManager.getInstance().allTrainer();
+		allTrainer = database.FileManager.getInstance().getTrainer("all");
 		for (Trainer t : this.allTrainer) {
 			Vector<String> v = new Vector<String>();
 			
