@@ -21,7 +21,6 @@ public class TraingProgram extends JPanel implements ActionListener{
 
 	JTable jtable;
 	JScrollPane scroll;
-	FileManager filemanager;
 
 	Vector<Vector<String>> row = new Vector<Vector<String>>();
 	Vector<String> col = new Vector<String>();
@@ -29,6 +28,8 @@ public class TraingProgram extends JPanel implements ActionListener{
 	String[] colArray = {"운동", "운동부위", "난이도", "비고"};
 	JButton add_B = new JButton("추가");
 	JButton delete_B = new JButton("삭제");
+	
+	FileManager filemanager = FileManager.getInstance();
 	
 	
 	public TraingProgram() throws ClassNotFoundException, SQLException
@@ -70,10 +71,10 @@ public class TraingProgram extends JPanel implements ActionListener{
 	public Vector<Vector<String>> getRow() throws ClassNotFoundException, SQLException
 	{
 		Vector<Vector<String>> result = new Vector<Vector<String>>();
-		filemanager = new FileManager();
+		
 		try {
 			Vector<String> vectorString = new Vector<String>();
-			Vector<Program> vectorProgram = filemanager.getAllProgram();
+			Vector<Program> vectorProgram = filemanager.getProgram("all");
 				
 			for (Program p : vectorProgram) {
 				Vector<String> program = new Vector<String>();
@@ -104,7 +105,7 @@ public class TraingProgram extends JPanel implements ActionListener{
 		else if(e.getSource() == delete_B) {
 			int index = jtable.getSelectedRow();
 			try {
-				filemanager.delete(filemanager.getAllProgram().get(index).getID(), "program");
+				filemanager.delete(filemanager.getProgram("all").get(index).getID(), "program");
 			} catch (ClassNotFoundException | SQLException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();

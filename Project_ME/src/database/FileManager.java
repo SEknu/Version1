@@ -140,7 +140,7 @@ public class FileManager {
 			@Override
 			public PreparedStatement makePreparedStatement(Connection c)
 					throws SQLException {
-					PreparedStatement ps = c.prepareStatement("insert into commodity(id, name, regi_date, salary, address, phone) values(?,?,?,?,?,?)");
+					PreparedStatement ps = c.prepareStatement("insert into trainer(id, name, regi_date, salary, address, phone) values(?,?,?,?,?,?)");
 					ps.setString(1, trainer.getID());
 					ps.setString(2, trainer.getName());
 					ps.setString(3, trainer.getRegistDate());
@@ -256,7 +256,7 @@ public class FileManager {
 		);
 	}
 	
-	public Vector<Program> getAllProgram() throws ClassNotFoundException, SQLException {
+	public Vector<Program> getProgram(final String id) throws ClassNotFoundException, SQLException {
 		Program program;
 		ResultSet rs = null;
 		Vector<Program> vectorProgram = new Vector<Program>();
@@ -266,7 +266,13 @@ public class FileManager {
 			@Override
 			public PreparedStatement makePreparedStatement(Connection c)
 					throws SQLException {
-					PreparedStatement ps = c.prepareStatement("select * from program");
+				PreparedStatement ps;
+					if(id.equals("all")) {
+						ps = c.prepareStatement("select * from program");
+					} else {
+						ps = c.prepareStatement("select * from program where id = ?");
+						ps.setString(1, id);
+					}
 					return ps;
 				}
 			}
@@ -304,14 +310,6 @@ public class FileManager {
 	}
 			
 	/* Generic select, insert, update, delete */
-	
-	/* another SQL */
-	public int selectCount(String colName, Object con, String tableName) {
-		int count = 0;
-
-		return count; // 없음
-	}
-
 	
 	//executeupdate 실행
 	public void jdbcContextWithStatementStrategy(StatementStrategy stmt) throws SQLException, ClassNotFoundException {
@@ -361,8 +359,5 @@ public class FileManager {
 //			} // connection 어떻게 닫아야 하쥐 ㅠㅠㅠ
 		}	
 	}
-
-
-
 	
 } // end class

@@ -98,7 +98,7 @@ public class UserMode extends JPanel implements ActionListener{
 		//panel6.add(lg);
 		//panel6.add(Logout);
 		
-		program = database.FileManager.getInstance().getAllProgram();
+		program = database.FileManager.getInstance().getProgram("all");
 		
 		for (Program p : program) {
 			combo.addItem(p.getName());

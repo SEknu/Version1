@@ -19,16 +19,11 @@ public class New_Trainer extends JPanel {
 	Vector<String> col = new Vector<String>();
 	
 	String[] colArray = {"이름","전화번호","주소","입사일"};
-/*	JButton Button_Add = new JButton("등록");
-	JButton Button_Delete = new JButton("삭제");
-*/	
+	
 	public New_Trainer() throws ClassNotFoundException, SQLException {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
 		JPanel panel = new JPanel();
-		
-	//	Button_Add.addActionListener(this);
-	//	Button_Delete.addActionListener(this);
 		
 		for(int i=0; i<colArray.length; i++)
 			col.add(colArray[i]);
@@ -38,8 +33,6 @@ public class New_Trainer extends JPanel {
 		scroll = new JScrollPane(jtable);
 		
 		add(scroll);
-	//	panel.add(Button_Add);
-	//	panel.add(Button_Delete);
 		add(panel);
 		
 		setSize(500, 550);

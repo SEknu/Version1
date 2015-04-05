@@ -35,8 +35,6 @@ public class MyFrame extends JFrame implements ActionListener, WindowListener {
 		addWindowListener(this);
 		Button_Club.addActionListener(this);
 		Button_Exer.addActionListener(this);
-//		Button_Login.addActionListener(this);
-//		Button_Regi.addActionListener(this);
 		Button_per.addActionListener(this);
 		Button_logout.addActionListener(this);
 		
@@ -47,7 +45,6 @@ public class MyFrame extends JFrame implements ActionListener, WindowListener {
 		panel1.setLayout(new FlowLayout());
 		panel1.add(Button_Club);
 		panel1.add(Button_Exer);
-//		panel1.add(Button_Login);
 		panel1.add(Button_per);
 		panel1.add(Button_logout);
 		

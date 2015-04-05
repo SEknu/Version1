@@ -32,6 +32,8 @@ public class Add_trainer extends JDialog implements ActionListener{
 	JTextField tra_phone2 = new JTextField(4);
 	JTextField tra_phone3 = new JTextField(4);
 	JTextField tra_addr = new JTextField(10);
+	
+	FileManager filemanager = FileManager.getInstance();
 		
 	public Add_trainer() {
 		Button_OK.addActionListener(this);
@@ -111,7 +113,6 @@ public class Add_trainer extends JDialog implements ActionListener{
 			
 			else{
 				Trainer trainer = new Trainer(id, rDate, name, addr, phone);
-				FileManager filemanager = new FileManager();
 				
 				try {
 					filemanager.addTrainer(trainer);
@@ -121,6 +122,7 @@ public class Add_trainer extends JDialog implements ActionListener{
 					dispose();
 					e1.printStackTrace();
 				}
+				
 			}
 			
 		}

@@ -18,7 +18,7 @@ public class ExerInfo extends JPanel {
 		
 		panel.add(new JLabel("Program"));
 		
-		Vector<Program> program = FileManager.getInstance().getAllProgram();
+		Vector<Program> program = FileManager.getInstance().getProgram("all");
 		
 		for (Program p : program) {
 			panel.add(new JLabel(p.getName() + " " + p.getDifficulty()));

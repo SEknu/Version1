@@ -2,6 +2,7 @@ package gui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Vector;
 
 import javax.swing.BoxLayout;
@@ -35,7 +36,6 @@ public class Client_Info extends JPanel implements ActionListener {
 	JButton Button_Detail = new JButton("상세정보 보기");
 	JTextField TF_Name = new JTextField(10);
 	
-	/* constructor */
 	public Client_Info() throws ClassNotFoundException, SQLException {
 		filemanager = new FileManager();
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -50,8 +50,8 @@ public class Client_Info extends JPanel implements ActionListener {
 		
 		for(int i=0; i<colArray.length; i++)
 			col.add(colArray[i]);
-		
-		
+
+		this.allClient = filemanager.getClient("all");
 		row = getRow();
 		jtable = new JTable(row, col);
 		scroll = new JScrollPane(jtable);
@@ -69,11 +69,32 @@ public class Client_Info extends JPanel implements ActionListener {
 		setSize(550, 550);
 		setVisible(true);
 	}
-	/* constructor */
+	
+	public void Patch(Vector<Vector<String>> New) {
+		row.removeAllElements();
+		row.addAll(New);
+		jtable.updateUI();
+	}
+	
+	public Vector<Vector<String>> getRow() {
+		Vector<Vector<String>> result = new Vector<Vector<String>>();
+		
+		for (Client c : this.allClient) {
+			Vector<String> e = new Vector<String>();
+			
+			e.add(c.getName());
+			e.add(c.getPhone());
+			e.add(c.getNote());
+			e.add(c.getTrainer());
+			
+			result.add(e);
+		}
+			
+		return result;
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// 검색
 		if(e.getSource() == Button_Search) {
 			Vector<Vector<String>> result = new Vector<Vector<String>>();
 			
@@ -95,13 +116,13 @@ public class Client_Info extends JPanel implements ActionListener {
 				
 				Patch(result);
 			}
-		}
-		// 삭제
-		else if (e.getSource() == Button_Remove) {
+		} else if (e.getSource() == Button_Remove) {
 			int index = jtable.getSelectedRow();
 			
 			if (index != -1) {
 				Client obj = new Client();
+				
+				//obj.setID(this.allClient.get(index).getID());
 				try {
 					filemanager.delete(this.allClient.get(index).getID(), "client");
 				} catch (ClassNotFoundException | SQLException e1) {
@@ -115,69 +136,30 @@ public class Client_Info extends JPanel implements ActionListener {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				try {
-					Patch(getRow());
-				} catch (ClassNotFoundException | SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				Patch(getRow());
 			}
-		}
-		// 트레이너 배정
-		else if(e.getSource() == Button_Assign) {
-			int index = jtable.getSelectedRow();
-			Assign_Dialog<Trainer> ad;
-			if (index != -1)
-				try {
-					ad = new Assign_Dialog<Trainer>(filemanager.getTrainer("all"), this.allClient.get(index));
-				} catch (ClassNotFoundException | SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-		}
-		// 프로그램 배정
-		else if(e.getSource() == Button_Program_Assign) {
-//			Assign_Dialog_P<Program> ad = new Assign_Dialog_P<Program>(FileManager.getInstance().allProrgam());			
-			
-//			if(ad.selected != null) {
-//				FileManager.getInstance().Client_List.get(jtable.getSelectedRow()).getProgram().add(ad.selected);
+		} else if(e.getSource() == Button_Assign) {
+//			Assign_Dialog<Trainer> ad = new Assign_Dialog<Trainer>(FileManager.Trainer_List);
+//			
+//			if(ad.selected != null)
+//			{
+//				FileManager.Client_List.get(jtable.getSelectedRow()).setTrainer(ad.selected.getID());
 //				JOptionPane.showMessageDialog(null, "배정성공");
 //			}
-		}
-		// 상세정보 보기
-		else if(e.getSource() == Button_Detail) {
+		} else if(e.getSource() == Button_Program_Assign) {
+//			Assign_Dialog_P<Program> ad = new Assign_Dialog_P<Program>(FileManager.Program_List);
+//			
+//			if(ad.selected != null)
+//			{
+//				FileManager.Client_List.get(jtable.getSelectedRow()).getProgram().add(ad.selected);
+//				JOptionPane.showMessageDialog(null, "배정성공");
+//			}
+		} else if(e.getSource() == Button_Detail) {
 			int index = jtable.getSelectedRow();
 			if (index != -1) {
 				//DB에서 맞는 정보 불러와서 보여주기.★수정
 				new Detail_Panel(this.allClient.get(index));
 			}
-		}	
-	}
-	
-
-	/* my function */
-	public void Patch(Vector<Vector<String>> info) {
-		row.removeAllElements();
-		row.addAll(info);
-		jtable.updateUI();
-	}
-	
-	public Vector<Vector<String>> getRow() throws ClassNotFoundException, SQLException {
-		Vector<Vector<String>> result = new Vector<Vector<String>>();
-
-		this.allClient = FileManager.getInstance().getClient("all");
-		for (Client c : this.allClient) {
-			Vector<String> e = new Vector<String>();
-			
-			e.add(c.getName());
-			e.add(c.getPhone());
-			e.add(c.getNote());
-			e.add(c.getTrainer());
-			
-			result.add(e);
 		}
-			
-		return result;
 	}
-	/* my function */
 }

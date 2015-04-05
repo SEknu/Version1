@@ -15,65 +15,20 @@ import javax.swing.JTable;
 import object.Trainer;
 import database.FileManager;
 
-public class New_Trainer_Add extends JPanel implements ActionListener {
-	JTable jtable;
-	JScrollPane scroll;
-	FileManager filemanager;
-	Vector<Trainer> allTrainer = new Vector<Trainer>();
-	Vector<Vector<String>> row = new Vector<Vector<String>>();
-	Vector<String> col = new Vector<String>();
-	
-	String[] colArray = {"이름","전화번호","주소","입사일"};
+public class New_Trainer_Super extends New_Trainer implements ActionListener {
 	JButton Button_Add = new JButton("등록");
 	JButton Button_Delete = new JButton("삭제");
 	
-	public New_Trainer_Add() throws ClassNotFoundException, SQLException {
-		filemanager = new FileManager();
-		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		
-		JPanel panel = new JPanel();
-		
+	JPanel panel = new JPanel();
+	
+	FileManager filemanager = FileManager.getInstance();
+	
+	public New_Trainer_Super() throws ClassNotFoundException, SQLException {
 		Button_Add.addActionListener(this);
 		Button_Delete.addActionListener(this);
-		
-		for(int i=0; i<colArray.length; i++)
-			col.add(colArray[i]);
-		
-		row = getRow();
-		jtable = new JTable(row, col);
-		scroll = new JScrollPane(jtable);
-		
-		add(scroll);
 		panel.add(Button_Add);
 		panel.add(Button_Delete);
-		add(panel);
-		
-		setSize(500, 550);
-		setVisible(true);
-	}
-	
-	public void Patch(Vector<Vector<String>> New) {
-		row.removeAllElements();
-		row.addAll(New);
-		jtable.updateUI();
-	}
-	
-	public Vector<Vector<String>> getRow() throws ClassNotFoundException, SQLException {
-		Vector<Vector<String>> result = new Vector<Vector<String>>();
-
-		allTrainer = filemanager.getTrainer("all");
-		for (Trainer t : this.allTrainer) {
-			Vector<String> v = new Vector<String>();
-			
-			v.add(t.getName());
-			v.add(t.getPhone());
-			v.add(t.getAddress());
-			v.add(t.getRegistDate());
-			
-			result.add(v);
-		}
-			
-		return result;
+		super.add(panel);
 	}
 
 	@Override
