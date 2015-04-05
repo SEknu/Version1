@@ -295,9 +295,8 @@ public class FileManager {
 			@Override
 			public PreparedStatement makePreparedStatement(Connection c)
 					throws SQLException {
-					PreparedStatement ps = c.prepareStatement("delete from ? where id=?");
-					ps.setString(1, table);
-					ps.setString(2, id);
+					PreparedStatement ps = c.prepareStatement("delete from " + table + " where id=?");
+					ps.setString(1, id);
 					return ps;
 				}
 			}
