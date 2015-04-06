@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 
 import object.Client;
 
-public class Detail_Panel extends JDialog implements ActionListener {
+public class ClientDetail extends JDialog implements ActionListener {
 
 	String name, address, phone, state;
 	int age, height, weight, muscle, attend, etc, grade;
@@ -21,7 +21,7 @@ public class Detail_Panel extends JDialog implements ActionListener {
 	
 	JButton Button_Cancel = new JButton("´Ý±â");
 	
-	public Detail_Panel(Client clt) {
+	public ClientDetail(Client clt) {
 		JPanel panel = new JPanel();
 		JPanel[] pan = new JPanel[13];
 		Button_Cancel.addActionListener(this);

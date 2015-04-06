@@ -21,7 +21,7 @@ import object.Commodity;
 import database.FileManager;
 
 
-public class Register_Commodity_Dialog extends JDialog implements ActionListener{
+public class CommodityRegister extends JDialog implements ActionListener{
 
 	JButton Button_OK = new JButton("추가");
 	JButton button_Cancel = new JButton("취소");
@@ -37,7 +37,7 @@ public class Register_Commodity_Dialog extends JDialog implements ActionListener
 	JTextField TF_Quantity = new JTextField(5);
 	JTextField TF_Comment = new JTextField(5);
 	
-	public Register_Commodity_Dialog() {
+	public CommodityRegister() {
 		Button_OK.addActionListener(this);
 		button_Cancel.addActionListener(this);
 		

@@ -1,16 +1,28 @@
 package gui;
+
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
-public class SuperAdminMode extends adminAbstract {	
+import object.Trainer;
+
+
+public class AdminTMode extends AdminAbstract {
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == client_info) {
+			setVisible(false);
 			panel_content.removeAll();
 			try {
-				panel_content.add(new Client_Info());
+				panel_content.add(new ClientAPanel());
 			} catch (ClassNotFoundException | SQLException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -20,9 +32,10 @@ public class SuperAdminMode extends adminAbstract {
 			setVisible(true);
 		}
 		else if (e.getSource() == program) {
+			setVisible(false);
 			panel_content.removeAll();
 			try {
-				panel_content.add(new TraingProgram());
+				panel_content.add(new ProgramPanel());
 			} catch (ClassNotFoundException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -35,9 +48,11 @@ public class SuperAdminMode extends adminAbstract {
 			setVisible(true);
 		}
 		else if (e.getSource() == commodity) {
+			setVisible(false);
 			panel_content.removeAll();
+			
 			try {
-				panel_content.add(new Commodity_Panel());
+				panel_content.add(new CommodityPanel());
 			} catch (ClassNotFoundException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -45,14 +60,16 @@ public class SuperAdminMode extends adminAbstract {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+
 			setResizable(false);
 			pack();
 			setVisible(true);
 		}
 		else if (e.getSource() == new_trainer) {
+			setVisible(false);
 			panel_content.removeAll();
 			try {
-				panel_content.add(new New_Trainer_Super());
+				panel_content.add(new TrainerTPanel());
 			} catch (ClassNotFoundException | SQLException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -61,7 +78,7 @@ public class SuperAdminMode extends adminAbstract {
 			pack();
 			setVisible(true);
 		}
-	
+
 		else if (e.getSource() == logout) {
 			dispose();
 			new LogIn();

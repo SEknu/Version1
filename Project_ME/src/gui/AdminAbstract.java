@@ -9,7 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public abstract class adminAbstract extends JFrame implements ActionListener {	
+public abstract class AdminAbstract extends JFrame implements ActionListener {	
 	JButton client_info = new JButton("회원정보");
 	JButton program = new JButton("운동 프로그램");
 	JButton commodity = new JButton("운동기구 관리");
@@ -19,7 +19,7 @@ public abstract class adminAbstract extends JFrame implements ActionListener {
 	JPanel p = new JPanel();
 	JPanel panel_content = new JPanel();
 	
-	public adminAbstract() {
+	public AdminAbstract() {
 		
 		client_info.addActionListener(this);
 		program.addActionListener(this);

@@ -14,7 +14,7 @@ import javax.swing.JTextField;
 import object.Program;
 import database.FileManager;
 
-public class Register_Program extends JDialog implements ActionListener {
+public class ProgramRegister extends JDialog implements ActionListener {
 	JButton Add_B = new JButton("추가");
 	JButton Cancel_B = new JButton("취소");
 	
@@ -23,7 +23,7 @@ public class Register_Program extends JDialog implements ActionListener {
 	JTextField Difficulty_TF = new JTextField(20);
 	JTextField Comment_TF = new JTextField(20);
 	
-	public Register_Program() {
+	public ProgramRegister() {
 		Add_B.addActionListener(this);
 		Cancel_B.addActionListener(this);
 		

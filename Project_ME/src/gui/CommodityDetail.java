@@ -19,7 +19,7 @@ import object.Commodity;
 import database.FileManager;
 
 ////★수정부분 새로운 클래스(운동기구정보 상세보기용)
-public class Detail_Commodity_Panel  extends JDialog implements ActionListener {
+public class CommodityDetail  extends JDialog implements ActionListener {
 
 	Commodity commodity;
 	String year, month, day;
@@ -33,7 +33,7 @@ public class Detail_Commodity_Panel  extends JDialog implements ActionListener {
 	JPanel panel2 = new JPanel();
 	JPanel[] pan = new JPanel[6];
 	
-	public Detail_Commodity_Panel(Commodity commodity)	{
+	public CommodityDetail(Commodity commodity)	{
 		this.commodity = commodity;
 		
 		//버튼추가

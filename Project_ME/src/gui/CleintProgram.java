@@ -14,7 +14,7 @@ import object.Client;
 import object.Program;
 
 
-public class Assign_Dialog_P<T> extends JDialog implements ActionListener{
+public class CleintProgram<T> extends JDialog implements ActionListener{
 
 	Vector<Program> list;
 	JComboBox<String> Combo = new JComboBox<String>();
@@ -25,7 +25,7 @@ public class Assign_Dialog_P<T> extends JDialog implements ActionListener{
 	
 	private Client clt;
 	
-	public Assign_Dialog_P(Vector<Program> list, Client c) {
+	public CleintProgram(Vector<Program> list, Client c) {
 		clt = c;
 		this.list = list;
 		

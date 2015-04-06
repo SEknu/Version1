@@ -1,6 +1,6 @@
 package gui;
 
-import gui.Register_Program;
+import gui.ProgramRegister;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,7 +17,7 @@ import javax.swing.JTable;
 import object.Program;
 import database.FileManager;
 
-public class TraingProgram extends JPanel implements ActionListener{
+public class ProgramPanel extends JPanel implements ActionListener{
 
 	JTable jtable;
 	JScrollPane scroll;
@@ -32,7 +32,7 @@ public class TraingProgram extends JPanel implements ActionListener{
 	FileManager filemanager = FileManager.getInstance();
 	
 	
-	public TraingProgram() throws ClassNotFoundException, SQLException
+	public ProgramPanel() throws ClassNotFoundException, SQLException
 	{
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 	
@@ -100,7 +100,7 @@ public class TraingProgram extends JPanel implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == add_B)  {
-			new Register_Program();
+			new ProgramRegister();
 		}
 		else if(e.getSource() == delete_B) {
 			int index = jtable.getSelectedRow();

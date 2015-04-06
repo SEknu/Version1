@@ -14,7 +14,7 @@ import object.Trainer;
 import database.FileManager;
 
 
-public class Assign_Dialog<T> extends JDialog implements ActionListener{
+public class ClientTrainer<T> extends JDialog implements ActionListener{
 
 	Vector<Trainer> list;
 	JComboBox<String> Combo = new JComboBox<String>();
@@ -22,7 +22,7 @@ public class Assign_Dialog<T> extends JDialog implements ActionListener{
 	
 	private Client clt;
 	
-	public Assign_Dialog(Vector<Trainer> list, Client c)
+	public ClientTrainer(Vector<Trainer> list, Client c)
 	{
 		clt = c;
 		this.list = list;

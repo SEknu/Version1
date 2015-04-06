@@ -53,7 +53,7 @@ public class LogIn extends JDialog implements ActionListener, KeyListener {
 				
 				if (id.equals("root")) {
 					dispose();
-					new SuperAdminMode();
+					new AdminAMode();
 					
 //				} else if (login_trainer != null) {
 //					JOptionPane.showMessageDialog(null, "로그인 성공");
@@ -76,7 +76,7 @@ public class LogIn extends JDialog implements ActionListener, KeyListener {
 //					JOptionPane.showMessageDialog(null, "패스워드가 틀렸습니다.");
 			}
 		} else if (e.getSource() == Regist) {
-			new Register();
+			new ClientRegister();
 		}
 	}
 

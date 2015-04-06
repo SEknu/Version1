@@ -1,145 +1,142 @@
 package gui;
-
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.sql.SQLException;
-import java.util.Vector;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import object.Client;
-import object.Program;
 
-public class UserMode extends JPanel implements ActionListener{
-
-	private int regi_date_year;
-	private int regi_date_month;
-	private int regi_date_date;
-	private int exper_date_year;
-	private int exper_date_month;
-	private int exper_date_date;
-	private int Attendance;
-	private String rank;
-	private String trainer;
+public class UserMode extends JFrame implements ActionListener, WindowListener {
 	
-	//JButton Logout = new JButton("Log out");
-	//JTextField lg = new JTextField(15);
+	JPanel panel = new JPanel();
+	JPanel panel1 = new JPanel();
+	JPanel Info = new JPanel();
+	JButton Button_Club = new JButton("Fitness club info");
+	JButton Button_Exer = new JButton("Exercise info");
+//	JButton Button_Login = new JButton("Login");
+//	JButton Button_Regi = new JButton("Register");
+	JButton Button_per = new JButton("Personal");
+	JButton Button_logout = new JButton("logout");
 	
-	JComboBox<String> combo = new JComboBox<String>();
-	Vector<Program> program;
-	JButton Button_Program_Delete = new JButton("삭제");
+	private Client login = null;
+	
+	public UserMode(Client login)
+	{
+		this.login = login;
 		
-	public UserMode(Client login) throws ClassNotFoundException, SQLException {
-		if (login.getRegistDate() != null) {
-			String date = login.getRegistDate();
-			this.regi_date_year = Integer.valueOf(date.substring(0, 4));
-			this.regi_date_month = Integer.valueOf(date.substring(5, 7));
-			this.regi_date_date = Integer.valueOf(date.substring(8, 10));
-		}
-		if (login.getTerminateDate() != null) {
-			String date = login.getTerminateDate();
-			this.exper_date_year = Integer.valueOf(date.substring(0, 4));
-			this.exper_date_month = Integer.valueOf(date.substring(5, 7));
-			this.exper_date_date = Integer.valueOf(date.substring(8, 10));
-		}
-		this.Attendance = login.getAttendance();
-		this.trainer = login.getTrainer();
+		addWindowListener(this);
+		Button_Club.addActionListener(this);
+		Button_Exer.addActionListener(this);
+		Button_per.addActionListener(this);
+		Button_logout.addActionListener(this);
 		
-		Button_Program_Delete.addActionListener(this);
-		//Logout.addActionListener(this);
-		JPanel panel = new JPanel();
+		Info.setPreferredSize(new Dimension(500,500));
+		
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		
-		JPanel panel1 = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		//regi_date_year = login.getDate().getYear()+1900;
-		//regi_date_month = login.getDate().getMonth()+1;
-		//regi_date_date = login.getDate().getDate();
-		
-		panel1.add(new JLabel("등록일"));
-		panel1.add(new JLabel(regi_date_year + "년 " + regi_date_month + "월 "
-				+ regi_date_date + "일"));
-		
-		exper_date_year = regi_date_year;
-		if (regi_date_month + 3 > 12)
-			exper_date_year++;
-		exper_date_month = (regi_date_month + 3);
-		if (exper_date_month > 12)
-			exper_date_month = exper_date_month % 12;
-		exper_date_date = regi_date_date;
-		JPanel panel2 = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		panel2.add(new JLabel("만료일"));
-		panel2.add(new JLabel(exper_date_year + "년 " + exper_date_month + "월 " +
-				exper_date_date + "일"));
-		
-		JPanel panel3 = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		panel3.add(new JLabel("출석일"));
-		panel3.add(new JLabel(Integer.toString(this.Attendance)));
-		
-		JPanel panel4 = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		panel4.add(new JLabel("등급"));  //
-		if (Attendance > 10)
-		{
-			rank = "우수회원";
-		}
-		else
-			rank = "일반회원";
-		panel4.add(new JLabel(rank));
-		
-		JPanel panel5 = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		panel5.add(new JLabel("트레이너"));
-		panel5.add(new JLabel( this.trainer ));
-		
-		//JPanel panel6 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		//panel6.add(lg);
-		//panel6.add(Logout);
-		
-		program = database.FileManager.getInstance().getProgram("all");
-		
-		for (Program p : program) {
-			combo.addItem(p.getName());
-		}
-		
-		JPanel panel7 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		panel7.add(combo);
-		panel7.add(Button_Program_Delete);
+		panel1.setLayout(new FlowLayout());
+		panel1.add(Button_Club);
+		panel1.add(Button_Exer);
+		panel1.add(Button_per);
+		panel1.add(Button_logout);
 		
 		panel.add(panel1);
-		panel.add(panel2);
-		panel.add(panel3);
-		panel.add(panel4);
-		panel.add(panel5);
-		panel.add(panel7);
-		//panel.add(panel6);
+		panel.add(Info);
 		
+		getContentPane().add(panel);
 		
-		add(panel);
-		//pack();
-		//setResizable(false);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setSize(500, 500);
+		setResizable(false);
 		setVisible(true);
+	}
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		
+		if (e.getSource() == Button_Club)
+		{
+			Info.setVisible(false);
+			Info.removeAll();
+			Info.add(new ClubInfo());
+			Info.setVisible(true);
+		}
+		else if (e.getSource() == Button_Exer)
+		{
+			Info.setVisible(false);
+			Info.removeAll();
+			try {
+				Info.add(new ExerInfo());
+			} catch (ClassNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			Info.setVisible(true);
+		}
+//		else if (e.getSource() == Button_Login)
+//		{
+//			new LogIn();
+//		}
+		else if (e.getSource() == Button_per)
+		{
+			Info.setVisible(false);
+			Info.removeAll();
+			try {
+				Info.add(new UserPanel(login));
+			} catch (ClassNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			Info.setVisible(true);
+		}
+		else if (e.getSource() == Button_logout)
+		{
+			dispose();
+			new LogIn();
+		}
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		boolean logout = false;
-		
-		/*if (e.getSource() == Logout) {
-			logout = FileManager.LogOut(lg.getText());
-			
-			if (logout == true)
-				dispose();
-		}*/
-		
-		if(e.getSource() == Button_Program_Delete) {
-			int index = combo.getSelectedIndex();
-			if (index != -1) {
-				combo.remove(combo.getSelectedIndex());
-			}
-			combo.updateUI();
-		}
+	public void windowActivated(WindowEvent e) {
 	}
+
+	@Override
+	public void windowClosed(WindowEvent e) {
+	}
+
+	@Override
+	public void windowClosing(WindowEvent e) {
+		System.exit(0);
+	}
+
+	@Override
+	public void windowDeactivated(WindowEvent e) {		
+	}
+
+	@Override
+	public void windowDeiconified(WindowEvent e) {		
+	}
+
+	@Override
+	public void windowIconified(WindowEvent e) {
+	}
+
+	@Override
+	public void windowOpened(WindowEvent e) {
+	}
+	
 }

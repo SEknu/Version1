@@ -18,7 +18,7 @@ import object.Program;
 import object.Trainer;
 import database.FileManager;
 
-public class Client_Info extends JPanel implements ActionListener {
+public class ClientAPanel extends JPanel implements ActionListener {
 
 	JTable jtable;
 	JScrollPane scroll;
@@ -36,7 +36,7 @@ public class Client_Info extends JPanel implements ActionListener {
 	JButton Button_Detail = new JButton("상세정보 보기");
 	JTextField TF_Name = new JTextField(10);
 	
-	public Client_Info() throws ClassNotFoundException, SQLException {
+	public ClientAPanel() throws ClassNotFoundException, SQLException {
 		filemanager = new FileManager();
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
@@ -158,7 +158,7 @@ public class Client_Info extends JPanel implements ActionListener {
 			int index = jtable.getSelectedRow();
 			if (index != -1) {
 				//DB에서 맞는 정보 불러와서 보여주기.★수정
-				new Detail_Panel(this.allClient.get(index));
+				new ClientDetail(this.allClient.get(index));
 			}
 		}
 	}

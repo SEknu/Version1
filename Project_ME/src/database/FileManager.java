@@ -124,7 +124,7 @@ public class FileManager {
 			trainer.setName(rs.getString("name"));
 			trainer.setRegistDate(rs.getString("regi_date"));
 			trainer.setSalary(rs.getInt("salary"));
-			trainer.setAddress(rs.getString("address"));
+			trainer.setAddress(rs.getString("addr"));
 			trainer.setPhone(rs.getString("phone"));
 			vectorTrainer.add(trainer);
 		}
@@ -140,7 +140,7 @@ public class FileManager {
 			@Override
 			public PreparedStatement makePreparedStatement(Connection c)
 					throws SQLException {
-					PreparedStatement ps = c.prepareStatement("insert into trainer(id, name, regi_date, salary, address, phone) values(?,?,?,?,?,?)");
+					PreparedStatement ps = c.prepareStatement("insert into trainer(id, name, regi_date, salary, addr, phone) values(?,?,?,?,?,?)");
 					ps.setString(1, trainer.getID());
 					ps.setString(2, trainer.getName());
 					ps.setString(3, trainer.getRegistDate());

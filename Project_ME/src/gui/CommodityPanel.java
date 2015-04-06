@@ -1,5 +1,5 @@
 package gui;
-import gui.Register_Commodity_Dialog;
+import gui.CommodityRegister;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,7 +15,7 @@ import javax.swing.JTable;
 import object.Commodity;
 import database.FileManager;
 
-public class Commodity_Panel extends JPanel implements ActionListener{
+public class CommodityPanel extends JPanel implements ActionListener{
 	FileManager filemanager;
 	
 	JTable jtable;
@@ -30,7 +30,7 @@ public class Commodity_Panel extends JPanel implements ActionListener{
 	JButton Button_Delete = new JButton("삭제");
 	JButton Button_Info = new JButton("상세보기");
 	//★수정부분
-	public Commodity_Panel() throws ClassNotFoundException, SQLException
+	public CommodityPanel() throws ClassNotFoundException, SQLException
 	{
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
@@ -86,7 +86,7 @@ public class Commodity_Panel extends JPanel implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == Button_Add) {
-			new Register_Commodity_Dialog();
+			new CommodityRegister();
 		}	
 		else if(e.getSource() == Button_Delete) {
 			int index = jtable.getSelectedRow();
@@ -105,7 +105,7 @@ public class Commodity_Panel extends JPanel implements ActionListener{
 		}
 		else if(e.getSource() == Button_Info) {
 			int index = jtable.getSelectedRow();
-			new Detail_Commodity_Panel(this.allCommo.get(index));
+			new CommodityDetail(this.allCommo.get(index));
 		}
 		try {
 			Patch(getRow());

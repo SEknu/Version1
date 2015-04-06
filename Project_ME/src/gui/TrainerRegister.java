@@ -16,7 +16,7 @@ import javax.swing.JTextField;
 import object.Trainer;
 import database.FileManager;
 
-public class Add_trainer extends JDialog implements ActionListener{
+public class TrainerRegister extends JDialog implements ActionListener{
 	JButton Button_OK = new JButton("등록");
 	JButton button_Cancel = new JButton("취소");
 		
@@ -35,7 +35,7 @@ public class Add_trainer extends JDialog implements ActionListener{
 	
 	FileManager filemanager = FileManager.getInstance();
 		
-	public Add_trainer() {
+	public TrainerRegister() {
 		Button_OK.addActionListener(this);
 		button_Cancel.addActionListener(this);
 		

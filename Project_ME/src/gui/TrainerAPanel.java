@@ -15,7 +15,7 @@ import javax.swing.JTable;
 import object.Trainer;
 import database.FileManager;
 
-public class New_Trainer_Super extends New_Trainer implements ActionListener {
+public class TrainerAPanel extends TrainerTPanel implements ActionListener {
 	JButton Button_Add = new JButton("등록");
 	JButton Button_Delete = new JButton("삭제");
 	
@@ -23,7 +23,7 @@ public class New_Trainer_Super extends New_Trainer implements ActionListener {
 	
 	FileManager filemanager = FileManager.getInstance();
 	
-	public New_Trainer_Super() throws ClassNotFoundException, SQLException {
+	public TrainerAPanel() throws ClassNotFoundException, SQLException {
 		Button_Add.addActionListener(this);
 		Button_Delete.addActionListener(this);
 		panel.add(Button_Add);
@@ -34,7 +34,7 @@ public class New_Trainer_Super extends New_Trainer implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == Button_Add) {
-			new Add_trainer();
+			new TrainerRegister();
 			
 			try {
 				Patch(getRow());

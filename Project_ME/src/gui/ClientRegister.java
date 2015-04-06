@@ -18,7 +18,7 @@ import object.Client;
 import database.FileManager;
 
 
-public class Register extends JDialog implements ActionListener {
+public class ClientRegister extends JDialog implements ActionListener {
 
 	JButton Register = new JButton("등록");
 	JTextField JT_PW = new JTextField(8);
@@ -41,7 +41,7 @@ public class Register extends JDialog implements ActionListener {
 	JRadioButton JR_time2 = new JRadioButton("2시간");
 	JButton close = new JButton("close");
 	
-	public Register()
+	public ClientRegister()
 	{
 		Register.addActionListener(this);
 		close.addActionListener(this);

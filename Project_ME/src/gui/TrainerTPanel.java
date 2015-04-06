@@ -10,7 +10,7 @@ import javax.swing.JTable;
 
 import object.Trainer;
 
-public class New_Trainer extends JPanel {
+public class TrainerTPanel extends JPanel {
 	JTable jtable;
 	JScrollPane scroll;
 
@@ -20,7 +20,7 @@ public class New_Trainer extends JPanel {
 	
 	String[] colArray = {"이름","전화번호","주소","입사일"};
 	
-	public New_Trainer() throws ClassNotFoundException, SQLException {
+	public TrainerTPanel() throws ClassNotFoundException, SQLException {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
 		JPanel panel = new JPanel();
