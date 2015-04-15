@@ -117,6 +117,7 @@ public class TrainerRegister extends JDialog implements ActionListener{
 				try {
 					filemanager.addTrainer(trainer);
 					JOptionPane.showMessageDialog(null, "등록되었습니다.");
+					dispose();
 				} catch (ClassNotFoundException | SQLException e1) {
 					JOptionPane.showMessageDialog(null, "같은 id가 존재합니다.");
 					dispose();
