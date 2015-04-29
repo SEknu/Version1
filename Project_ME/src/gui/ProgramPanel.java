@@ -24,14 +24,15 @@ public class ProgramPanel extends JPanel implements ActionListener{
 
 	Vector<Vector<String>> row = new Vector<Vector<String>>();
 	Vector<String> col = new Vector<String>();
+	Vector<Program> vectorProgram;
 	
-	String[] colArray = {"운동", "운동부위", "난이도", "비고"};
+	String[] colArray = {"이름", "운동부위", "난이도", "비고"};
 	JButton add_B = new JButton("추가");
 	JButton delete_B = new JButton("삭제");
+	JButton infoB = new JButton("상세보기");
 	
 	FileManager filemanager = FileManager.getInstance();
-	
-	
+		
 	public ProgramPanel() throws ClassNotFoundException, SQLException
 	{
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -50,12 +51,13 @@ public class ProgramPanel extends JPanel implements ActionListener{
 		
 		add_B.addActionListener(this);
 		delete_B.addActionListener(this);
-		
-		
+		infoB.addActionListener(this);
+				
 		panel.add(add_B);
 		panel.add(delete_B);
-		add(panel);
+		panel.add(infoB);
 		add(scroll);
+		add(panel);
 		setSize(500, 550);
 		setVisible(true);
 	}
@@ -74,7 +76,7 @@ public class ProgramPanel extends JPanel implements ActionListener{
 		
 		try {
 			Vector<String> vectorString = new Vector<String>();
-			Vector<Program> vectorProgram = filemanager.getProgram("all");
+			vectorProgram = filemanager.getProgram("all");
 				
 			for (Program p : vectorProgram) {
 				Vector<String> program = new Vector<String>();
@@ -112,6 +114,9 @@ public class ProgramPanel extends JPanel implements ActionListener{
 			} catch (ArrayIndexOutOfBoundsException e2) {
 				JOptionPane.showMessageDialog(null, "삭제할 운동 프로그램이 없습니다.");
 			}
+		} else if(e.getSource() == infoB) {
+			int index = jtable.getSelectedRow();
+			new ProgramDetail(this.vectorProgram.get(index));
 		}
 		
 		try {

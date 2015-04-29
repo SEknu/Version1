@@ -292,7 +292,25 @@ public class FileManager {
 		}	
 		return vectorProgram;
 	}
-
+	
+	public void updateProgram(final Program program) throws ClassNotFoundException, SQLException {
+		jdbcContextWithStatementStrategy(
+				new StatementStrategy() {
+			@Override
+			public PreparedStatement makePreparedStatement(Connection c)
+					throws SQLException {
+					PreparedStatement ps = c.prepareStatement("update program set name=?, "
+							+ "difficulty=?, part_of_body=?, comment=? where id=?");
+					ps.setString(1, program.getName());
+					ps.setString(2, program.getDifficulty());
+					ps.setString(3, program.getPartOfBody());
+					ps.setString(4, program.getComment());
+					ps.setString(5, program.getID());
+					return ps;
+				}
+			}
+		);
+	}
 	/*****************delete********************/
 	/*delete*/
 	public void delete(final String id, final String table) throws ClassNotFoundException, SQLException {
@@ -359,5 +377,7 @@ public class FileManager {
 //			} // connection æÓ∂ª∞‘ ¥›æ∆æﬂ «œ¡„ §–§–§–
 		}	
 	}
+
+
 	
 } // end class

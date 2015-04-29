@@ -1,7 +1,5 @@
 package gui;
 
-import object.Client;
-import object.Trainer;
 
 public class Main {
 	
