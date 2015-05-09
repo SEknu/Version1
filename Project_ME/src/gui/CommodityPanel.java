@@ -1,4 +1,5 @@
 package gui;
+
 import gui.CommodityRegister;
 
 import java.awt.event.ActionEvent;
@@ -11,90 +12,112 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 
 import object.Commodity;
 import database.FileManager;
 
-public class CommodityPanel extends JPanel implements ActionListener{
+public class CommodityPanel extends JPanel implements ActionListener {
 	FileManager filemanager;
-	
+
 	JTable jtable;
 	JScrollPane scroll;
-	
+
 	Vector<Commodity> allCommo = new Vector<Commodity>();
 	Vector<Vector<String>> row = new Vector<Vector<String>>();
 	Vector<String> col = new Vector<String>();
-	//★수정부분
-	String[] colArray = {"이름","재고량","파손유무","비고"};	
-	JButton Button_Add = new JButton("추가1");
-	JButton Button_Delete = new JButton("삭제");
-	JButton Button_Info = new JButton("상세보기");
-	//★수정부분
-	public CommodityPanel() throws ClassNotFoundException, SQLException
-	{
+	// ★수정부분
+	String[] colArray = { "이름", "구입날짜", "재고량", "비고" };
+	JButton button_Add = new JButton("추가");
+	JButton button_Delete = new JButton("삭제");
+	JButton button_Search = new JButton("검색");
+	JButton button_Info = new JButton("상세보기");
+	JTextField tf_Name = new JTextField(10);
+
+	// ★수정부분
+	public CommodityPanel() throws ClassNotFoundException, SQLException {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		
+
 		JPanel panel = new JPanel();
-		
-		for(int i=0; i<colArray.length; i++)
+
+		for (int i = 0; i < colArray.length; i++) {
 			col.add(colArray[i]);
-		
+		}
+
 		row = getRow();
-		
+
 		jtable = new JTable(row, col);
 		scroll = new JScrollPane(jtable);
-		
-		
-		Button_Add.addActionListener(this);
-		Button_Delete.addActionListener(this);
-		Button_Info.addActionListener(this);
-		
+
+		button_Add.addActionListener(this);
+		button_Delete.addActionListener(this);
+		button_Info.addActionListener(this);
+		button_Search.addActionListener(this);
+
 		add(scroll);
-		panel.add(Button_Add);
-		panel.add(Button_Delete);
-		panel.add(Button_Info);
+		panel.add(tf_Name);
+		panel.add(button_Search);
+		panel.add(button_Add);
+		panel.add(button_Delete);
+		panel.add(button_Info);
 		add(panel);
-		
+
 		setSize(500, 550);
 		setVisible(true);
 	}
-	
-	public void Patch(Vector<Vector<String>> New)
-	{
+
+	public void patch(Vector<Vector<String>> New) {
 		row.removeAllElements();
 		row.addAll(New);
 		jtable.updateUI();
 	}
-	//★수정부분
-	public Vector<Vector<String>> getRow() throws ClassNotFoundException, SQLException
-	{
-		Vector<Vector<String>> result = new Vector<Vector<String>>();	
-		filemanager = FileManager.getInstance();
+
+	// ★수정부분
+	public Vector<Vector<String>> getRow() throws ClassNotFoundException,
+			SQLException {
+		Vector<Vector<String>> result = new Vector<Vector<String>>();
+		filemanager = new FileManager(); // 메소드 수정으로 인한 객체 생성
 		allCommo = filemanager.getCommodity("all");
 		for (Commodity c : this.allCommo) {
-			Vector<String> commodity = new Vector<String>();	
+			Vector<String> commodity = new Vector<String>();
 			commodity.add(c.getName());
+			commodity.add(c.getBuyDate());
 			commodity.add(String.valueOf(c.getInventory()));
-			commodity.add(String.valueOf(c.getState()));
 			commodity.add(c.getComment());
 			result.add(commodity);
 		}
-
 		return result;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == Button_Add) {
+		if (e.getSource() == button_Add) {
 			new CommodityRegister();
-		}	
-		else if(e.getSource() == Button_Delete) {
+		} else if (e.getSource() == button_Search) {
+			Vector<Vector<String>> result = new Vector<Vector<String>>();
+
+			String name = this.tf_Name.getText();
+
+			if (name != null && name.length() > 0) {
+				for (Commodity c : this.allCommo) {
+					Vector<String> commodity = new Vector<String>();
+
+					if (c.getName().equals(name)) {
+						commodity.add(c.getName());
+						commodity.add(c.getBuyDate());
+						commodity.add(String.valueOf(c.getInventory()));
+						commodity.add(c.getComment());
+						result.add(commodity);
+					}
+				}
+			}
+			patch(result);
+		} else if (e.getSource() == button_Delete) {
 			int index = jtable.getSelectedRow();
-			System.out.println(index);
-			if(index != -1)
-			{
+			if (index != -1) {
 				try {
-					filemanager.delete(this.allCommo.get(index).getID(), "commodity");
+					filemanager.delete(this.allCommo.get(index).getID(),
+							"commodity");
 				} catch (ClassNotFoundException e1) {
 					e1.printStackTrace();
 				} catch (SQLException e1) {
@@ -102,13 +125,14 @@ public class CommodityPanel extends JPanel implements ActionListener{
 				}
 				index = -1;
 			}
-		}
-		else if(e.getSource() == Button_Info) {
+		} else if (e.getSource() == button_Info) {
 			int index = jtable.getSelectedRow();
-			new CommodityDetail(this.allCommo.get(index));
+			if (index != -1) {
+				new CommodityDetail(this.allCommo.get(index));
+			}
 		}
 		try {
-			Patch(getRow());
+			patch(getRow());
 		} catch (ClassNotFoundException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
