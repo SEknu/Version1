@@ -10,22 +10,22 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public abstract class AdminAbstract extends JFrame implements ActionListener {	
-	JButton client_info = new JButton("회원정보");
-	JButton program = new JButton("운동 프로그램");
-	JButton commodity = new JButton("운동기구 관리");
-	JButton new_trainer = new JButton("트레이너정보");
-	JButton logout = new JButton("logout");
+	JButton clientButton = new JButton("회원정보");
+	JButton programButton = new JButton("운동 프로그램");
+	JButton commodityButton = new JButton("운동기구 관리");
+	JButton trainerButton = new JButton("트레이너정보");
+	JButton logoutButton = new JButton("logout");
 	
 	JPanel p = new JPanel();
-	JPanel panel_content = new JPanel();
+	JPanel contentpanel = new JPanel();
 	
 	public AdminAbstract() {
 		
-		client_info.addActionListener(this);
-		program.addActionListener(this);
-		commodity.addActionListener(this);
-		new_trainer.addActionListener(this);
-		logout.addActionListener(this);
+		clientButton.addActionListener(this);
+		programButton.addActionListener(this);
+		commodityButton.addActionListener(this);
+		trainerButton.addActionListener(this);
+		logoutButton.addActionListener(this);
 
 		
 		p.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -34,19 +34,19 @@ public abstract class AdminAbstract extends JFrame implements ActionListener {
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		
 		JPanel panel1 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		panel1.add(client_info);
+		panel1.add(clientButton);
 		
 		JPanel panel2 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		panel2.add(program);
+		panel2.add(programButton);
 		
 		JPanel panel3 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		panel3.add(commodity);
+		panel3.add(commodityButton);
 		
 		JPanel panel4 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		panel4.add(new_trainer);	
+		panel4.add(trainerButton);	
 		
 		JPanel panel6 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		panel6.add(logout);
+		panel6.add(logoutButton);
 		
 		panel.add(panel1);
 		panel.add(panel2);
@@ -54,10 +54,10 @@ public abstract class AdminAbstract extends JFrame implements ActionListener {
 		panel.add(panel4);
 		panel.add(panel6);
 		
-		panel_content.setPreferredSize(new Dimension(500, 500));
+		contentpanel.setPreferredSize(new Dimension(500, 500));
 		
 		p.add(panel);
-		p.add(panel_content);
+		p.add(contentpanel);
 		
 		getContentPane().add(p);
 		setSize(650, 500);

@@ -10,19 +10,19 @@ import object.*;
 
 public class ModifyDialog extends JDialog implements ActionListener {
 
-	JButton modi = new JButton("수정");
-	JTextField plan = new JTextField(15);
-	JTextField trainer = new JTextField(15);
+	JButton modifyButton = new JButton("수정");
+	JTextField planTextField = new JTextField(15);
+	JTextField trainerTextField = new JTextField(15);
 	
 	public ModifyDialog(Client c)
 	{
-		modi.addActionListener(this);
+		modifyButton.addActionListener(this);
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		if (e.getSource() == modi)
+		if (e.getSource() == modifyButton)
 		{
 			
 			dispose();

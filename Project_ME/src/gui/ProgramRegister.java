@@ -18,10 +18,10 @@ public class ProgramRegister extends JDialog implements ActionListener {
 	JButton Add_B = new JButton("추가");
 	JButton Cancel_B = new JButton("취소");
 	
-	JTextField Name_TF = new JTextField(20);
-	JTextField Part_TF = new JTextField(20);
-	JTextField Difficulty_TF = new JTextField(20);
-	JTextField Comment_TF = new JTextField(20);
+	JTextField nameTextfield = new JTextField(20);
+	JTextField partTextfield = new JTextField(20);
+	JTextField difficultyTextfield = new JTextField(20);
+	JTextField commentTextfield = new JTextField(20);
 	
 	public ProgramRegister() {
 		Add_B.addActionListener(this);
@@ -30,13 +30,13 @@ public class ProgramRegister extends JDialog implements ActionListener {
 		setLayout(new GridLayout(5, 2));
 		//JPanel panel1 = new JPanel(new FlowLayout());
 		add(new JLabel("이름"));
-		add(Name_TF);
+		add(nameTextfield);
 		add(new JLabel("운동 부위"));
-		add(Part_TF);
+		add(partTextfield);
 		add(new JLabel("난이도"));
-		add(Difficulty_TF);
+		add(difficultyTextfield);
 		add(new JLabel("비고"));
-		add(Comment_TF);
+		add(commentTextfield);
 		
 		add(Add_B);
 		add(Cancel_B);
@@ -56,10 +56,10 @@ public class ProgramRegister extends JDialog implements ActionListener {
 			Calendar calender = Calendar.getInstance();
 			
 			program.setID("" + calender.get(Calendar.HOUR_OF_DAY) + calender.get(Calendar.MINUTE) + calender.get(Calendar.SECOND));
-			program.setName(this.Name_TF.getText());
-			program.setDifficulty(this.Difficulty_TF.getText());
-			program.setPartOfBody(this.Part_TF.getText());
-			program.setComment(this.Comment_TF.getText());
+			program.setName(this.nameTextfield.getText());
+			program.setDifficulty(this.difficultyTextfield.getText());
+			program.setPartOfBody(this.partTextfield.getText());
+			program.setComment(this.commentTextfield.getText());
 			
 			filemanager = new FileManager();
 			try {

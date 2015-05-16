@@ -19,12 +19,10 @@ public class UserMode extends JFrame implements ActionListener, WindowListener {
 	JPanel panel = new JPanel();
 	JPanel panel1 = new JPanel();
 	JPanel Info = new JPanel();
-	JButton Button_Club = new JButton("Fitness club info");
-	JButton Button_Exer = new JButton("Exercise info");
-//	JButton Button_Login = new JButton("Login");
-//	JButton Button_Regi = new JButton("Register");
-	JButton Button_per = new JButton("Personal");
-	JButton Button_logout = new JButton("logout");
+	JButton clubButton = new JButton("Fitness club info");
+	JButton programButton = new JButton("Exercise info");
+	JButton clientButton = new JButton("Personal");
+	JButton logoutButton = new JButton("logout");
 	
 	private Client login = null;
 	
@@ -33,20 +31,20 @@ public class UserMode extends JFrame implements ActionListener, WindowListener {
 		this.login = login;
 		
 		addWindowListener(this);
-		Button_Club.addActionListener(this);
-		Button_Exer.addActionListener(this);
-		Button_per.addActionListener(this);
-		Button_logout.addActionListener(this);
+		clubButton.addActionListener(this);
+		programButton.addActionListener(this);
+		clientButton.addActionListener(this);
+		logoutButton.addActionListener(this);
 		
 		Info.setPreferredSize(new Dimension(500,500));
 		
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		
 		panel1.setLayout(new FlowLayout());
-		panel1.add(Button_Club);
-		panel1.add(Button_Exer);
-		panel1.add(Button_per);
-		panel1.add(Button_logout);
+		panel1.add(clubButton);
+		panel1.add(programButton);
+		panel1.add(clientButton);
+		panel1.add(logoutButton);
 		
 		panel.add(panel1);
 		panel.add(Info);
@@ -62,14 +60,14 @@ public class UserMode extends JFrame implements ActionListener, WindowListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
-		if (e.getSource() == Button_Club)
+		if (e.getSource() == clubButton)
 		{
 			Info.setVisible(false);
 			Info.removeAll();
 			Info.add(new ClubInfo());
 			Info.setVisible(true);
 		}
-		else if (e.getSource() == Button_Exer)
+		else if (e.getSource() == programButton)
 		{
 			Info.setVisible(false);
 			Info.removeAll();
@@ -84,11 +82,7 @@ public class UserMode extends JFrame implements ActionListener, WindowListener {
 			}
 			Info.setVisible(true);
 		}
-//		else if (e.getSource() == Button_Login)
-//		{
-//			new LogIn();
-//		}
-		else if (e.getSource() == Button_per)
+		else if (e.getSource() == clientButton)
 		{
 			Info.setVisible(false);
 			Info.removeAll();
@@ -103,7 +97,7 @@ public class UserMode extends JFrame implements ActionListener, WindowListener {
 			}
 			Info.setVisible(true);
 		}
-		else if (e.getSource() == Button_logout)
+		else if (e.getSource() == logoutButton)
 		{
 			dispose();
 			new LogIn();

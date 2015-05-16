@@ -18,8 +18,8 @@ import database.FileManager;
 import object.Program;
 
 public class ProgramDetail extends JDialog implements ActionListener {
-	JButton Button_Save = new JButton("저장"); //저장버튼
-	JButton Button_Cancel = new JButton("취소"); //취소버튼
+	JButton saveButton = new JButton("저장"); //저장버튼
+	JButton cancelButton = new JButton("취소"); //취소버튼
 	
 	JPanel panel1 = new JPanel(), panel2 = new JPanel(), panel3 = new JPanel();
 	
@@ -30,8 +30,8 @@ public class ProgramDetail extends JDialog implements ActionListener {
 	public ProgramDetail(Program program) {
 		programId = program.getID();
 		
-		Button_Save.addActionListener(this);
-		Button_Cancel.addActionListener(this);
+		saveButton.addActionListener(this);
+		cancelButton.addActionListener(this);
 		
 		for(int i = 0; i<4; i++) {
 			pan[i] = new JPanel(new GridLayout(1,2,8,8));
@@ -54,8 +54,8 @@ public class ProgramDetail extends JDialog implements ActionListener {
 			panel1.add(pan[i]);
 		}
 		
-		panel2.add(Button_Save);
-		panel2.add(Button_Cancel);
+		panel2.add(saveButton);
+		panel2.add(cancelButton);
 		panel3.add(panel1);
 		panel3.add(panel2);
 		
@@ -72,7 +72,7 @@ public class ProgramDetail extends JDialog implements ActionListener {
 		// TODO Auto-generated method stub
 
 		//저장버튼 클릭시
-		if(e.getSource() == Button_Save) {
+		if(e.getSource() == saveButton) {
 			Program program = new Program();
 			program.setID(programId);
 			program.setName(((JTextField)pan[0].getComponent(1)).getText().toString());
@@ -89,7 +89,7 @@ public class ProgramDetail extends JDialog implements ActionListener {
 			}				
 		}
 		//취소버튼 클릭시.
-		else if(e.getSource() == Button_Cancel) {
+		else if(e.getSource() == cancelButton) {
 			int result = JOptionPane.showConfirmDialog(null, "수정을 취소하시겠습니까?", null, JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null);
 			if(result==0) {
 				dispose();

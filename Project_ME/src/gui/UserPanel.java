@@ -17,12 +17,12 @@ import object.Program;
 
 public class UserPanel extends JPanel implements ActionListener{
 
-	private int regi_date_year;
-	private int regi_date_month;
-	private int regi_date_date;
-	private int exper_date_year;
-	private int exper_date_month;
-	private int exper_date_date;
+	private int regiDateYear;
+	private int regiDateMonth;
+	private int regiDateDate;
+	private int experDateYear;
+	private int experDateMonth;
+	private int experDateDate;
 	private int Attendance;
 	private String rank;
 	private String trainer;
@@ -37,15 +37,15 @@ public class UserPanel extends JPanel implements ActionListener{
 	public UserPanel(Client login) throws ClassNotFoundException, SQLException {
 		if (login.getRegistDate() != null) {
 			String date = login.getRegistDate();
-			this.regi_date_year = Integer.valueOf(date.substring(0, 4));
-			this.regi_date_month = Integer.valueOf(date.substring(5, 7));
-			this.regi_date_date = Integer.valueOf(date.substring(8, 10));
+			this.regiDateYear = Integer.valueOf(date.substring(0, 4));
+			this.regiDateMonth = Integer.valueOf(date.substring(5, 7));
+			this.regiDateDate = Integer.valueOf(date.substring(8, 10));
 		}
 		if (login.getTerminateDate() != null) {
 			String date = login.getTerminateDate();
-			this.exper_date_year = Integer.valueOf(date.substring(0, 4));
-			this.exper_date_month = Integer.valueOf(date.substring(5, 7));
-			this.exper_date_date = Integer.valueOf(date.substring(8, 10));
+			this.experDateYear = Integer.valueOf(date.substring(0, 4));
+			this.experDateMonth = Integer.valueOf(date.substring(5, 7));
+			this.experDateDate = Integer.valueOf(date.substring(8, 10));
 		}
 		this.Attendance = login.getAttendance();
 		this.trainer = login.getTrainer();
@@ -61,20 +61,23 @@ public class UserPanel extends JPanel implements ActionListener{
 		//regi_date_date = login.getDate().getDate();
 		
 		panel1.add(new JLabel("등록일"));
-		panel1.add(new JLabel(regi_date_year + "년 " + regi_date_month + "월 "
-				+ regi_date_date + "일"));
+		panel1.add(new JLabel(regiDateYear + "년 " + regiDateMonth + "월 "
+				+ regiDateDate + "일"));
 		
-		exper_date_year = regi_date_year;
-		if (regi_date_month + 3 > 12)
-			exper_date_year++;
-		exper_date_month = (regi_date_month + 3);
-		if (exper_date_month > 12)
-			exper_date_month = exper_date_month % 12;
-		exper_date_date = regi_date_date;
+		experDateYear = regiDateYear;
+		if (regiDateMonth + 3 > 12)
+			experDateYear++;
+		
+		experDateMonth = (regiDateMonth + 3);
+		if (experDateMonth > 12)
+			experDateMonth = experDateMonth % 12;
+		
+		experDateDate = regiDateDate;
+		
 		JPanel panel2 = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		panel2.add(new JLabel("만료일"));
-		panel2.add(new JLabel(exper_date_year + "년 " + exper_date_month + "월 " +
-				exper_date_date + "일"));
+		panel2.add(new JLabel(experDateYear + "년 " + experDateMonth + "월 " +
+				experDateDate + "일"));
 		
 		JPanel panel3 = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		panel3.add(new JLabel("출석일"));

@@ -28,10 +28,10 @@ public class CommodityPanel extends JPanel implements ActionListener {
 	Vector<String> col = new Vector<String>();
 	// ★수정부분
 	String[] colArray = { "이름", "구입날짜", "재고량", "비고" };
-	JButton button_Add = new JButton("추가");
-	JButton button_Delete = new JButton("삭제");
-	JButton button_Search = new JButton("검색");
-	JButton button_Info = new JButton("상세보기");
+	JButton addButton = new JButton("추가");
+	JButton deleteButton = new JButton("삭제");
+	JButton searchButton = new JButton("검색");
+	JButton detailButton = new JButton("상세보기");
 	JTextField tf_Name = new JTextField(10);
 
 	// ★수정부분
@@ -49,17 +49,17 @@ public class CommodityPanel extends JPanel implements ActionListener {
 		jtable = new JTable(row, col);
 		scroll = new JScrollPane(jtable);
 
-		button_Add.addActionListener(this);
-		button_Delete.addActionListener(this);
-		button_Info.addActionListener(this);
-		button_Search.addActionListener(this);
+		addButton.addActionListener(this);
+		deleteButton.addActionListener(this);
+		detailButton.addActionListener(this);
+		searchButton.addActionListener(this);
 
 		add(scroll);
 		panel.add(tf_Name);
-		panel.add(button_Search);
-		panel.add(button_Add);
-		panel.add(button_Delete);
-		panel.add(button_Info);
+		panel.add(searchButton);
+		panel.add(addButton);
+		panel.add(deleteButton);
+		panel.add(detailButton);
 		add(panel);
 
 		setSize(500, 550);
@@ -91,9 +91,9 @@ public class CommodityPanel extends JPanel implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == button_Add) {
+		if (e.getSource() == addButton) {
 			new CommodityRegister();
-		} else if (e.getSource() == button_Search) {
+		} else if (e.getSource() == searchButton) {
 			Vector<Vector<String>> result = new Vector<Vector<String>>();
 
 			String name = this.tf_Name.getText();
@@ -112,7 +112,7 @@ public class CommodityPanel extends JPanel implements ActionListener {
 				}
 			}
 			patch(result);
-		} else if (e.getSource() == button_Delete) {
+		} else if (e.getSource() == deleteButton) {
 			int index = jtable.getSelectedRow();
 			if (index != -1) {
 				try {
@@ -125,7 +125,7 @@ public class CommodityPanel extends JPanel implements ActionListener {
 				}
 				index = -1;
 			}
-		} else if (e.getSource() == button_Info) {
+		} else if (e.getSource() == detailButton) {
 			int index = jtable.getSelectedRow();
 			if (index != -1) {
 				new CommodityDetail(this.allCommo.get(index));

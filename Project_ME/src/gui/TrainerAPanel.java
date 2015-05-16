@@ -16,24 +16,24 @@ import object.Trainer;
 import database.FileManager;
 
 public class TrainerAPanel extends TrainerTPanel implements ActionListener {
-	JButton Button_Add = new JButton("등록");
-	JButton Button_Delete = new JButton("삭제");
+	JButton addButton = new JButton("등록");
+	JButton deleteButton = new JButton("삭제");
 	
 	JPanel panel = new JPanel();
 	
 	FileManager filemanager = FileManager.getInstance();
 	
 	public TrainerAPanel() throws ClassNotFoundException, SQLException {
-		Button_Add.addActionListener(this);
-		Button_Delete.addActionListener(this);
-		panel.add(Button_Add);
-		panel.add(Button_Delete);
+		addButton.addActionListener(this);
+		deleteButton.addActionListener(this);
+		panel.add(addButton);
+		panel.add(deleteButton);
 		super.add(panel);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == Button_Add) {
+		if(e.getSource() == addButton) {
 			new TrainerRegister();
 			
 			try {
@@ -42,7 +42,7 @@ public class TrainerAPanel extends TrainerTPanel implements ActionListener {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-		} else if(e.getSource() == Button_Delete) {
+		} else if(e.getSource() == deleteButton) {
 			int index = jtable.getSelectedRow();
 			
 			if (index != -1){

@@ -27,9 +27,9 @@ public class ProgramPanel extends JPanel implements ActionListener{
 	Vector<Program> vectorProgram;
 	
 	String[] colArray = {"이름", "운동부위", "난이도", "비고"};
-	JButton add_B = new JButton("추가");
-	JButton delete_B = new JButton("삭제");
-	JButton infoB = new JButton("상세보기");
+	JButton addButton = new JButton("추가");
+	JButton deleteButton = new JButton("삭제");
+	JButton detailButton = new JButton("상세보기");
 	
 	FileManager filemanager = FileManager.getInstance();
 		
@@ -49,13 +49,13 @@ public class ProgramPanel extends JPanel implements ActionListener{
 		jtable = new JTable(row, col);
 		scroll = new JScrollPane(jtable);
 		
-		add_B.addActionListener(this);
-		delete_B.addActionListener(this);
-		infoB.addActionListener(this);
+		addButton.addActionListener(this);
+		deleteButton.addActionListener(this);
+		detailButton.addActionListener(this);
 				
-		panel.add(add_B);
-		panel.add(delete_B);
-		panel.add(infoB);
+		panel.add(addButton);
+		panel.add(deleteButton);
+		panel.add(detailButton);
 		add(scroll);
 		add(panel);
 		setSize(500, 550);
@@ -101,10 +101,10 @@ public class ProgramPanel extends JPanel implements ActionListener{
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == add_B)  {
+		if(e.getSource() == addButton)  {
 			new ProgramRegister();
 		}
-		else if(e.getSource() == delete_B) {
+		else if(e.getSource() == deleteButton) {
 			int index = jtable.getSelectedRow();
 			try {
 				filemanager.delete(filemanager.getProgram("all").get(index).getID(), "program");
@@ -114,7 +114,7 @@ public class ProgramPanel extends JPanel implements ActionListener{
 			} catch (ArrayIndexOutOfBoundsException e2) {
 				JOptionPane.showMessageDialog(null, "삭제할 운동 프로그램이 없습니다.");
 			}
-		} else if(e.getSource() == infoB) {
+		} else if(e.getSource() == detailButton) {
 			int index = jtable.getSelectedRow();
 			new ProgramDetail(this.vectorProgram.get(index));
 		}

@@ -18,11 +18,11 @@ public class AdminTMode extends AdminAbstract {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == client_info) {
+		if (e.getSource() == clientButton) {
 			setVisible(false);
-			panel_content.removeAll();
+			contentpanel.removeAll();
 			try {
-				panel_content.add(new ClientAPanel());
+				contentpanel.add(new ClientAPanel());
 			} catch (ClassNotFoundException | SQLException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -31,11 +31,11 @@ public class AdminTMode extends AdminAbstract {
 			pack();
 			setVisible(true);
 		}
-		else if (e.getSource() == program) {
+		else if (e.getSource() == programButton) {
 			setVisible(false);
-			panel_content.removeAll();
+			contentpanel.removeAll();
 			try {
-				panel_content.add(new ProgramPanel());
+				contentpanel.add(new ProgramPanel());
 			} catch (ClassNotFoundException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -47,12 +47,12 @@ public class AdminTMode extends AdminAbstract {
 			pack();
 			setVisible(true);
 		}
-		else if (e.getSource() == commodity) {
+		else if (e.getSource() == commodityButton) {
 			setVisible(false);
-			panel_content.removeAll();
+			contentpanel.removeAll();
 			
 			try {
-				panel_content.add(new CommodityPanel());
+				contentpanel.add(new CommodityPanel());
 			} catch (ClassNotFoundException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -65,11 +65,11 @@ public class AdminTMode extends AdminAbstract {
 			pack();
 			setVisible(true);
 		}
-		else if (e.getSource() == new_trainer) {
+		else if (e.getSource() == trainerButton) {
 			setVisible(false);
-			panel_content.removeAll();
+			contentpanel.removeAll();
 			try {
-				panel_content.add(new TrainerTPanel());
+				contentpanel.add(new TrainerTPanel());
 			} catch (ClassNotFoundException | SQLException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -79,7 +79,7 @@ public class AdminTMode extends AdminAbstract {
 			setVisible(true);
 		}
 
-		else if (e.getSource() == logout) {
+		else if (e.getSource() == logoutButton) {
 			dispose();
 			new LogIn();
 		}

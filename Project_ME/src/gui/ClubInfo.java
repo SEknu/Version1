@@ -9,8 +9,8 @@ public class ClubInfo extends JPanel {
 	
 	public ClubInfo()
 	{
-		JPanel JP_clients = new JPanel();
-		JP_clients.setLayout(new BoxLayout(JP_clients, BoxLayout.Y_AXIS));
+		JPanel clientPanel = new JPanel();
+		clientPanel.setLayout(new BoxLayout(clientPanel, BoxLayout.Y_AXIS));
 		
 		FileManager fm = FileManager.getInstance();
 		String tableName = "client";
@@ -22,15 +22,15 @@ public class ClubInfo extends JPanel {
 //		int time_1 = fm.selectCount("time", new Integer(1), tableName);
 //		int time_2 = fm.selectCount("time", new Integer(2), tableName);
 		
-//		JP_clients.add(new JLabel("전체 회원 수 : " + clients_num));
-//		JP_clients.add(new JLabel("---------------------------"));
-//		JP_clients.add(new JLabel("주 3일 회원 수 : " + week_3));
-//		JP_clients.add(new JLabel("주 4일 회원 수 : " + week_4));
-//		JP_clients.add(new JLabel("주 5일 회원 수 : " + week_5));
-//		JP_clients.add(new JLabel("---------------------------"));
-//		JP_clients.add(new JLabel("일 1시간 회원 수 : " + time_1));
-//		JP_clients.add(new JLabel("일 2시간 회원 수 : " + time_2));
+//		clientPanel.add(new JLabel("전체 회원 수 : " + clients_num));
+//		clientPanel.add(new JLabel("---------------------------"));
+//		clientPanel.add(new JLabel("주 3일 회원 수 : " + week_3));
+//		clientPanel.add(new JLabel("주 4일 회원 수 : " + week_4));
+//		clientPanel.add(new JLabel("주 5일 회원 수 : " + week_5));
+//		clientPanel.add(new JLabel("---------------------------"));
+//		clientPanel.add(new JLabel("일 1시간 회원 수 : " + time_1));
+//		clientPanel.add(new JLabel("일 2시간 회원 수 : " + time_2));
 //		
-		add(JP_clients);
+		add(clientPanel);
 	}
 }

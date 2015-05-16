@@ -17,22 +17,22 @@ import database.FileManager;
 
 public class LogIn extends JDialog implements ActionListener, KeyListener {
 
-	JTextField JF_PW = new JTextField(15);
-	JButton LogIn = new JButton("Login");
-	JButton Regist = new JButton("Regist");
-	JCheckBox admin = new JCheckBox("관리자로 로그인");
+	JTextField pwTextfield = new JTextField(15);
+	JButton logInButton = new JButton("Login");
+	JButton registButton = new JButton("Regist");
+	JCheckBox adminCheckbox = new JCheckBox("관리자로 로그인");
 		
 	public LogIn()
 	{
-		JF_PW.addKeyListener(this);
-		LogIn.addActionListener(this);
-		Regist.addActionListener(this);
+		pwTextfield.addKeyListener(this);
+		logInButton.addActionListener(this);
+		registButton.addActionListener(this);
 		
 		JPanel panel = new JPanel();
-		panel.add(JF_PW);
-		panel.add(LogIn);
-		panel.add(Regist);
-		panel.add(admin);
+		panel.add(pwTextfield);
+		panel.add(logInButton);
+		panel.add(registButton);
+		panel.add(adminCheckbox);
 		getContentPane().add(panel);
 		
 		setResizable(false);
@@ -44,9 +44,9 @@ public class LogIn extends JDialog implements ActionListener, KeyListener {
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		if (e.getSource() == LogIn) {
-			String id = this.JF_PW.getText();
-			if (admin.isSelected() == true) { // 관리자 로그인
+		if (e.getSource() == logInButton) {
+			String id = this.pwTextfield.getText();
+			if (adminCheckbox.isSelected() == true) { // 관리자 로그인
 				
 //				Trainer login_trainer = (Trainer) FileManager.getInstance().select("phone", "id");
 // 트레이너 로그인 구현 필요~
@@ -75,7 +75,7 @@ public class LogIn extends JDialog implements ActionListener, KeyListener {
 //				} else
 //					JOptionPane.showMessageDialog(null, "패스워드가 틀렸습니다.");
 			}
-		} else if (e.getSource() == Regist) {
+		} else if (e.getSource() == registButton) {
 			new ClientRegister();
 		}
 	}
@@ -92,9 +92,9 @@ public class LogIn extends JDialog implements ActionListener, KeyListener {
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		if (e.getSource() == JF_PW && JF_PW.getText().length() > 15)
+		if (e.getSource() == pwTextfield && pwTextfield.getText().length() > 15)
 		{
-			JF_PW.setText(JF_PW.getText().substring(0, 15));
+			pwTextfield.setText(pwTextfield.getText().substring(0, 15));
 		}
 	}
 	

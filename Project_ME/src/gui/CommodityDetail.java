@@ -24,9 +24,9 @@ public class CommodityDetail extends JDialog implements ActionListener {
 	Commodity commodity;
 	String year, month, day;
 
-	JButton button_Modify = new JButton("수정"); // 수정버튼
-	JButton button_Save = new JButton("저장"); // 저장버튼
-	JButton button_Cancel = new JButton("취소"); // 취소버튼
+	JButton modifyButton = new JButton("수정"); // 수정버튼
+	JButton saveButton = new JButton("저장"); // 저장버튼
+	JButton cancelButton = new JButton("취소"); // 취소버튼
 	JCheckBox checkbox = new JCheckBox(); // 체크박스 - 파손유무체크용
 	JPanel panel3 = new JPanel();
 	JPanel panel1 = new JPanel();
@@ -37,9 +37,9 @@ public class CommodityDetail extends JDialog implements ActionListener {
 		this.commodity = commodity;
 
 		// 버튼추가
-		button_Cancel.addActionListener(this);
-		button_Save.addActionListener(this);
-		button_Modify.addActionListener(this);
+		cancelButton.addActionListener(this);
+		saveButton.addActionListener(this);
+		modifyButton.addActionListener(this);
 		// 날짜를 년,월,일로 나눔
 		String date[] = commodity.getBuyDate().split("-");
 		year = date[0];
@@ -76,9 +76,9 @@ public class CommodityDetail extends JDialog implements ActionListener {
 			panel1.add(pan[i]);
 		}
 		// 패널에 버튼을 추가 후 가장 상위 패널에 추가
-		panel2.add(button_Modify);
-		panel2.add(button_Save);
-		panel2.add(button_Cancel);
+		panel2.add(modifyButton);
+		panel2.add(saveButton);
+		panel2.add(cancelButton);
 		panel3.add(panel1);
 		panel3.add(panel2);
 		add(panel3);
@@ -87,8 +87,8 @@ public class CommodityDetail extends JDialog implements ActionListener {
 			checkbox.setSelected(true);
 		}
 		// 수정 못하도록 비활성화
-		button_Save.setEnabled(false);
-		button_Cancel.setEnabled(false);
+		saveButton.setEnabled(false);
+		cancelButton.setEnabled(false);
 		for (int i = 0; i < 6; i++) {
 			pan[i].getComponent(1).setEnabled(false);
 		}
@@ -102,10 +102,10 @@ public class CommodityDetail extends JDialog implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == button_Modify) {
+		if (e.getSource() == modifyButton) {
 			// 수정 버튼 클릭시 모든 창 활성화
-			button_Save.setEnabled(true);
-			button_Cancel.setEnabled(true);
+			saveButton.setEnabled(true);
+			cancelButton.setEnabled(true);
 			for (int i = 0; i < 6; i++) {
 				pan[i].getComponent(1).setEnabled(true);
 			}
@@ -113,7 +113,7 @@ public class CommodityDetail extends JDialog implements ActionListener {
 			pan[1].getComponent(3).setEnabled(true);
 		}
 		// 저장버튼 클릭시
-		else if (e.getSource() == button_Save) {
+		else if (e.getSource() == saveButton) {
 			JTextField namefield = (JTextField) pan[0].getComponent(1);
 			JTextField yearfield = (JTextField) pan[1].getComponent(1);
 			JTextField monthfield = (JTextField) pan[1].getComponent(2);
@@ -141,8 +141,8 @@ public class CommodityDetail extends JDialog implements ActionListener {
 			try {
 				FileManager.getInstance().updateCommodity(commodity);
 				JOptionPane.showMessageDialog(null, "저장했습니다.");
-				button_Save.setEnabled(false);
-				button_Cancel.setEnabled(false);
+				saveButton.setEnabled(false);
+				cancelButton.setEnabled(false);
 				for (int i = 0; i < 6; i++) {
 					pan[i].getComponent(1).setEnabled(false);
 				}
@@ -153,14 +153,14 @@ public class CommodityDetail extends JDialog implements ActionListener {
 			}
 		}
 		// 취소버튼 클릭시.
-		else if (e.getSource() == button_Cancel) {
+		else if (e.getSource() == cancelButton) {
 			int result = JOptionPane.showConfirmDialog(null, "수정을 취소하시겠습니까?",
 					null, JOptionPane.OK_CANCEL_OPTION,
 					JOptionPane.WARNING_MESSAGE, null);
 			if (result == 0) {
 				// 수정필요 jtextfeild내용이 원래내용으로 돌아가도록 해야됨.
-				button_Save.setEnabled(false);
-				button_Cancel.setEnabled(false);
+				saveButton.setEnabled(false);
+				cancelButton.setEnabled(false);
 				for (int i = 0; i < 6; i++) {
 					pan[i].getComponent(1).setEnabled(false);
 				}

@@ -17,60 +17,60 @@ import object.Trainer;
 import database.FileManager;
 
 public class TrainerRegister extends JDialog implements ActionListener{
-	JButton Button_OK = new JButton("등록");
-	JButton button_Cancel = new JButton("취소");
+	JButton okButton = new JButton("등록");
+	JButton cancelButton = new JButton("취소");
 		
-	JTextField tra_name = new JTextField(5);
-	JTextField tra_ID = new JTextField(5);
+	JTextField nameTextfield = new JTextField(5);
+	JTextField idTextfield = new JTextField(5);
 	
-	JTextField start_Year = new JTextField(5);
-	JTextField start_Month = new JTextField(5);
-	JTextField start_Date = new JTextField(5);
+	JTextField yearTextfield = new JTextField(5);
+	JTextField monthTextfield = new JTextField(5);
+	JTextField dateTextfield = new JTextField(5);
 
 	//JTextField tra_age = new JTextField(2);
-	JTextField tra_phone1 = new JTextField(4);
-	JTextField tra_phone2 = new JTextField(4);
-	JTextField tra_phone3 = new JTextField(4);
-	JTextField tra_addr = new JTextField(10);
+	JTextField phone1Textfield = new JTextField(4);
+	JTextField phone2Textfield = new JTextField(4);
+	JTextField phone3Textfield = new JTextField(4);
+	JTextField addressTextfield = new JTextField(10);
 	
 	FileManager filemanager = FileManager.getInstance();
 		
 	public TrainerRegister() {
-		Button_OK.addActionListener(this);
-		button_Cancel.addActionListener(this);
+		okButton.addActionListener(this);
+		cancelButton.addActionListener(this);
 		
 		setLayout(new GridLayout(6, 2));
 		JPanel panel1 = new JPanel(new FlowLayout());
 		JPanel panel2 = new JPanel(new FlowLayout());
 		
 		add(new JLabel("이름"));
-		add(tra_name);
+		add(nameTextfield);
 
 		add(new JLabel("ID"));
-		add(tra_ID);
+		add(idTextfield);
 
 		add(new JLabel("입사일"));
-		panel1.add(start_Year);
-		panel1.add(start_Month);
-		panel1.add(start_Date);
+		panel1.add(yearTextfield);
+		panel1.add(monthTextfield);
+		panel1.add(dateTextfield);
 		add(panel1);
 		
 		//add(new JLabel("나이"));
 		//add(tra_age);
 		
 		add(new JLabel("전화번호"));
-		panel2.add(tra_phone1);
+		panel2.add(phone1Textfield);
 		panel2.add(new JLabel("-"));
-		panel2.add(tra_phone2);
+		panel2.add(phone2Textfield);
 		panel2.add(new JLabel("-"));
-		panel2.add(tra_phone3);
+		panel2.add(phone3Textfield);
 		add(panel2);
 		
 		add(new JLabel("주소"));
-		add(tra_addr);
+		add(addressTextfield);
 				
-		add(Button_OK);
-		add(button_Cancel);
+		add(okButton);
+		add(cancelButton);
 		
 		pack();
 		setModal(true);
@@ -80,23 +80,23 @@ public class TrainerRegister extends JDialog implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == Button_OK) {
+		if(e.getSource() == okButton) {
 			
-			String name = this.tra_name.getText();
-			String id = this.tra_ID.getText();
-			String rDate = this.start_Year.getText() + "-" + this.start_Month.getText() + "-" + this.start_Date.getText();
+			String name = this.nameTextfield.getText();
+			String id = this.idTextfield.getText();
+			String rDate = this.yearTextfield.getText() + "-" + this.monthTextfield.getText() + "-" + this.dateTextfield.getText();
 			//int age = Integer.valueOf(this.tra_age.getText());
-			String phone = this.tra_phone1.getText() + this.tra_phone2.getText() + this.tra_phone3.getText();
-			String addr = this.tra_addr.getText();
+			String phone = this.phone1Textfield.getText() + this.phone2Textfield.getText() + this.phone3Textfield.getText();
+			String addr = this.addressTextfield.getText();
 		
 			//공란 or 포맷에 어긋난 입력 예외처리
 			if(name.length()==0)
 				JOptionPane.showMessageDialog(null, "이름을 입력하십시오.", "", JOptionPane.ERROR_MESSAGE);
 			else if(id.length()==0)
 				JOptionPane.showMessageDialog(null, "id를 입력하십시오.", "", JOptionPane.ERROR_MESSAGE);
-			else if(this.start_Year.getText().length()==0 || this.start_Month.getText().length()==0 || this.start_Date.getText().length()==0)
+			else if(this.yearTextfield.getText().length()==0 || this.monthTextfield.getText().length()==0 || this.dateTextfield.getText().length()==0)
 				JOptionPane.showMessageDialog(null, "입사일을 입력하십시오.", "", JOptionPane.ERROR_MESSAGE);
-			else if(this.tra_phone1.getText().length()==0 || this.tra_phone2.getText().length()==0 || this.tra_phone3.getText().length()==0)
+			else if(this.phone1Textfield.getText().length()==0 || this.phone2Textfield.getText().length()==0 || this.phone3Textfield.getText().length()==0)
 				JOptionPane.showMessageDialog(null, "전화번호를 입력하십시오.", "", JOptionPane.ERROR_MESSAGE);
 			else if(addr.length()==0)
 				JOptionPane.showMessageDialog(null, "주소를 입력하십시오.", "", JOptionPane.ERROR_MESSAGE);
@@ -104,9 +104,9 @@ public class TrainerRegister extends JDialog implements ActionListener{
 				JOptionPane.showMessageDialog(null, "이름의 길이가 너무 깁니다.", "", JOptionPane.ERROR_MESSAGE);
 			else if(id.length()>11)
 				JOptionPane.showMessageDialog(null, "id의 길이가  너무 깁니다.", "", JOptionPane.ERROR_MESSAGE);
-			else if(Integer.parseInt(this.start_Year.getText())>9999 || Integer.parseInt(this.start_Month.getText())>12 || Integer.parseInt(this.start_Date.getText())>31)
+			else if(Integer.parseInt(this.yearTextfield.getText())>9999 || Integer.parseInt(this.monthTextfield.getText())>12 || Integer.parseInt(this.dateTextfield.getText())>31)
 				JOptionPane.showMessageDialog(null, "입사일을 바르게 입력하십시오.", "", JOptionPane.ERROR_MESSAGE);
-			else if(this.tra_phone1.getText().length()>4 || this.tra_phone2.getText().length()>4 || this.tra_phone3.getText().length()>4)
+			else if(this.phone1Textfield.getText().length()>4 || this.phone2Textfield.getText().length()>4 || this.phone3Textfield.getText().length()>4)
 				JOptionPane.showMessageDialog(null, "전화번호를 바르게 입력하십시오.", "", JOptionPane.ERROR_MESSAGE);
 			else if(addr.length()>50)
 				JOptionPane.showMessageDialog(null, "주소의 길이가  너무 깁니다.", "", JOptionPane.ERROR_MESSAGE);
