@@ -1,340 +1,268 @@
 package object;
 
-import java.util.Calendar;
-
-
 public class Client {
-	private String ID = null; 				// 회원번호 & 로그인 ID
-	private String grade = null;			// 회원 등급
-	private String Regist_Date = null; 		// 등록날짜
-	private int attendance = 0;				// 출석 일수
-	private String Terminate_Date = null;	// 만료일자
-	private boolean currentStatus = false;	// 현재 등록 여부
-	private int height = 0;					// 신체정보 : 키
-	private int weight = 0;					// 신쳊정보 : 몸무게
-	private int bodyFat = 0;				// 신체정보 : 체지방
-	private int bodyMuscle = 0;				// 신체정보 : 근육량
-	private String PW = null;				// 로그인 PW
-	private String note= null;				// 특이사항
-	private String Name = null;				// 개인정보 : 이름
-	private int Age = 0;					// 개인정보 : 나이
-	private String Address = null;			// 개인정보 : 주소
-	private String Phone = null;			// 개인전호 : 전화번호
-	private String trainer = null;			// 배정 트레이너
-	private String purpose = null;			// 운동 목적
-	private int week = 0;					// 주 몇 회 운동하는가?
-	private int time = 0;					// 운동은 하루에 몇 시간을 하는가?
+	private String id = null; // DB식별자
+	private String loginId = null; // 로그인ID
+	private String pwd = null; // 로그인 PW
+	private String registDate = null; // 등록날짜
+	private String registperiod = null; // 등록기간
+	private String terminateDate = null; // 만료일자
+	private String name = null; // 개인정보 : 이름
+	private int age = 0; // 개인정보 : 나이
+	private String birthday = null; // 개인정보 : 생년월일
+	private String address = null; // 개인정보 : 주소
+	private String phone = null; // 개인전호 : 전화번호
+	private int height = 0; // 신체정보 : 키
+	private int weight = 0; // 신체정보 : 몸무게
+	private int bodyFat = 0; // 신체정보 : 체지방
+	private int bodyMuscle = 0; // 신체정보 : 근육량
+	private String trainer = null; // 배정 트레이너
+	private String program = null; // 배정 프로그램
+	private String note = null; // 특이사항
+	private int currentStatus = 0; // 현재 등록 여부  0 - 미등록 , 1 - 등록
+
 	/*
-id				VARCHAR2(10),
-grade			CHAR(10),
-regi_date		DATE,
-attend			NUMBER,
-terminate_date	DATE,
-state			CHAR(1),
-height			NUMBER,
-weight			NUMBER,
-fat				NUMBER,
-muscle			NUMBER,
-name			VARCHAR2(10),
-age				NUMBER,
-addr			VARCHAR2(40 CHAR),
-phone			CHAR(12),
-password		VARCHAR2(12),
-note			VARCHAR2(200 CHAR),
-trainer			VARCHAR2(10),
+	 * id VARCHAR2(10), loginId VARCHAR2(10), pwd VARCHAR2(10), regi_date DATE,
+	 * regi_period DATE, terminate_date DATE, name VARCHAR2(10), age NUMBER,
+	 * birthday DATE, address VARCHAR2(40 CHAR), phone CHAR(12), height NUMBER,
+	 * weight NUMBER, bodyFat NUMBER, bodyMuscle NUMBER, trainer VARCHAR2(10),
+	 * program VARCHAR2(10), note VARCHAR2(200 CHAR), status CHAR(1)
 	 */
-	
+
 	/* constructor */
 	public Client() {
-		
+
 	}
-	
-	public Client(String id, String grade, String rd, int att, String td,
-			boolean s, int h, int w, int f, int m, String pw, String note,
-			String name, int age, String addr, String phone, String t) {
-		this.setID(id);
+
+	public Client(String id, String loginId, String pwd, String registDate,
+			String registperiod, String terminateDate, String name, int age,
+			String birthday, String address, String phone, int height,
+			int weight, int bodyFat, int bodyMuscle, String trainer,
+			String program, String note, int currentStatus) {
+		super();
+		this.setId(id);
+		this.setLoginId(loginId);
+		this.setPwd(pwd);
+		this.setRegistDate(registDate);
+		this.setRegistperiod(registperiod);
+		this.setTerminateDate(terminateDate);
 		this.setName(name);
-		this.setAddress(addr);
-		this.setPhone(phone);
-		this.setGrade(grade);
-		this.setRegistDate(rd);
-		this.setAttendance(att);
-		this.setTerminateDate(td);
-		this.setCurrentStatus(s);
-		this.setHeight(h);
-		this.setWeight(w);
-		this.setBodyFat(f);
-		this.setBodyMuscle(m);
-		this.setPW(pw);
-		this.setNote(note);
 		this.setAge(age);
-		this.setTrainer(t);
-	}
-	
-	public Client(String id, String name, String addr, String phone, int h, int w, int f, int m,
-			String purpose, int week, int time) {
-		this.setID(id);
-		this.setName(name);
-		this.setAddress(addr);
+		this.setBirthday(birthday);
+		this.setAddress(address);
 		this.setPhone(phone);
-		this.setHeight(h);
-		this.setWeight(w);
-		this.setBodyFat(f);
-		this.setBodyMuscle(m);
-		
-		// 기본값 정하기		
-		this.setGrade("");
-		/**/
-		Calendar cal = Calendar.getInstance();
-		int year = cal.get(Calendar.YEAR);
-		int month = cal.get(Calendar.MONTH)+1;
-		int day = cal.get(Calendar.DAY_OF_MONTH);
-		/**/
-		this.setRegistDate(year + "-" + month + "-" + day);
-		this.setAttendance(0);
-		/**/
-		if (month + 3 > 12)
-			++year;
-		month += 3;
-		month = month % 12;
-		if (month == 0)
-			month = 1;
-		/**/
-		this.setTerminateDate(year + "-" + month + "-" + day);
-		this.setCurrentStatus(true);
-		this.setPW("");
-		this.setNote("");
-		this.setAge(0);
-//		this.setTrainer(null);
+		this.setHeight(height);
+		this.setWeight(weight);
+		this.setBodyFat(bodyFat);
+		this.setBodyMuscle(bodyMuscle);
+		this.setTrainer(trainer);
+		this.setProgram(program);
+		this.setNote(note);
+		this.setCurrentStatus(currentStatus);
 	}
+
+	public Client(String id, String loginId, String pwd, String registDate,
+			String registperiod, String terminateDate, String name, int age,
+			String birthday, String address, String phone, int height,
+			int weight, int bodyFat, int bodyMuscle, String note) {
+		this(id, loginId, pwd, registDate, registperiod, terminateDate, name,
+				age, birthday, address, phone, height, weight, bodyFat,
+				bodyMuscle, null, null, note, 1);
+
+	}
+
 	/* constructor */
-	
+
 	/*
-	public Vector<String> toStringVector()
-	{
-		Vector<String> result = new Vector<String>();
-		
-		result.add(Integer.toString(getID()));
-		result.add(getGrade());
-		result.add(getRegistDate().toString());
-		result.add(Integer.toString(getAttendance()));
-		result.add(getTerminateDate().toString());
-		result.add(Boolean.toString(geCurrentStatus()));
-		result.add(Integer.toString(getHeight()));
-		result.add(Integer.toString(getWeight()));
-		result.add(Integer.toString(getBodyFat()));
-		result.add(Integer.toString(getBodyMuscle()));
-		result.add(getPW());
-		result.add(getNote());
-		result.add(getName());
-		result.add(Integer.toString(getAge()));
-		result.add(getAddress());
-		result.add(getPhone());
-		result.add(Integer.toString(getTrainer()));
-		
-		return result;
-	}
-	*/
+	 * public Vector<String> toStringVector() { Vector<String> result = new
+	 * Vector<String>();
+	 * 
+	 * result.add(Integer.toString(getID())); result.add(getGrade());
+	 * result.add(getRegistDate().toString());
+	 * result.add(Integer.toString(getAttendance()));
+	 * result.add(getTerminateDate().toString());
+	 * result.add(Boolean.toString(geCurrentStatus()));
+	 * result.add(Integer.toString(getHeight()));
+	 * result.add(Integer.toString(getWeight()));
+	 * result.add(Integer.toString(getBodyFat()));
+	 * result.add(Integer.toString(getBodyMuscle())); result.add(getPW());
+	 * result.add(getNote()); result.add(getName());
+	 * result.add(Integer.toString(getAge())); result.add(getAddress());
+	 * result.add(getPhone()); result.add(Integer.toString(getTrainer()));
+	 * 
+	 * return result; }
+	 */
 	/* constructor */
 
 	/* set & get function */
-	public void setID(String id)
-	{
-		this.ID = id;
+
+	public String getId() {
+		return id;
 	}
-	public String getID()
-	{
-		return this.ID;
+
+	public void setId(String id) {
+		this.id = id;
 	}
-	
-	public void setGrade(String grade)
-	{
-		this.grade = grade;
+
+	public String getLoginId() {
+		return loginId;
 	}
-	public String getGrade()
-	{
-		return this.grade;
+
+	public void setLoginId(String loginId) {
+		this.loginId = loginId;
 	}
-	
-	public void setRegistDate(String rd)
-	{
-		this.Regist_Date = rd;
+
+	public String getPwd() {
+		return pwd;
 	}
-	public String getRegistDate()
-	{
-		return this.Regist_Date;
+
+	public void setPwd(String pwd) {
+		this.pwd = pwd;
 	}
-	
-	public void setAttendance(int att)
-	{
-		this.attendance = att;
+
+	public String getRegistDate() {
+		return registDate;
 	}
-	public int getAttendance()
-	{
-		return this.attendance;
+
+	public void setRegistDate(String registDate) {
+		this.registDate = registDate;
 	}
-	
-	public void setTerminateDate(String td)
-	{
-		this.Terminate_Date = td;
+
+	public String getRegistperiod() {
+		return registperiod;
 	}
-	public String getTerminateDate()
-	{
-		return this.Terminate_Date;
+
+	public void setRegistperiod(String registperiod) {
+		this.registperiod = registperiod;
 	}
-	
-	public void setCurrentStatus(boolean s)
-	{
-		this.currentStatus = s;
+
+	public String getTerminateDate() {
+		return terminateDate;
 	}
-	public boolean getCurrentStatus()
-	{
-		return this.currentStatus;
+
+	public void setTerminateDate(String terminateDate) {
+		this.terminateDate = terminateDate;
 	}
-	
-	public void setHeight(int h)
-	{
-		this.height = h;
+
+	public String getName() {
+		return name;
 	}
-	public int getHeight()
-	{
-		return this.height;
+
+	public void setName(String name) {
+		this.name = name;
 	}
-	
-	public void setWeight(int w)
-	{
-		this.weight = w;
+
+	public int getAge() {
+		return age;
 	}
-	public int getWeight()
-	{
-		return this.weight;
+
+	public void setAge(int age) {
+		this.age = age;
 	}
-	
-	public void setBodyFat(int f)
-	{
-		this.bodyFat = f;
+
+	public String getBirthday() {
+		return birthday;
 	}
-	public int getBodyFat()
-	{
-		return this.bodyFat;
+
+	public void setBirthday(String birthday) {
+		this.birthday = birthday;
 	}
-	
-	public void setBodyMuscle(int m)
-	{
-		this.bodyMuscle = m;
+
+	public String getAddress() {
+		return address;
 	}
-	public int getBodyMuscle()
-	{
-		return this.bodyMuscle;
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
-	
-	public void setPW(String pw)
-	{
-		this.PW = pw;
+
+	public String getPhone() {
+		return phone;
 	}
-	public String getPW()
-	{
-		return this.PW;
+
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
-	
-	public void setNote(String note)
-	{
+
+	public int getHeight() {
+		return height;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
+
+	public int getWeight() {
+		return weight;
+	}
+
+	public void setWeight(int weight) {
+		this.weight = weight;
+	}
+
+	public int getBodyFat() {
+		return bodyFat;
+	}
+
+	public void setBodyFat(int bodyFat) {
+		this.bodyFat = bodyFat;
+	}
+
+	public int getBodyMuscle() {
+		return bodyMuscle;
+	}
+
+	public void setBodyMuscle(int bodyMuscle) {
+		this.bodyMuscle = bodyMuscle;
+	}
+
+	public String getTrainer() {
+		return trainer;
+	}
+
+	public void setTrainer(String trainer) {
+		this.trainer = trainer;
+	}
+
+	public String getProgram() {
+		return program;
+	}
+
+	public void setProgram(String program) {
+		this.program = program;
+	}
+
+	public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
 		this.note = note;
 	}
-	public String getNote()
-	{
-		return this.note;
+
+	public int isCurrentStatus() {
+		return currentStatus;
 	}
-	
-	public void setName(String name)
-	{
-		this.Name = name;
+
+	public void setCurrentStatus(int currentStatus) {
+		this.currentStatus = currentStatus;
 	}
-	public String getName()
-	{
-		return this.Name;
-	}
-	
-	public void setAge(int age)
-	{
-		this.Age = age;
-	}
-	public int getAge()
-	{
-		return this.Age;
-	}
-	
-	public void setAddress(String addr)
-	{
-		this.Address = addr;
-	}
-	public String getAddress()
-	{
-		return this.Address;
-	}
-	
-	public void setPhone(String phone)
-	{
-		this.Phone = phone;
-	}
-	public String getPhone()
-	{
-		return this.Phone;
-	}
-	
-	public void setTrainer(String t)
-	{
-		this.trainer = t;
-	}
-	public String getTrainer()
-	{
-		return this.trainer;
-	}
-	
-	public void setPurpose(String purpose) {
-		this.purpose = purpose;
-	}
-	public String getPurpose() {
-		return this.purpose;
-	}
-	
-	public void setWeek(int week) {
-		this.week = week;
-	}
-	public int getWeek() {
-		return this.week;
-	}
-	
-	public void setTime(int time) {
-		this.time = time;
-	}
-	public int getTime() {
-		return this.time;
-	}
+
 	/* set & get function */
-	
+
 	@Override
 	public String toString() {
-		String out = this.getID() + " " +
-				this.getGrade() + " " +
-				this.getRegistDate() + " " +
-				this.getAttendance() + " " +
-				this.getTerminateDate() + " " +
-				this.getCurrentStatus() + " " +
-				this.getHeight() + " " +
-				this.getWeight() + " " +
-				this.getBodyFat() + " " +
-				this.getBodyMuscle() + " " +
-				this.getPW() + " " +
-				this.getNote() + " " +
-				this.getAge() + " " +
-				this.getAddress() + " " +
-				this.getPhone() + " " +
-				this.getTrainer() + " " +
-				this.getPurpose() + " " +
-				this.getWeek() + " " +
-				this.getTime();
-		
+		String out = this.getId() + " " + this.getLoginId() + " "
+				+ this.getPwd() + " " + this.getRegistDate() + " "
+				+ this.getRegistperiod() + " " + this.getTerminateDate() + " "
+				+ this.getName() + " " + this.getAge() + " "
+				+ this.getBirthday() + " " + this.getAddress() + " "
+				+ this.getPhone() + " " + this.getHeight() + " "
+				+ this.getWeight() + " " + this.getBodyFat() + " "
+				+ this.getBodyMuscle() + " " + this.getTrainer() + " "
+				+ this.getProgram() + " " + this.getNote() + " "
+				+ this.isCurrentStatus();
+
 		return out;
 	}
 }

@@ -53,12 +53,25 @@ public class FileManager {
 		// client 수정할 부분!
 		while(rs.next()) {
 			client = new Client();
-			client.setID(rs.getString("id"));
+			client.setId(rs.getString("id"));
+			client.setLoginId(rs.getString("loginId"));
+			client.setPwd(rs.getString("pwd"));
+			client.setRegistDate(rs.getString("regi_date"));
+			client.setRegistperiod(rs.getString("regi_period"));
+			client.setTerminateDate(rs.getString("terminate_date"));
 			client.setName(rs.getString("name"));
-//			client.setRegistDate(rs.getString("regi_date"));
-//			client.setSalary(rs.getInt("salary"));
-//			client.setAddress(rs.getString("address"));
-//			client.setPhone(rs.getString("phone"));
+			client.setAge(rs.getInt("age"));
+			client.setBirthday(rs.getString("birthday"));
+			client.setAddress(rs.getString("address"));
+			client.setPhone(rs.getString("phone"));
+			client.setHeight(rs.getInt("height"));
+			client.setWeight(rs.getInt("weight"));
+			client.setBodyFat(rs.getInt("bodyFat"));
+			client.setBodyMuscle(rs.getInt("bodyMuscle"));
+			client.setTrainer(rs.getString("trainer"));
+			client.setProgram(rs.getString("program"));
+			client.setNote(rs.getString("note"));
+			client.setCurrentStatus(rs.getInt("status"));
 			vectorClient.add(client);
 		}
 		if(rs != null) {	
@@ -73,8 +86,27 @@ public class FileManager {
 			@Override
 			public PreparedStatement makePreparedStatement(Connection c)
 					throws SQLException {                     //여기 수정 바람
-					PreparedStatement ps = c.prepareStatement("insert into client(id, name, ..) values(?,?,?,?,?,?)");
+					PreparedStatement ps = c.prepareStatement("insert into client(id, loginId, pwd, regi_date, regi_period, terminate_date, name, age, birthday, address, phone, height, weight, bodyFat, bodyMuscle, trainer, program, note, status) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 
+					ps.setString(1, client.getId());
+					ps.setString(2, client.getLoginId());
+					ps.setString(3, client.getPwd());
+					ps.setString(4, client.getRegistDate());
+					ps.setString(5, client.getRegistperiod());
+					ps.setString(6, client.getTerminateDate());
+					ps.setString(7, client.getName());
+					ps.setInt(8, client.getAge());
+					ps.setString(9, client.getBirthday());
+					ps.setString(10, client.getAddress());
+					ps.setString(11, client.getPhone());
+					ps.setInt(12, client.getHeight());
+					ps.setInt(13, client.getWeight());
+					ps.setInt(14, client.getBodyFat());
+					ps.setInt(15, client.getBodyMuscle());
+					ps.setString(16, client.getTrainer());
+					ps.setString(17, client.getProgram());
+					ps.setString(18, client.getNote());
+					ps.setInt(19, client.isCurrentStatus());
 					return ps;
 				}
 			}
@@ -87,8 +119,27 @@ public class FileManager {
 			@Override
 			public PreparedStatement makePreparedStatement(Connection c)
 					throws SQLException {
-					PreparedStatement ps = c.prepareStatement("update client set ...");
+					PreparedStatement ps = c.prepareStatement("update client set loginId=?, " + "pwd=?, regi_date=?, regi_period=?, terminate_date=?, name=?, age=?, birthday=?, address=?, phone=?, height=?, weight=?, bodyFat=?, bodyMuscle=?, trainer=?, program=?, note=?, status=? where id=?");
 
+					ps.setString(1, client.getLoginId());
+					ps.setString(2, client.getPwd());
+					ps.setString(3, client.getRegistDate());
+					ps.setString(4, client.getRegistperiod());
+					ps.setString(5, client.getTerminateDate());
+					ps.setString(6, client.getName());
+					ps.setInt(7, client.getAge());
+					ps.setString(8, client.getBirthday());
+					ps.setString(9, client.getAddress());
+					ps.setString(10, client.getPhone());
+					ps.setInt(11, client.getHeight());
+					ps.setInt(12, client.getWeight());
+					ps.setInt(13, client.getBodyFat());
+					ps.setInt(14, client.getBodyMuscle());
+					ps.setString(15, client.getTrainer());
+					ps.setString(16, client.getProgram());
+					ps.setString(17, client.getNote());
+					ps.setInt(18, client.isCurrentStatus());
+					ps.setString(19, client.getId());
 					return ps;
 				}
 			}
