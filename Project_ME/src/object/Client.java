@@ -18,7 +18,7 @@ public class Client {
 	private int bodyMuscle = 0; // 신체정보 : 근육량
 	private String trainer = null; // 배정 트레이너
 	private String program = null; // 배정 프로그램
-	private String note = null; // 특이사항
+	private String comment = null; // 특이사항
 	private int currentStatus = 0; // 현재 등록 여부  0 - 미등록 , 1 - 등록
 
 	/*
@@ -38,7 +38,7 @@ public class Client {
 			String registperiod, String terminateDate, String name, int age,
 			String birthday, String address, String phone, int height,
 			int weight, int bodyFat, int bodyMuscle, String trainer,
-			String program, String note, int currentStatus) {
+			String program, String comment, int currentStatus) {
 		super();
 		this.setId(id);
 		this.setLoginId(loginId);
@@ -57,17 +57,17 @@ public class Client {
 		this.setBodyMuscle(bodyMuscle);
 		this.setTrainer(trainer);
 		this.setProgram(program);
-		this.setNote(note);
+		this.setComment(comment);
 		this.setCurrentStatus(currentStatus);
 	}
 
 	public Client(String id, String loginId, String pwd, String registDate,
 			String registperiod, String terminateDate, String name, int age,
 			String birthday, String address, String phone, int height,
-			int weight, int bodyFat, int bodyMuscle, String note) {
+			int weight, int bodyFat, int bodyMuscle, String comment) {
 		this(id, loginId, pwd, registDate, registperiod, terminateDate, name,
 				age, birthday, address, phone, height, weight, bodyFat,
-				bodyMuscle, null, null, note, 1);
+				bodyMuscle, null, null, comment, 1);
 
 	}
 
@@ -232,12 +232,12 @@ public class Client {
 		this.program = program;
 	}
 
-	public String getNote() {
-		return note;
+	public String getComment() {
+		return comment;
 	}
 
-	public void setNote(String note) {
-		this.note = note;
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 
 	public int isCurrentStatus() {
@@ -260,7 +260,7 @@ public class Client {
 				+ this.getPhone() + " " + this.getHeight() + " "
 				+ this.getWeight() + " " + this.getBodyFat() + " "
 				+ this.getBodyMuscle() + " " + this.getTrainer() + " "
-				+ this.getProgram() + " " + this.getNote() + " "
+				+ this.getProgram() + " " + this.getComment() + " "
 				+ this.isCurrentStatus();
 
 		return out;

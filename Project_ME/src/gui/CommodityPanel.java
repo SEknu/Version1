@@ -18,7 +18,7 @@ import object.Commodity;
 import database.FileManager;
 
 public class CommodityPanel extends JPanel implements ActionListener {
-	FileManager filemanager;
+	FileManager filemanager = FileManager.getInstance();
 
 	JTable jtable;
 	JScrollPane scroll;
@@ -76,7 +76,6 @@ public class CommodityPanel extends JPanel implements ActionListener {
 	public Vector<Vector<String>> getRow() throws ClassNotFoundException,
 			SQLException {
 		Vector<Vector<String>> result = new Vector<Vector<String>>();
-		filemanager = new FileManager(); // 메소드 수정으로 인한 객체 생성
 		allCommo = filemanager.getCommodity("all");
 		for (Commodity c : this.allCommo) {
 			Vector<String> commodity = new Vector<String>();

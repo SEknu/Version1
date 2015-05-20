@@ -7,6 +7,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 import java.sql.SQLException;
+import java.util.Vector;
 
 import object.Client;
 import object.Commodity;
@@ -22,7 +23,7 @@ public class test {
 	FileManager filemanager = FileManager.getInstance();
 	
 	@Test
-	public void selectClient() {
+	public void selectClient() throws ClassNotFoundException, SQLException {
 		Client client = new Client();
 		client.setName("홍길동");
 		client.setTerminateDate("2015-12-01");
@@ -32,68 +33,69 @@ public class test {
 		
 		filemanager.addClient(client);
 		
-		Client clientComp1;
-		Client clientComp2;
-		Client clientComp3;
-		Client clientComp4;
+		Vector<Client> clientComp1;
+		Vector<Client> clientComp2;
+		Vector<Client> clientComp3;
+		Vector<Client> clientComp4;
 		
 		clientComp1 = filemanager.selectClient("name", "홍길동");
-		clientComp2 = filemanager.selcetClient("terminate_date", "2015-12-01");
+		clientComp2 = filemanager.selectClient("terminate_date", "2015-12-01");
 		clientComp3 = filemanager.selectClient("trainer", "트레이너");
 		clientComp4 = filemanager.selectClient("program", "프로그램");
 		//1, 2, 3, 4에 따라 찾는 것이 모두 다름. 각각의 기능을 제대로 수행하는 지 알아보기 위한 것.
 		
-		assertThat(clientComp1.getName(), is("홍길동"));
-		assertThat(clientComp1.getTerminateDate(), is("2015-12-01"));
-		assertThat(clientComp1.getTrainer(), is("트레이너"));
-		assertThat(clientComp1.getProgram(), is("프로그램"));
+		assertThat(clientComp1.elementAt(0).getName(), is("홍길동"));
+		assertThat(clientComp1.elementAt(0).getTerminateDate(), is("2015-12-01"));
+		assertThat(clientComp1.elementAt(0).getTrainer(), is("트레이너"));
+		assertThat(clientComp1.elementAt(0).getProgram(), is("프로그램"));
 		
-		assertThat(clientComp2.getName(), is("홍길동"));
-		assertThat(clientComp2.getTerminateDate(), is("2015-12-01"));
-		assertThat(clientComp2.getTrainer(), is("트레이너"));
-		assertThat(clientComp2.getProgram(), is("프로그램"));
+		assertThat(clientComp2.elementAt(0).getName(), is("홍길동"));
+		assertThat(clientComp2.elementAt(0).getTerminateDate(), is("2015-12-01"));
+		assertThat(clientComp2.elementAt(0).getTrainer(), is("트레이너"));
+		assertThat(clientComp2.elementAt(0).getProgram(), is("프로그램"));
 		
-		assertThat(clientComp3.getName(), is("홍길동"));
-		assertThat(clientComp3.getTerminateDate(), is("2015-12-01"));
-		assertThat(clientComp3.getTrainer(), is("트레이너"));
-		assertThat(clientComp3.getProgram(), is("프로그램"));
+		assertThat(clientComp3.elementAt(0).getName(), is("홍길동"));
+		assertThat(clientComp3.elementAt(0).getTerminateDate(), is("2015-12-01"));
+		assertThat(clientComp3.elementAt(0).getTrainer(), is("트레이너"));
+		assertThat(clientComp3.elementAt(0).getProgram(), is("프로그램"));
 		
-		assertThat(clientComp4.getName(), is("홍길동"));
-		assertThat(clientComp4.getTerminateDate(), is("2015-12-01"));
-		assertThat(clientComp4.getTrainer(), is("트레이너"));
-		assertThat(clientComp4.getProgram(), is("프로그램"));
+		assertThat(clientComp4.elementAt(0).getName(), is("홍길동"));
+		assertThat(clientComp4.elementAt(0).getTerminateDate(), is("2015-12-01"));
+		assertThat(clientComp4.elementAt(0).getTrainer(), is("트레이너"));
+		assertThat(clientComp4.elementAt(0).getProgram(), is("프로그램"));
 	}
 	
 	@Test
-	public void selectProgram() {
+	public void selectProgram() throws ClassNotFoundException, SQLException {
 		Program program = new Program();
+		program.setID("0");
 		program.setName("운동");
 		program.setDifficulty("쉬움");
 		program.setPartOfBody("다리");
 		//프로그램에선 운동이름, 난이도, 부위 정도를 검색해 볼 것같음.
 		
-		Program programComp1;
-		Program programComp2;
-		Program programComp3;
+		Vector<Program> programComp1;
+		Vector<Program> programComp2;
+		Vector<Program> programComp3;
 		
 		filemanager.addProgram(program);
 		
-		programComp1 = filemanager.selectProgram("name", is("운동"));
-		programComp2 = filemanager.selectProgram("difficulty", is("쉬움"));
-		programComp3 = filemanager.selectProgram("part_of_body", is("다리"));
+		programComp1 = filemanager.selectProgram("name", "운동");
+		programComp2 = filemanager.selectProgram("difficulty", "쉬움");
+		programComp3 = filemanager.selectProgram("part_of_body", "다리");
 		//1, 2, 3 각각 찾는 것을 하나씩 나누어 가저 테스트 진행
 		
-		assertThat(programComp1.getName(), is("운동"));
-		assertThat(programComp1.getDifficulty(), is("쉬움"));
-		assertThat(programComp1.getPartOfBody(), is("다리"));
+		assertThat(programComp1.elementAt(0).getName(), is("운동"));
+		assertThat(programComp1.elementAt(0).getDifficulty(), is("쉬움"));
+		assertThat(programComp1.elementAt(0).getPartOfBody(), is("다리"));
 		
-		assertThat(programComp2.getName(), is("운동"));
-		assertThat(programComp2.getDifficulty(), is("쉬움"));
-		assertThat(programComp2.getPartOfBody(), is("다리"));
+		assertThat(programComp2.elementAt(0).getName(), is("운동"));
+		assertThat(programComp2.elementAt(0).getDifficulty(), is("쉬움"));
+		assertThat(programComp2.elementAt(0).getPartOfBody(), is("다리"));
 		
-		assertThat(programComp3.getName(), is("운동"));
-		assertThat(programComp3.getDifficulty(), is("쉬움"));
-		assertThat(programComp3.getPartOfBody(), is("다리"));
+		assertThat(programComp3.elementAt(0).getName(), is("운동"));
+		assertThat(programComp3.elementAt(0).getDifficulty(), is("쉬움"));
+		assertThat(programComp3.elementAt(0).getPartOfBody(), is("다리"));
 	}
 	
 	@Test

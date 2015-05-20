@@ -10,6 +10,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Vector;
 
+import org.hamcrest.Matcher;
+
 import object.Client;
 import object.Commodity;
 import object.Plan;
@@ -52,26 +54,34 @@ public class FileManager {
 		
 		// client 수정할 부분!
 		while(rs.next()) {
-			client = new Client();
-			client.setId(rs.getString("id"));
-			client.setLoginId(rs.getString("loginId"));
-			client.setPwd(rs.getString("pwd"));
-			client.setRegistDate(rs.getString("regi_date"));
-			client.setRegistperiod(rs.getString("regi_period"));
-			client.setTerminateDate(rs.getString("terminate_date"));
-			client.setName(rs.getString("name"));
-			client.setAge(rs.getInt("age"));
-			client.setBirthday(rs.getString("birthday"));
-			client.setAddress(rs.getString("address"));
-			client.setPhone(rs.getString("phone"));
-			client.setHeight(rs.getInt("height"));
-			client.setWeight(rs.getInt("weight"));
-			client.setBodyFat(rs.getInt("bodyFat"));
-			client.setBodyMuscle(rs.getInt("bodyMuscle"));
-			client.setTrainer(rs.getString("trainer"));
-			client.setProgram(rs.getString("program"));
-			client.setNote(rs.getString("note"));
-			client.setCurrentStatus(rs.getInt("status"));
+			client = getClientInfo(rs);
+			vectorClient.add(client);
+		}
+		if(rs != null) {	
+			try { rs.close(); } catch(SQLException e) {}
+		}	
+		return vectorClient;
+	}
+
+	public Vector<Client> selectClient(final String col, final String str) throws ClassNotFoundException, SQLException {
+		Client client;
+		ResultSet rs = null;
+		Vector<Client> vectorClient = new Vector<Client>();
+			
+		rs = resultSetStatementStrategy(
+				new StatementStrategy() {
+			@Override
+			public PreparedStatement makePreparedStatement(Connection c)
+					throws SQLException {
+					PreparedStatement ps = c.prepareStatement("select * from client where "+ col + "='" + str + "'");
+					return ps;
+				}
+			}
+		);
+		
+		// client 수정할 부분!
+		while(rs.next()) {
+			client = getClientInfo(rs);
 			vectorClient.add(client);
 		}
 		if(rs != null) {	
@@ -86,28 +96,9 @@ public class FileManager {
 			@Override
 			public PreparedStatement makePreparedStatement(Connection c)
 					throws SQLException {                     //여기 수정 바람
-					PreparedStatement ps = c.prepareStatement("insert into client(id, loginId, pwd, regi_date, regi_period, terminate_date, name, age, birthday, address, phone, height, weight, bodyFat, bodyMuscle, trainer, program, note, status) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+					PreparedStatement ps = c.prepareStatement("insert into client(id, loginId, pwd, regi_date, regi_period, terminate_date, name, age, birthday, address, phone, height, weight, bodyFat, bodyMuscle, trainer, program, comment, status) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 
-					ps.setString(1, client.getId());
-					ps.setString(2, client.getLoginId());
-					ps.setString(3, client.getPwd());
-					ps.setString(4, client.getRegistDate());
-					ps.setString(5, client.getRegistperiod());
-					ps.setString(6, client.getTerminateDate());
-					ps.setString(7, client.getName());
-					ps.setInt(8, client.getAge());
-					ps.setString(9, client.getBirthday());
-					ps.setString(10, client.getAddress());
-					ps.setString(11, client.getPhone());
-					ps.setInt(12, client.getHeight());
-					ps.setInt(13, client.getWeight());
-					ps.setInt(14, client.getBodyFat());
-					ps.setInt(15, client.getBodyMuscle());
-					ps.setString(16, client.getTrainer());
-					ps.setString(17, client.getProgram());
-					ps.setString(18, client.getNote());
-					ps.setInt(19, client.isCurrentStatus());
-					return ps;
+					return setClientInfo(client, ps);
 				}
 			}
 		);
@@ -119,32 +110,16 @@ public class FileManager {
 			@Override
 			public PreparedStatement makePreparedStatement(Connection c)
 					throws SQLException {
-					PreparedStatement ps = c.prepareStatement("update client set loginId=?, " + "pwd=?, regi_date=?, regi_period=?, terminate_date=?, name=?, age=?, birthday=?, address=?, phone=?, height=?, weight=?, bodyFat=?, bodyMuscle=?, trainer=?, program=?, note=?, status=? where id=?");
+					PreparedStatement ps = c.prepareStatement("update client set loginId=?, " 
+					+ "pwd=?, regi_date=?, regi_period=?, terminate_date=?, name=?, age=?, birthday=?, address=?, phone=?, height=?, weight=?, bodyFat=?, bodyMuscle=?, trainer=?, program=?, comment=?, status=? where id=?");
 
-					ps.setString(1, client.getLoginId());
-					ps.setString(2, client.getPwd());
-					ps.setString(3, client.getRegistDate());
-					ps.setString(4, client.getRegistperiod());
-					ps.setString(5, client.getTerminateDate());
-					ps.setString(6, client.getName());
-					ps.setInt(7, client.getAge());
-					ps.setString(8, client.getBirthday());
-					ps.setString(9, client.getAddress());
-					ps.setString(10, client.getPhone());
-					ps.setInt(11, client.getHeight());
-					ps.setInt(12, client.getWeight());
-					ps.setInt(13, client.getBodyFat());
-					ps.setInt(14, client.getBodyMuscle());
-					ps.setString(15, client.getTrainer());
-					ps.setString(16, client.getProgram());
-					ps.setString(17, client.getNote());
-					ps.setInt(18, client.isCurrentStatus());
-					ps.setString(19, client.getId());
-					return ps;
+					return setClientInfo(client, ps);
 				}
 			}
 		);
 	}
+	
+
 	
 	/*****************trainer********************/
 	/*get all commodity or get commodity by searching id*/
@@ -170,13 +145,7 @@ public class FileManager {
 		);
 		
 		while(rs.next()) {
-			trainer = new Trainer();
-			trainer.setID(rs.getString("id"));
-			trainer.setName(rs.getString("name"));
-			trainer.setRegistDate(rs.getString("regi_date"));
-			trainer.setSalary(rs.getInt("salary"));
-			trainer.setAddress(rs.getString("addr"));
-			trainer.setPhone(rs.getString("phone"));
+			trainer = getTrainerInfo(rs);
 			vectorTrainer.add(trainer);
 		}
 		if(rs != null) {	
@@ -192,16 +161,15 @@ public class FileManager {
 			public PreparedStatement makePreparedStatement(Connection c)
 					throws SQLException {
 					PreparedStatement ps = c.prepareStatement("insert into trainer(id, name, regi_date, salary, addr, phone) values(?,?,?,?,?,?)");
-					ps.setString(1, trainer.getID());
-					ps.setString(2, trainer.getName());
-					ps.setString(3, trainer.getRegistDate());
-					ps.setInt(4, trainer.getSalary());
-					ps.setString(5, trainer.getAddress());
-					ps.setString(6, trainer.getPhone());
-					return ps;
+					return setTrainerInfo(trainer, ps);
 				}
 			}
 		);
+	}
+	
+	public Trainer selectTrainer(String string, String string2) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	/*****************commodity********************/
@@ -228,14 +196,7 @@ public class FileManager {
 		);
 		
 		while(rs.next()) {
-			commodity = new Commodity();
-			commodity.setID(rs.getString("id"));
-			commodity.setName(rs.getString("name"));
-			commodity.setBuyDate(rs.getString("buy_date"));
-			commodity.setInventory(rs.getInt("inventory"));
-			commodity.setPrice(rs.getInt("price"));
-			commodity.setState(rs.getInt("state"));
-			commodity.setComment(rs.getString("comment"));
+			commodity = getCommodityInfo(rs);
 			vectorCommodity.add(commodity);
 		}
 		if(rs != null) {	
@@ -252,14 +213,7 @@ public class FileManager {
 			public PreparedStatement makePreparedStatement(Connection c)
 					throws SQLException {
 					PreparedStatement ps = c.prepareStatement("insert into commodity(id, name, buy_date, inventory, price, state, comment) values(?,?,?,?,?,?,?)");
-					ps.setString(1, commodity.getID());
-					ps.setString(2, commodity.getName());
-					ps.setString(3, commodity.getBuyDate());
-					ps.setInt(4, commodity.getInventory());
-					ps.setInt(5, commodity.getPrice());
-					ps.setInt(6, commodity.getState());
-					ps.setString(7, commodity.getComment());
-					return ps;
+					return setCommodityInfo(commodity, ps);
 				}
 			}
 		);
@@ -274,17 +228,15 @@ public class FileManager {
 					throws SQLException {
 					PreparedStatement ps = c.prepareStatement("update commodity set name=?, "
 							+ "buy_date=?, inventory=?, price=?, state=?, comment=? where id=?");
-					ps.setString(1, commodity.getName());
-					ps.setString(2, commodity.getBuyDate());
-					ps.setInt(3, commodity.getInventory());
-					ps.setInt(4, commodity.getPrice());
-					ps.setInt(5, commodity.getState());
-					ps.setString(6, commodity.getComment());
-					ps.setString(7, commodity.getID());
-					return ps;
+					return setCommodityInfo(commodity, ps);
 				}
 			}
 		);
+	}
+	
+	public Commodity selectCommodity(String string, String string2) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	/*****************program********************/
@@ -296,12 +248,7 @@ public class FileManager {
 			public PreparedStatement makePreparedStatement(Connection c)
 					throws SQLException {
 					PreparedStatement ps = c.prepareStatement("insert into program(id, name, difficulty, part_of_body, comment) values(?,?,?,?,?)");
-					ps.setString(1, program.getID());
-					ps.setString(2, program.getName());
-					ps.setString(3, program.getDifficulty());
-					ps.setString(4, program.getPartOfBody());
-					ps.setString(5, program.getComment());
-					return ps;
+					return setProgramInfo(program, ps);
 				}
 			}
 		);
@@ -330,12 +277,7 @@ public class FileManager {
 		);
 		
 		while(rs.next()) {
-			program = new Program();
-			program.setID(rs.getString("id"));
-			program.setName(rs.getString("name"));
-			program.setDifficulty(rs.getString("difficulty"));
-			program.setPartOfBody(rs.getString("part_of_body"));
-			program.setComment(rs.getString("comment"));
+			program = getProgramInfo(rs);
 			vectorProgram.add(program);
 		}
 		if(rs != null) {	
@@ -343,6 +285,7 @@ public class FileManager {
 		}	
 		return vectorProgram;
 	}
+
 	
 	public void updateProgram(final Program program) throws ClassNotFoundException, SQLException {
 		jdbcContextWithStatementStrategy(
@@ -352,16 +295,38 @@ public class FileManager {
 					throws SQLException {
 					PreparedStatement ps = c.prepareStatement("update program set name=?, "
 							+ "difficulty=?, part_of_body=?, comment=? where id=?");
-					ps.setString(1, program.getName());
-					ps.setString(2, program.getDifficulty());
-					ps.setString(3, program.getPartOfBody());
-					ps.setString(4, program.getComment());
-					ps.setString(5, program.getID());
-					return ps;
+					return setProgramInfo(program, ps);
 				}
 			}
 		);
 	}
+	
+	public Vector<Program> selectProgram(final String col, final String str) throws ClassNotFoundException, SQLException {
+		Program program;
+		ResultSet rs = null;
+		Vector<Program> vectorProgram = new Vector<Program>();
+		
+		rs = resultSetStatementStrategy(
+				new StatementStrategy() {
+			@Override
+			public PreparedStatement makePreparedStatement(Connection c)
+					throws SQLException {
+				PreparedStatement ps = c.prepareStatement("select * from program where "+ col + "='" + str + "'");
+					return ps;
+				}
+			}
+		);
+		
+		while(rs.next()) {
+			program = getProgramInfo(rs);
+			vectorProgram.add(program);
+		}
+		if(rs != null) {	
+			try { rs.close(); } catch(SQLException e) {}
+		}	
+		return vectorProgram;
+	}
+	
 	/*****************delete********************/
 	/*delete*/
 	public void delete(final String id, final String table) throws ClassNotFoundException, SQLException {
@@ -428,7 +393,120 @@ public class FileManager {
 //			} // connection 어떻게 닫아야 하쥐 ㅠㅠㅠ
 		}	
 	}
+	
+	private Client getClientInfo(ResultSet rs) throws SQLException {
+		Client client;
+		client = new Client();
+		client.setId(rs.getString("id"));
+		client.setLoginId(rs.getString("loginId"));
+		client.setPwd(rs.getString("pwd"));
+		client.setRegistDate(rs.getString("regi_date"));
+		client.setRegistperiod(rs.getString("regi_period"));
+		client.setTerminateDate(rs.getString("terminate_date"));
+		client.setName(rs.getString("name"));
+		client.setAge(rs.getInt("age"));
+		client.setBirthday(rs.getString("birthday"));
+		client.setAddress(rs.getString("address"));
+		client.setPhone(rs.getString("phone"));
+		client.setHeight(rs.getInt("height"));
+		client.setWeight(rs.getInt("weight"));
+		client.setBodyFat(rs.getInt("bodyFat"));
+		client.setBodyMuscle(rs.getInt("bodyMuscle"));
+		client.setTrainer(rs.getString("trainer"));
+		client.setProgram(rs.getString("program"));
+		client.setComment(rs.getString("comment"));
+		client.setCurrentStatus(rs.getInt("status"));
+		return client;
+	}
+	private PreparedStatement setClientInfo(final Client client,
+			PreparedStatement ps) throws SQLException {
+		ps.setString(1, client.getId());
+		ps.setString(2, client.getLoginId());
+		ps.setString(3, client.getPwd());
+		ps.setString(4, client.getRegistDate());
+		ps.setString(5, client.getRegistperiod());
+		ps.setString(6, client.getTerminateDate());
+		ps.setString(7, client.getName());
+		ps.setInt(8, client.getAge());
+		ps.setString(9, client.getBirthday());
+		ps.setString(10, client.getAddress());
+		ps.setString(11, client.getPhone());
+		ps.setInt(12, client.getHeight());
+		ps.setInt(13, client.getWeight());
+		ps.setInt(14, client.getBodyFat());
+		ps.setInt(15, client.getBodyMuscle());
+		ps.setString(16, client.getTrainer());
+		ps.setString(17, client.getProgram());
+		ps.setString(18, client.getComment());
+		ps.setInt(19, client.isCurrentStatus());
+		return ps;
+	}
 
-
+	private Trainer getTrainerInfo(ResultSet rs)
+			throws SQLException {
+		Trainer trainer;
+		trainer = new Trainer();
+		trainer.setID(rs.getString("id"));
+		trainer.setName(rs.getString("name"));
+		trainer.setRegistDate(rs.getString("regi_date"));
+		trainer.setSalary(rs.getInt("salary"));
+		trainer.setAddress(rs.getString("addr"));
+		trainer.setPhone(rs.getString("phone"));
+		return trainer;
+	}
+	private PreparedStatement setTrainerInfo(final Trainer trainer,
+			PreparedStatement ps) throws SQLException {
+		ps.setString(1, trainer.getID());
+		ps.setString(2, trainer.getName());
+		ps.setString(3, trainer.getRegistDate());
+		ps.setInt(4, trainer.getSalary());
+		ps.setString(5, trainer.getAddress());
+		ps.setString(6, trainer.getPhone());
+		return ps;
+	}
+	
+	private Commodity getCommodityInfo(ResultSet rs) throws SQLException {
+		Commodity commodity;
+		commodity = new Commodity();
+		commodity.setID(rs.getString("id"));
+		commodity.setName(rs.getString("name"));
+		commodity.setBuyDate(rs.getString("buy_date"));
+		commodity.setInventory(rs.getInt("inventory"));
+		commodity.setPrice(rs.getInt("price"));
+		commodity.setState(rs.getInt("state"));
+		commodity.setComment(rs.getString("comment"));
+		return commodity;
+	}	
+	private PreparedStatement setCommodityInfo(final Commodity commodity,
+			PreparedStatement ps) throws SQLException {
+		ps.setString(1, commodity.getID());
+		ps.setString(2, commodity.getName());
+		ps.setString(3, commodity.getBuyDate());
+		ps.setInt(4, commodity.getInventory());
+		ps.setInt(5, commodity.getPrice());
+		ps.setInt(6, commodity.getState());
+		ps.setString(7, commodity.getComment());
+		return ps;
+	}
+	
+	private PreparedStatement setProgramInfo(final Program program,
+			PreparedStatement ps) throws SQLException {
+		ps.setString(1, program.getID());
+		ps.setString(2, program.getName());
+		ps.setString(3, program.getDifficulty());
+		ps.setString(4, program.getPartOfBody());
+		ps.setString(5, program.getComment());
+		return ps;
+	}	
+	private Program getProgramInfo(ResultSet rs) throws SQLException {
+		Program program;
+		program = new Program();
+		program.setID(rs.getString("id"));
+		program.setName(rs.getString("name"));
+		program.setDifficulty(rs.getString("difficulty"));
+		program.setPartOfBody(rs.getString("part_of_body"));
+		program.setComment(rs.getString("comment"));
+		return program;
+	}
 	
 } // end class

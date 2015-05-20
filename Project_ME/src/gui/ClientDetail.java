@@ -125,7 +125,7 @@ public class ClientDetail extends JDialog implements ActionListener {
 		contentPanel.add(new JTextField(clt.getRegistperiod()));
 		
 		contentPanel.add(new JLabel("특이사항:",JLabel.CENTER));
-		contentPanel.add(new JTextField(clt.getNote()));
+		contentPanel.add(new JTextField(clt.getComment()));
 		
 		contentPanel.add(new JLabel("현재등록여부:",JLabel.CENTER));
 		if(clt.isCurrentStatus() == 1)

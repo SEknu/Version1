@@ -47,7 +47,7 @@ public class UserPanel extends JPanel implements ActionListener{
 			this.experDateMonth = Integer.valueOf(date.substring(5, 7));
 			this.experDateDate = Integer.valueOf(date.substring(8, 10));
 		}
-		this.Attendance = login.getAttendance();
+		//this.Attendance = login.getAttendance();
 		this.trainer = login.getTrainer();
 		
 		Button_Program_Delete.addActionListener(this);
