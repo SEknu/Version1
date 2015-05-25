@@ -212,7 +212,7 @@ public class FileManager {
 			@Override
 			public PreparedStatement makePreparedStatement(Connection c)
 					throws SQLException {
-					PreparedStatement ps = c.prepareStatement("insert into commodity(id, name, buy_date, inventory, price, state, comment) values(?,?,?,?,?,?,?)");
+					PreparedStatement ps = c.prepareStatement("insert into commodity(name, buy_date, inventory, price, state, comment, ids) values(?,?,?,?,?,?,?)");
 					return setCommodityInfo(commodity, ps);
 				}
 			}
@@ -247,7 +247,7 @@ public class FileManager {
 			@Override
 			public PreparedStatement makePreparedStatement(Connection c)
 					throws SQLException {
-					PreparedStatement ps = c.prepareStatement("insert into program(id, name, difficulty, part_of_body, comment) values(?,?,?,?,?)");
+					PreparedStatement ps = c.prepareStatement("insert into program(name, difficulty, part_of_body, comment, id) values(?,?,?,?,?)");
 					return setProgramInfo(program, ps);
 				}
 			}
@@ -479,23 +479,23 @@ public class FileManager {
 	}	
 	private PreparedStatement setCommodityInfo(final Commodity commodity,
 			PreparedStatement ps) throws SQLException {
-		ps.setString(1, commodity.getID());
-		ps.setString(2, commodity.getName());
-		ps.setString(3, commodity.getBuyDate());
-		ps.setInt(4, commodity.getInventory());
-		ps.setInt(5, commodity.getPrice());
-		ps.setInt(6, commodity.getState());
-		ps.setString(7, commodity.getComment());
+		ps.setString(1, commodity.getName());
+		ps.setString(2, commodity.getBuyDate());
+		ps.setInt(3, commodity.getInventory());
+		ps.setInt(4, commodity.getPrice());
+		ps.setInt(5, commodity.getState());
+		ps.setString(6, commodity.getComment());
+		ps.setString(7, commodity.getID());
 		return ps;
 	}
 	
 	private PreparedStatement setProgramInfo(final Program program,
 			PreparedStatement ps) throws SQLException {
-		ps.setString(1, program.getID());
-		ps.setString(2, program.getName());
-		ps.setString(3, program.getDifficulty());
-		ps.setString(4, program.getPartOfBody());
-		ps.setString(5, program.getComment());
+		ps.setString(1, program.getName());
+		ps.setString(2, program.getDifficulty());
+		ps.setString(3, program.getPartOfBody());
+		ps.setString(4, program.getComment());
+		ps.setString(5, program.getID());
 		return ps;
 	}	
 	private Program getProgramInfo(ResultSet rs) throws SQLException {
