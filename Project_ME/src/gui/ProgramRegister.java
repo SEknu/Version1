@@ -15,6 +15,7 @@ import object.Program;
 import database.FileManager;
 
 public class ProgramRegister extends JDialog implements ActionListener {
+	FileManager filemanager;
 	JButton Add_B = new JButton("추가");
 	JButton Cancel_B = new JButton("취소");
 	
@@ -24,6 +25,7 @@ public class ProgramRegister extends JDialog implements ActionListener {
 	JTextField commentTextfield = new JTextField(20);
 	
 	public ProgramRegister() {
+		filemanager = FileManager.getInstance();
 		Add_B.addActionListener(this);
 		Cancel_B.addActionListener(this);
 		
@@ -51,7 +53,6 @@ public class ProgramRegister extends JDialog implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == Add_B) {
 			//DB부르기 ★수정
-			FileManager filemanager;
 			Program program = new Program();
 			Calendar calender = Calendar.getInstance();
 			
@@ -61,7 +62,6 @@ public class ProgramRegister extends JDialog implements ActionListener {
 			program.setPartOfBody(this.partTextfield.getText());
 			program.setComment(this.commentTextfield.getText());
 			
-			filemanager = new FileManager();
 			try {
 				filemanager.addProgram(program);
 			} catch (ClassNotFoundException | SQLException e1) {

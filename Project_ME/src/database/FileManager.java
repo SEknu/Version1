@@ -23,8 +23,15 @@ import object.Trainer;
 public class FileManager {	
 	static private FileManager instance = new FileManager();
 	
+	private FileManager()
+	{
+		
+	}
+	
 	/* getInstance */
 	static public FileManager getInstance() {
+		if(instance == null)
+			instance = new FileManager();
 		return instance;
 	}
 	/* getInstance */
