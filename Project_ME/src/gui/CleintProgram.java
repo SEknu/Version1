@@ -2,6 +2,7 @@ package gui;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.Vector;
 
 import javax.swing.JButton;
@@ -10,12 +11,15 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import database.FileManager;
 import object.Client;
 import object.Program;
 
 
 public class CleintProgram<T> extends JDialog implements ActionListener{
 
+	FileManager filemanager;
+	
 	Vector<Program> list;
 	JComboBox<String> Combo = new JComboBox<String>();
 	JButton Button = new JButton("น่มค");
@@ -26,6 +30,7 @@ public class CleintProgram<T> extends JDialog implements ActionListener{
 	private Client clt;
 	
 	public CleintProgram(Vector<Program> list, Client c) {
+		filemanager = FileManager.getInstance();
 		clt = c;
 		this.list = list;
 		
@@ -64,11 +69,15 @@ public class CleintProgram<T> extends JDialog implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == Button) {
-			int index = Combo.getSelectedIndex();
-			
-			if (index != -1) {
-				//FileManager.FileManager.getInstance().update(clt, "client");
+		int index = Combo.getSelectedIndex();
+		
+		if (index != -1) {
+			clt.setTrainer(Combo.getItemAt(index));
+			try {
+				filemanager.updateClient(clt);
+			} catch (ClassNotFoundException | SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
 		}
 		dispose();

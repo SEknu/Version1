@@ -169,6 +169,8 @@ public class ClientDetail extends JDialog implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == Button_Modify){
 			for(int i = 0; i < contentPanel.getComponentCount(); i++){
+				if(i == 19 || i == 21)
+					continue;
 				if(i%2 != 0)
 					contentPanel.getComponent(i).setEnabled(true);
 			}
@@ -217,9 +219,9 @@ public class ClientDetail extends JDialog implements ActionListener {
 			clt.setWeight(Integer.parseInt(weightTextField.getText()));
 			clt.setBodyFat(Integer.parseInt(bodyFatTextField.getText()));
 			clt.setBodyMuscle(Integer.parseInt(bodyMuscleTextField.getText()));
-			clt.setTrainer(trainerTextField.getText());
-			clt.setProgram(programTextField.getText());
-			clt.setRegistDate(regiDateTextField1.getText());
+			//clt.setTrainer(trainerTextField.getText());
+			//clt.setProgram(programTextField.getText());
+			clt.setRegistDate(regiDateTextField1.getText()+"-"+regiDateTextField2.getText()+"-"+regiDateTextField3.getText());
 			clt.setTerminateDate(terminateDate);
 			clt.setRegistperiod(regiPerTextField.getText());
 			clt.setComment(commentTextField.getText());

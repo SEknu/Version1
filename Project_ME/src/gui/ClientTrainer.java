@@ -51,7 +51,7 @@ public class ClientTrainer<T> extends JDialog implements ActionListener{
 			int index = Combo.getSelectedIndex();
 			
 			if (index != -1) {
-				clt.setTrainer((this.list.get(index)).getName());
+				clt.setTrainer(Combo.getItemAt(index));
 				try {
 					filemanager.updateClient(clt);
 				} catch (ClassNotFoundException | SQLException e1) {
