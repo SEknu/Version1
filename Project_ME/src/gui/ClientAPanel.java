@@ -127,7 +127,6 @@ public class ClientAPanel extends JPanel implements ActionListener {
 					e1.printStackTrace();
 				}
 				try {
-					FileManager filemanager = new FileManager();
 					this.allClient = filemanager.getClient("all");
 				} catch (ClassNotFoundException | SQLException e1) {
 					// TODO Auto-generated catch block

@@ -60,7 +60,9 @@ public class ClientRegister extends JDialog implements ActionListener {
 		birthdayPanel.setLayout(new FlowLayout());
 		JPanel phoneNumPanel = new JPanel();
 		phoneNumPanel.setLayout(new FlowLayout());
-
+		JPanel buttonPanel = new JPanel();
+		buttonPanel.setLayout(new FlowLayout());
+		
 		registPeriodComboBox.setModel(new DefaultComboBoxModel<String>(
 				new String[] { "1개월", "2개월", "3개월", "6개월", "12개월" }));
 
@@ -113,10 +115,12 @@ public class ClientRegister extends JDialog implements ActionListener {
 
 		mainPanel.add(new JLabel("비고"));
 		mainPanel.add(JTNote);
+		
+		buttonPanel.add(register);
+		buttonPanel.add(cancel);
 
 		homePanel.add(mainPanel);
-		homePanel.add(register);
-		homePanel.add(cancel);
+		homePanel.add(buttonPanel);
 
 		getContentPane().add(homePanel);
 		setResizable(true);

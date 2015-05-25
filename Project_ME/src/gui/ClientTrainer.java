@@ -16,6 +16,8 @@ import database.FileManager;
 
 public class ClientTrainer<T> extends JDialog implements ActionListener{
 
+	FileManager filemanager;
+	
 	Vector<Trainer> list;
 	JComboBox<String> Combo = new JComboBox<String>();
 	JButton Button = new JButton("배정");
@@ -24,12 +26,13 @@ public class ClientTrainer<T> extends JDialog implements ActionListener{
 	
 	public ClientTrainer(Vector<Trainer> list, Client c)
 	{
+		filemanager = FileManager.getInstance();
 		clt = c;
 		this.list = list;
 		setLayout(new FlowLayout());
 		
 		Button.addActionListener(this);
-		
+		Combo.addItem("배정안함");
 		for (Trainer t : list) {
 			Combo.addItem(t.toString());
 		}
@@ -48,8 +51,7 @@ public class ClientTrainer<T> extends JDialog implements ActionListener{
 			int index = Combo.getSelectedIndex();
 			
 			if (index != -1) {
-				clt.setTrainer((this.list.get(index)).getID());
-				FileManager filemanager = new FileManager();
+				clt.setTrainer((this.list.get(index)).getName());
 				try {
 					filemanager.updateClient(clt);
 				} catch (ClassNotFoundException | SQLException e1) {
