@@ -96,7 +96,7 @@ public class FileManager {
 			@Override
 			public PreparedStatement makePreparedStatement(Connection c)
 					throws SQLException {                     //여기 수정 바람
-					PreparedStatement ps = c.prepareStatement("insert into client(id, loginId, pwd, regi_date, regi_period, terminate_date, name, age, birthday, address, phone, height, weight, bodyFat, bodyMuscle, trainer, program, comment, status) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+					PreparedStatement ps = c.prepareStatement("insert into client(loginId, pwd, regi_date, regi_period, terminate_date, name, age, birthday, address, phone, height, weight, bodyFat, bodyMuscle, trainer, program, comment, status, id) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 
 					return setClientInfo(client, ps);
 				}
@@ -160,7 +160,7 @@ public class FileManager {
 			@Override
 			public PreparedStatement makePreparedStatement(Connection c)
 					throws SQLException {
-					PreparedStatement ps = c.prepareStatement("insert into trainer(id, name, regi_date, salary, addr, phone) values(?,?,?,?,?,?)");
+					PreparedStatement ps = c.prepareStatement("insert into trainer(name, regi_date, salary, addr, phone, id) values(?,?,?,?,?,?)");
 					return setTrainerInfo(trainer, ps);
 				}
 			}
@@ -420,25 +420,25 @@ public class FileManager {
 	}
 	private PreparedStatement setClientInfo(final Client client,
 			PreparedStatement ps) throws SQLException {
-		ps.setString(1, client.getId());
-		ps.setString(2, client.getLoginId());
-		ps.setString(3, client.getPwd());
-		ps.setString(4, client.getRegistDate());
-		ps.setString(5, client.getRegistperiod());
-		ps.setString(6, client.getTerminateDate());
-		ps.setString(7, client.getName());
-		ps.setInt(8, client.getAge());
-		ps.setString(9, client.getBirthday());
-		ps.setString(10, client.getAddress());
-		ps.setString(11, client.getPhone());
-		ps.setInt(12, client.getHeight());
-		ps.setInt(13, client.getWeight());
-		ps.setInt(14, client.getBodyFat());
-		ps.setInt(15, client.getBodyMuscle());
-		ps.setString(16, client.getTrainer());
-		ps.setString(17, client.getProgram());
-		ps.setString(18, client.getComment());
-		ps.setInt(19, client.isCurrentStatus());
+		ps.setString(1, client.getLoginId());
+		ps.setString(2, client.getPwd());
+		ps.setString(3, client.getRegistDate());
+		ps.setString(4, client.getRegistperiod());
+		ps.setString(5, client.getTerminateDate());
+		ps.setString(6, client.getName());
+		ps.setInt(7, client.getAge());
+		ps.setString(8, client.getBirthday());
+		ps.setString(9, client.getAddress());
+		ps.setString(10, client.getPhone());
+		ps.setInt(11, client.getHeight());
+		ps.setInt(12, client.getWeight());
+		ps.setInt(13, client.getBodyFat());
+		ps.setInt(14, client.getBodyMuscle());
+		ps.setString(15, client.getTrainer());
+		ps.setString(16, client.getProgram());
+		ps.setString(17, client.getComment());
+		ps.setInt(18, client.isCurrentStatus());
+		ps.setString(19, client.getId());
 		return ps;
 	}
 
@@ -456,12 +456,12 @@ public class FileManager {
 	}
 	private PreparedStatement setTrainerInfo(final Trainer trainer,
 			PreparedStatement ps) throws SQLException {
-		ps.setString(1, trainer.getID());
-		ps.setString(2, trainer.getName());
-		ps.setString(3, trainer.getRegistDate());
-		ps.setInt(4, trainer.getSalary());
-		ps.setString(5, trainer.getAddress());
-		ps.setString(6, trainer.getPhone());
+		ps.setString(1, trainer.getName());
+		ps.setString(2, trainer.getRegistDate());
+		ps.setInt(3, trainer.getSalary());
+		ps.setString(4, trainer.getAddress());
+		ps.setString(5, trainer.getPhone());
+		ps.setString(6, trainer.getID());
 		return ps;
 	}
 	
