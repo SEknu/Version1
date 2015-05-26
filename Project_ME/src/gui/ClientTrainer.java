@@ -9,6 +9,8 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 
+import com.sun.media.jfxmedia.logging.Logger;
+
 import object.Client;
 import object.Trainer;
 import database.FileManager;
@@ -55,8 +57,7 @@ public class ClientTrainer<T> extends JDialog implements ActionListener{
 				try {
 					filemanager.updateClient(clt);
 				} catch (ClassNotFoundException | SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					Logger.logMsg(ERROR, "cannotUpdateTrainer");
 				}
 			}
 		}

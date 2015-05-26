@@ -3,20 +3,19 @@ package gui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Vector;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
 import object.Client;
-import object.Program;
-import object.Trainer;
+
+import com.sun.media.jfxmedia.logging.Logger;
+
 import database.FileManager;
 
 public class ClientAPanel extends JPanel implements ActionListener {
@@ -123,14 +122,12 @@ public class ClientAPanel extends JPanel implements ActionListener {
 					filemanager.delete(this.allClient.get(index).getId(),
 							"client");
 				} catch (ClassNotFoundException | SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					Logger.logMsg(ERROR, "cannotDeleteClient");
 				}
 				try {
 					this.allClient = filemanager.getClient("all");
 				} catch (ClassNotFoundException | SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					Logger.logMsg(ERROR, "cannotGetClient");
 				}
 			}
 		//} else if (e.getSource() == Button_Assign) {
@@ -160,12 +157,8 @@ public class ClientAPanel extends JPanel implements ActionListener {
 		}
 		try {
 			patch(getRow());
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+		} catch (ClassNotFoundException|SQLException e1) {
+			Logger.logMsg(ERROR, "clinetPfailtoPatch");
 		}
 	}
 }

@@ -3,6 +3,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
+import com.sun.media.jfxmedia.logging.Logger;
+
 
 public class AdminAMode extends AdminAbstract {	
 	@Override
@@ -13,7 +15,7 @@ public class AdminAMode extends AdminAbstract {
 				contentpanel.add(new ClientAPanel());
 			} catch (ClassNotFoundException | SQLException e1) {
 				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				Logger.logMsg(ERROR, "addClientPanel");	
 			}
 			setResizable(false);
 			pack();
@@ -23,12 +25,8 @@ public class AdminAMode extends AdminAbstract {
 			contentpanel.removeAll();
 			try {
 				contentpanel.add(new ProgramPanel());
-			} catch (ClassNotFoundException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+			} catch (ClassNotFoundException | SQLException e1) {
+				Logger.logMsg(ERROR, "addProgramPanel");
 			}
 			setResizable(false);
 			pack();
@@ -38,12 +36,8 @@ public class AdminAMode extends AdminAbstract {
 			contentpanel.removeAll();
 			try {
 				contentpanel.add(new CommodityPanel());
-			} catch (ClassNotFoundException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+			} catch (ClassNotFoundException | SQLException e1) {
+				Logger.logMsg(ERROR, "addCommodityPanel");
 			}
 			setResizable(false);
 			pack();
@@ -54,8 +48,7 @@ public class AdminAMode extends AdminAbstract {
 			try {
 				contentpanel.add(new TrainerAPanel());
 			} catch (ClassNotFoundException | SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				Logger.logMsg(ERROR, "addTrainerPanel");
 			}
 			setResizable(false);
 			pack();

@@ -9,11 +9,16 @@ import java.util.Vector;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 
+import com.sun.media.jfxmedia.logging.Logger;
+
+import object.Client;
 import object.Program;
 import database.FileManager;
 
@@ -27,14 +32,17 @@ public class ProgramPanel extends JPanel implements ActionListener{
 	Vector<Program> vectorProgram;
 	
 	String[] colArray = {"이름", "운동부위", "난이도", "비고"};
+	String[] selectionArray = {"이름", "운동부위", "난이도"};
 	JButton addButton = new JButton("추가");
 	JButton deleteButton = new JButton("삭제");
 	JButton detailButton = new JButton("상세보기");
+	JButton searchButton = new JButton("검색");
+	JComboBox selectionList = new JComboBox(selectionArray);
+	JTextField searchTextField = new JTextField(10);
 	
 	FileManager filemanager = FileManager.getInstance();
 		
-	public ProgramPanel() throws ClassNotFoundException, SQLException
-	{
+	public ProgramPanel() throws ClassNotFoundException, SQLException	{
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 	
 		JPanel panel = new JPanel();
@@ -42,17 +50,26 @@ public class ProgramPanel extends JPanel implements ActionListener{
 		//행, 열 추가
 		for(int i=0; i<colArray.length; i++)
 			col.add(colArray[i]);	
-		
-		row = getRow();
+		try {
+			vectorProgram = filemanager.getProgram("all");
+		} catch (ClassNotFoundException | SQLException e1) {
+			JOptionPane.showMessageDialog(null, "데이터베이스 오류");
+		}
+		row = getRow(vectorProgram);
 		
 		//테이블 생성
 		jtable = new JTable(row, col);
 		scroll = new JScrollPane(jtable);
+		selectionList.setSelectedIndex(0);
 		
 		addButton.addActionListener(this);
 		deleteButton.addActionListener(this);
 		detailButton.addActionListener(this);
-				
+		searchButton.addActionListener(this);
+		
+		panel.add(selectionList);
+		panel.add(searchTextField);
+		panel.add(searchButton);
 		panel.add(addButton);
 		panel.add(deleteButton);
 		panel.add(detailButton);
@@ -70,60 +87,77 @@ public class ProgramPanel extends JPanel implements ActionListener{
 	}
 	
 	
-	public Vector<Vector<String>> getRow() throws ClassNotFoundException, SQLException
+	public Vector<Vector<String>> getRow(Vector<Program> prog) throws ClassNotFoundException, SQLException
 	{
 		Vector<Vector<String>> result = new Vector<Vector<String>>();
 		
-		try {
-			Vector<String> vectorString = new Vector<String>();
-			vectorProgram = filemanager.getProgram("all");
-				
-			for (Program p : vectorProgram) {
-				Vector<String> program = new Vector<String>();
-				
-				program.add(p.getName());
-				program.add(p.getPartOfBody());
-				program.add(p.getDifficulty());
-				program.add(p.getComment());
-						
-				result.add(program);
-			}
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
+		for (Program p : prog) {
+			Vector<String> program = new Vector<String>();
+			
+			program.add(p.getName());
+			program.add(p.getPartOfBody());
+			program.add(p.getDifficulty());
+			program.add(p.getComment());
+					
+			result.add(program);
+		}		
 		return result;
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		String col = null;
 		if(e.getSource() == addButton)  {
 			new ProgramRegister();
+			try {
+				vectorProgram = filemanager.getProgram("all");
+			} catch (ClassNotFoundException | SQLException e1) {
+				JOptionPane.showMessageDialog(null, "데이터베이스 오류");
+			}
 		}
 		else if(e.getSource() == deleteButton) {
 			int index = jtable.getSelectedRow();
 			try {
 				filemanager.delete(filemanager.getProgram("all").get(index).getID(), "program");
+				vectorProgram = filemanager.getProgram("all");
 			} catch (ClassNotFoundException | SQLException e1) {
 				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				JOptionPane.showMessageDialog(null, "데이터베이스 오류");
 			} catch (ArrayIndexOutOfBoundsException e2) {
 				JOptionPane.showMessageDialog(null, "삭제할 운동 프로그램이 없습니다.");
 			}
 		} else if(e.getSource() == detailButton) {
 			int index = jtable.getSelectedRow();
 			new ProgramDetail(this.vectorProgram.get(index));
-		}
+		} else if (e.getSource() == searchButton) {					
+			if(selectionList.getSelectedItem().equals(selectionArray[0])) {
+				col = "name";
+			} else if(selectionList.getSelectedItem().equals(selectionArray[1])) {
+				col = "part_of_body";
+			} else if(selectionList.getSelectedItem().equals(selectionArray[2])) {
+				col = "difficulty";				
+			} 
+			String str = this.searchTextField.getText();
+					
+			if (str != null && str.length() > 0) {
+				try {
+					vectorProgram = filemanager.selectProgram(col, str);
+				} catch (ClassNotFoundException | SQLException e1) {
+					JOptionPane.showMessageDialog(null, "데이터베이스 접근실패");
+				}
+			} else {
+				try {
+					vectorProgram = filemanager.getProgram("all");
+				} catch (ClassNotFoundException | SQLException e1) {
+					JOptionPane.showMessageDialog(null, "데이터베이스 접근실패");
+				}
+			}
+		} 
 		
 		try {
-			Patch(getRow());
+			Patch(getRow(vectorProgram));
 		} catch (ClassNotFoundException | SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			JOptionPane.showMessageDialog(null, "불러오기 실패");
 		}
 	}
 }

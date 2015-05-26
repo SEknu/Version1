@@ -14,6 +14,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import com.sun.media.jfxmedia.logging.Logger;
+
 import object.Commodity;
 import database.FileManager;
 
@@ -117,10 +119,8 @@ public class CommodityPanel extends JPanel implements ActionListener {
 				try {
 					filemanager.delete(this.allCommo.get(index).getID(),
 							"commodity");
-				} catch (ClassNotFoundException e1) {
-					e1.printStackTrace();
-				} catch (SQLException e1) {
-					e1.printStackTrace();
+				} catch (ClassNotFoundException |SQLException e1) {
+					Logger.logMsg(ERROR, "failToDeleteCommodity");
 				}
 				index = -1;
 			}
@@ -132,12 +132,8 @@ public class CommodityPanel extends JPanel implements ActionListener {
 		}
 		try {
 			patch(getRow());
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+		} catch (ClassNotFoundException|SQLException e1) {
+			Logger.logMsg(ERROR, "failToPatchCommodity");
 		}
 	}
 }

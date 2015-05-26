@@ -35,51 +35,46 @@ FOREIGN KEY (commodity) REFERENCES commodity (id)
 		this.setPartOfBody(p);
 		this.setComment(c);
 	}
-	
-	/* set & get function */
-	public void setID(String id)
-	{
-		this.ID = id;
+
+	public String getID() {
+		return ID;
 	}
-	public String getID()
-	{
-		return this.ID;
+
+	public void setID(String iD) {
+		ID = iD;
 	}
-	
-	public void setName(String name)
-	{
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
 		this.name = name;
 	}
-	public String getName()
-	{
-		return this.name;
+
+	public String getDifficulty() {
+		return difficulty;
+	}
+
+	public void setDifficulty(String difficulty) {
+		this.difficulty = difficulty;
+	}
+
+	public String getPartOfBody() {
+		return partOfBody;
+	}
+
+	public void setPartOfBody(String partOfBody) {
+		this.partOfBody = partOfBody;
+	}
+
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 	
-	public void setDifficulty(String d)
-	{
-		this.difficulty = d;
-	}
-	public String getDifficulty()
-	{
-		return this.difficulty;
-	}
-	
-	public void setPartOfBody(String p)
-	{
-		this.partOfBody = p;
-	}
-	public String getPartOfBody()
-	{
-		return this.partOfBody;
-	}
-	
-	public void setComment(String c)
-	{
-		this.comment = c;
-	}
-	public String getComment()
-	{
-		return this.comment;
-	}
-	/* set & get function */
+
 }

@@ -19,6 +19,8 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
+import com.sun.media.jfxmedia.logging.Logger;
+
 import object.Client;
 import database.FileManager;
 
@@ -163,12 +165,8 @@ public class ClientRegister extends JDialog implements ActionListener {
 
 			try {
 				database.FileManager.getInstance().addClient(client);
-			} catch (ClassNotFoundException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+			} catch (ClassNotFoundException|SQLException e1) {
+				Logger.logMsg(ERROR, "failToRegisterClient");
 			}
 
 			dispose();

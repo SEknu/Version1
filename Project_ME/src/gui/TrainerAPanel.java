@@ -39,8 +39,7 @@ public class TrainerAPanel extends TrainerTPanel implements ActionListener {
 			try {
 				Patch(getRow());
 			} catch (ClassNotFoundException | SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				JOptionPane.showMessageDialog(null, "불러오기 실패");
 			}
 		} else if(e.getSource() == deleteButton) {
 			int index = jtable.getSelectedRow();
@@ -51,15 +50,13 @@ public class TrainerAPanel extends TrainerTPanel implements ActionListener {
 					try {
 						filemanager.delete(this.allTrainer.get(index).getID(), "trainer");
 					} catch (ClassNotFoundException | SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
+						JOptionPane.showMessageDialog(null, "삭제 실패");
 					}
 			}
 			try {
 				Patch(getRow());
 			} catch (ClassNotFoundException | SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				JOptionPane.showMessageDialog(null, "불러오기 실패");
 			}
 		}
 	}

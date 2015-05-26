@@ -59,63 +59,53 @@ id				VARCHAR2(10),
 	}
 	/* constructor */
 
-	/* set & get function */
-	public void setID(String id)
-	{
-		this.ID = id;
+	public String getID() {
+		return ID;
 	}
-	public String getID()
-	{
-		return this.ID;
+
+	public void setID(String iD) {
+		ID = iD;
 	}
-	
-	public void setRegistDate(String rDate)
-	{
-		this.Regist_Date = rDate;
+
+	public String getRegistDate() {
+		return Regist_Date;
 	}
-	public String getRegistDate()
-	{
-		return this.Regist_Date;
+
+	public void setRegistDate(String regist_Date) {
+		Regist_Date = regist_Date;
 	}
-	
-	public void setSalary(int sal)
-	{
-		this.salary = sal;
+
+	public int getSalary() {
+		return salary;
 	}
-	public int getSalary()
-	{
-		return this.salary;
+
+	public void setSalary(int salary) {
+		this.salary = salary;
 	}
-	
-	public void setName(String n)
-	{
-		this.Name = n;
+
+	public String getName() {
+		return Name;
 	}
-	public String getName()
-	{
-		return this.Name;
+
+	public void setName(String name) {
+		Name = name;
 	}
-	
-	public void setAddress(String addr)
-	{
-		this.Address = addr;
+
+	public String getAddress() {
+		return Address;
 	}
-	public String getAddress()
-	{
-		return this.Address;
+
+	public void setAddress(String address) {
+		Address = address;
 	}
-	
-	public void setPhone(String phone)
-	{
-		this.Phone = phone;
+
+	public String getPhone() {
+		return Phone;
 	}
-	public String getPhone()
-	{
-		return this.Phone;
-	}	
-	/* set & get function */
-	
-	public String toString() {
-		return this.getName();
+
+	public void setPhone(String phone) {
+		Phone = phone;
 	}
+
+
 }

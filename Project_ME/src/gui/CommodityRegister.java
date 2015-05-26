@@ -17,6 +17,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import com.sun.media.jfxmedia.logging.Logger;
+
 import object.Commodity;
 
 public class CommodityRegister extends JDialog implements ActionListener {
@@ -95,12 +97,8 @@ public class CommodityRegister extends JDialog implements ActionListener {
 
 			try {
 				database.FileManager.getInstance().addCommodity(commdity);
-			} catch (ClassNotFoundException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+			} catch (ClassNotFoundException|SQLException e1) {
+				Logger.logMsg(ERROR, "failToAddCommodity");
 			}
 		}
 

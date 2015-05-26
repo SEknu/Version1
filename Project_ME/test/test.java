@@ -68,6 +68,7 @@ public class test {
 	@Test
 	public void selectProgram() throws ClassNotFoundException, SQLException {
 		Program program = new Program();
+		program.setID("1");
 		program.setName("운동");
 		program.setDifficulty("쉬움");
 		program.setPartOfBody("다리");

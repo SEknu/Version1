@@ -10,6 +10,49 @@ public class Commodity {
 	private int inventory;		// 재고량
 	private int price;			// 구입가격
 	private int state;		// 운동기구의 상태 //0 불량 1 정상
+	
+	public String getID() {
+		return ID;
+	}
+	public void setID(String iD) {
+		ID = iD;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getBuyDate() {
+		return buyDate;
+	}
+	public void setBuyDate(String buyDate) {
+		this.buyDate = buyDate;
+	}
+	public int getInventory() {
+		return inventory;
+	}
+	public void setInventory(int inventory) {
+		this.inventory = inventory;
+	}
+	public int getPrice() {
+		return price;
+	}
+	public void setPrice(int price) {
+		this.price = price;
+	}
+	public int getState() {
+		return state;
+	}
+	public void setState(int state) {
+		this.state = state;
+	}
+	public String getComment() {
+		return comment;
+	}
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
 	private String comment;	// comment내용
 	/*
 id			VARCHAR2(10),
@@ -38,74 +81,7 @@ comment		VARCHAR(20),
 	}
 	/* constructor */
 	
-	/* set & get function */
-	public void setID(String id)
-	{
-		this.ID = id;
-	}
-	public String getID()
-	{
-		return this.ID;
-	}
-	
-	public void setName(String name)
-	{
-		this.name = name;
-	}
-	public String getName()
-	{
-		return this.name;
-	}
-	
-	public void setBuyDate(String bd)
-	{
-		this.buyDate = bd;
-	}
-	public String getBuyDate()
-	{
-		return this.buyDate;
-	}
-	
-	public void setInventory(int inv)
-	{
-		this.inventory = inv;
-	}
-	public int getInventory()
-	{
-		return this.inventory;
-	}
-	
-	public void setPrice(int price)
-	{
-		this.price = price;
-	}
-	public int getPrice()
-	{
-		return this.price;
-	}
-	
-	public void setState(int state)
-	{
-		this.state = state;
-	}
-	public int getState()
-	{
-		return this.state;
-	}
-	
-	public void setComment(String comment)
-	{
-		this.comment = comment;
-	}
-	public String getComment()
-	{
-		return this.comment;
-	}
-	public String getPurchase() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
+
 	
 	/* set & get function */
 }

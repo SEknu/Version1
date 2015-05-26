@@ -14,6 +14,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import com.sun.media.jfxmedia.logging.Logger;
+
 import database.FileManager;
 import object.Client;
 import object.Program;
@@ -260,16 +262,14 @@ public class ClientDetail extends JDialog implements ActionListener {
 			try {
 				new ClientTrainer<Trainer>(filemanager.getTrainer("all"), clt);
 			} catch (ClassNotFoundException | SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				Logger.logMsg(ERROR, "failmatchTrainer");
 			}
 		}
 		else if(e.getSource() == Button_addProgram) {
 			try {
 				new CleintProgram<Program>(filemanager.getProgram("all"), clt);
 			} catch (ClassNotFoundException | SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				Logger.logMsg(ERROR, "failtoMatchProgram");
 			}
 		}
 	}

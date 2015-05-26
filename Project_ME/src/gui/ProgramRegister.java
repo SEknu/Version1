@@ -9,6 +9,7 @@ import java.util.Calendar;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import object.Program;
@@ -65,8 +66,7 @@ public class ProgramRegister extends JDialog implements ActionListener {
 			try {
 				filemanager.addProgram(program);
 			} catch (ClassNotFoundException | SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				JOptionPane.showMessageDialog(null, "프로그램 추가 실패");
 			}			
 		}		
 		dispose();
