@@ -167,9 +167,31 @@ public class FileManager {
 		);
 	}
 	
-	public Trainer selectTrainer(String string, String string2) {
-		// TODO Auto-generated method stub
-		return null;
+	public Vector<Trainer> selectTrainer(final String col,final String str) throws SQLException, ClassNotFoundException {
+		Trainer trainer;
+		ResultSet rs = null;
+		Vector<Trainer> vectorTrainer = new Vector<Trainer>();
+			
+		rs = resultSetStatementStrategy(
+				new StatementStrategy() {
+			@Override
+			public PreparedStatement makePreparedStatement(Connection c)
+					throws SQLException {
+					PreparedStatement ps = c.prepareStatement("select * from trainer where "+ col + "='" + str + "'");
+					return ps;
+				}
+			}
+		);
+		
+		// client 수정할 부분!
+		while(rs.next()) {
+			trainer = getTrainerInfo(rs);
+			vectorTrainer.add(trainer);
+		}
+		if(rs != null) {	
+			try { rs.close(); } catch(SQLException e) {}
+		}	
+		return vectorTrainer;
 	}
 	
 	/*****************commodity********************/
@@ -212,7 +234,7 @@ public class FileManager {
 			@Override
 			public PreparedStatement makePreparedStatement(Connection c)
 					throws SQLException {
-					PreparedStatement ps = c.prepareStatement("insert into commodity(name, buy_date, inventory, price, state, comment, ids) values(?,?,?,?,?,?,?)");
+					PreparedStatement ps = c.prepareStatement("insert into commodity(name, buy_date, inventory, price, state, comment, id) values(?,?,?,?,?,?,?)");
 					return setCommodityInfo(commodity, ps);
 				}
 			}
@@ -234,9 +256,30 @@ public class FileManager {
 		);
 	}
 	
-	public Commodity selectCommodity(String string, String string2) {
-		// TODO Auto-generated method stub
-		return null;
+	public Vector<Commodity> selectCommodity(final String col, final String str) throws SQLException, ClassNotFoundException {
+		Commodity commodity;
+		ResultSet rs = null;
+		Vector<Commodity> vectorCommodity = new Vector<Commodity>();
+		
+		rs = resultSetStatementStrategy(
+				new StatementStrategy() {
+			@Override
+			public PreparedStatement makePreparedStatement(Connection c)
+					throws SQLException {
+				PreparedStatement ps = c.prepareStatement("select * from commodity where "+ col + "='" + str + "'");
+					return ps;
+				}
+			}
+		);
+		
+		while(rs.next()) {
+			commodity = getCommodityInfo(rs);
+			vectorCommodity.add(commodity);
+		}
+		if(rs != null) {	
+			try { rs.close(); } catch(SQLException e) {}
+		}	
+		return vectorCommodity;
 	}
 	
 	/*****************program********************/

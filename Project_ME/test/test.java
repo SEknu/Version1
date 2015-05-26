@@ -68,7 +68,6 @@ public class test {
 	@Test
 	public void selectProgram() throws ClassNotFoundException, SQLException {
 		Program program = new Program();
-		program.setID("0");
 		program.setName("운동");
 		program.setDifficulty("쉬움");
 		program.setPartOfBody("다리");
@@ -96,6 +95,7 @@ public class test {
 		assertThat(programComp3.elementAt(0).getName(), is("운동"));
 		assertThat(programComp3.elementAt(0).getDifficulty(), is("쉬움"));
 		assertThat(programComp3.elementAt(0).getPartOfBody(), is("다리"));
+		
 	}
 	
 	@Test
@@ -106,9 +106,9 @@ public class test {
 		commodity.setState(0);
 		//운동기구의 이름, 재고량, 상태를 검색 해볼 것 같지않니..? ㅎㅎㅎㅎㅎ
 		
-		Commodity commodityComp1;
-		Commodity commodityComp2;
-		Commodity commodityComp3;
+		Vector<Commodity> commodityComp1;
+		Vector<Commodity> commodityComp2;
+		Vector<Commodity> commodityComp3;
 		
 		filemanager.addCommodity(commodity);
 	
@@ -116,17 +116,18 @@ public class test {
 		commodityComp2 = filemanager.selectCommodity("inventory", "1");
 		commodityComp3 = filemanager.selectCommodity("state", "0");
 		
-		assertThat(commodityComp1.getName(), is("운동기구"));
-		assertThat(commodityComp1.getInventory(), is(1));
-		assertThat(commodityComp1.getState(), is(0));
+		assertThat(commodityComp1.elementAt(0).getName(), is("운동기구"));
+		assertThat(commodityComp1.elementAt(0).getInventory(), is(1));
+		assertThat(commodityComp1.elementAt(0).getState(), is(0));
 		
-		assertThat(commodityComp2.getName(), is("운동기구"));
-		assertThat(commodityComp2.getInventory(), is(1));
-		assertThat(commodityComp2.getState(), is(0));
+		assertThat(commodityComp2.elementAt(0).getName(), is("운동기구"));
+		assertThat(commodityComp2.elementAt(0).getInventory(), is(1));
+		assertThat(commodityComp2.elementAt(0).getState(), is(0));
 		
-		assertThat(commodityComp3.getName(), is("운동기구"));
-		assertThat(commodityComp3.getInventory(), is(1));
-		assertThat(commodityComp3.getState(), is(0));
+		assertThat(commodityComp3.elementAt(0).getName(), is("운동기구"));
+		assertThat(commodityComp3.elementAt(0).getInventory(), is(1));
+		assertThat(commodityComp3.elementAt(0).getState(), is(0));
+		
 	}
 	
 	@Test
@@ -135,13 +136,13 @@ public class test {
 		trainer.setName("트레이너");
 		//이름정도만 필요하지 않을까?
 		
-		Trainer trainerComp1;
+		Vector<Trainer> trainerComp1;
 		
 		filemanager.addTrainer(trainer);
 		
 		trainerComp1 = filemanager.selectTrainer("name", "트레이너");
 		
-		assertThat(trainerComp1.getName(), is("트레이너"));
+		assertThat(trainerComp1.elementAt(0).getName(), is("트레이너"));
 	}
 	
 }

@@ -245,6 +245,7 @@ public class ClientDetail extends JDialog implements ActionListener {
 				Button_Save.setEnabled(false);
 			} catch (ClassNotFoundException | SQLException e1) {
 				JOptionPane.showMessageDialog(null, "Database 저장실패");
+				e1.printStackTrace();
 			}
 		}
 		else if(e.getSource() == Button_Cancel) {
