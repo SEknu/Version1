@@ -8,6 +8,7 @@ import java.util.Vector;
 
 import object.Client;
 import object.Commodity;
+import object.Member;
 import object.Program;
 import object.Trainer;
 
@@ -153,7 +154,7 @@ public class FileManager {
 			@Override
 			public PreparedStatement makePreparedStatement(Connection c)
 					throws SQLException {
-					PreparedStatement ps = c.prepareStatement("insert into trainer(name, regi_date, salary, addr, phone, id) values(?,?,?,?,?,?)");
+					PreparedStatement ps = c.prepareStatement("insert into trainer(loginId, pwd, name, regi_date, salary, addr, phone, id) values(?,?,?,?,?,?,?,?)");
 					return setTrainerInfo(trainer, ps);
 				}
 			}
@@ -186,6 +187,81 @@ public class FileManager {
 		}	
 		return vectorTrainer;
 	}
+	
+
+	/*****************Member********************/
+	/*get all commodity or get commodity by searching id*/
+	public Vector<Member> getMember(final String id) throws ClassNotFoundException, SQLException {
+		Member member;
+		ResultSet rs = null;
+		Vector<Member> vectorMember = new Vector<Member>();
+			
+		rs = resultSetStatementStrategy(
+				new StatementStrategy() {
+			@Override
+			public PreparedStatement makePreparedStatement(Connection c)
+					throws SQLException {
+					PreparedStatement ps;
+					if(id.equals("all")) {
+						ps = c.prepareStatement("select * from member");
+					} else {
+						ps = c.prepareStatement("select * from member where id = " + id);
+					}
+					return ps;
+				}
+			}
+		);
+		
+		while(rs.next()) {
+			member = getMemberInfo(rs);
+			vectorMember.add(member);
+		}
+		if(rs != null) {	
+			try { rs.close(); } catch(SQLException e) {}
+		}	
+		return vectorMember;
+	}
+	
+	public void addMember(final Member member) throws ClassNotFoundException, SQLException {
+		jdbcContextWithStatementStrategy(
+				new StatementStrategy() {
+			@Override
+			public PreparedStatement makePreparedStatement(Connection c)
+					throws SQLException {
+					PreparedStatement ps = c.prepareStatement("insert into member(loginId, pwd, position, id) values(?,?,?,?)");
+					return setMemberInfo(member, ps);
+				}
+			}
+		);
+	}
+	
+	public Vector<Member> selectMember(final String col,final String str) throws SQLException, ClassNotFoundException {
+		Member member;
+		ResultSet rs = null;
+		Vector<Member> vectorMember = new Vector<Member>();
+			
+		rs = resultSetStatementStrategy(
+				new StatementStrategy() {
+			@Override
+			public PreparedStatement makePreparedStatement(Connection c)
+					throws SQLException {
+					PreparedStatement ps = c.prepareStatement("select * from member where "+ col + "='" + str + "'");
+					return ps;
+				}
+			}
+		);
+		
+		// 수정할 부분!
+		while(rs.next()) {
+			member = getMemberInfo(rs);
+			vectorMember.add(member);
+		}
+		if(rs != null) {	
+			try { rs.close(); } catch(SQLException e) {}
+		}	
+		return vectorMember;
+	}
+	
 	
 	/*****************commodity********************/
 	/*get all commodity or get commodity by searching id*/
@@ -483,6 +559,8 @@ public class FileManager {
 		Trainer trainer;
 		trainer = new Trainer();
 		trainer.setID(rs.getString("id"));
+		trainer.setLoginId(rs.getString("loginId"));
+		trainer.setPwd(rs.getString("pwd"));
 		trainer.setName(rs.getString("name"));
 		trainer.setRegistDate(rs.getString("regi_date"));
 		trainer.setSalary(rs.getInt("salary"));
@@ -492,12 +570,33 @@ public class FileManager {
 	}
 	private PreparedStatement setTrainerInfo(final Trainer trainer,
 			PreparedStatement ps) throws SQLException {
-		ps.setString(1, trainer.getName());
-		ps.setString(2, trainer.getRegistDate());
-		ps.setInt(3, trainer.getSalary());
-		ps.setString(4, trainer.getAddress());
-		ps.setString(5, trainer.getPhone());
-		ps.setString(6, trainer.getID());
+		ps.setString(1, trainer.getLoginId());
+		ps.setString(2, trainer.getPwd());
+		ps.setString(3, trainer.getName());
+		ps.setString(4, trainer.getRegistDate());
+		ps.setInt(5, trainer.getSalary());
+		ps.setString(6, trainer.getAddress());
+		ps.setString(7, trainer.getPhone());
+		ps.setString(8, trainer.getID());
+		return ps;
+	}
+	
+	private Member getMemberInfo(ResultSet rs)
+			throws SQLException {
+		Member member;
+		member = new Member();
+		member.setID(rs.getString("id"));
+		member.setLoginId(rs.getString("loginId"));
+		member.setPwd(rs.getString("pwd"));
+		member.setPosition(rs.getString("position"));
+		return member;
+	}
+	private PreparedStatement setMemberInfo(final Member member,
+			PreparedStatement ps) throws SQLException {
+		ps.setString(1, member.getLoginId());
+		ps.setString(2, member.getPwd());
+		ps.setString(3, member.getPosition());
+		ps.setString(4, member.getID());
 		return ps;
 	}
 	

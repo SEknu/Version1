@@ -1,78 +1,69 @@
 package object;
 
+import java.util.Vector;
+
 public class Trainer {
 	
-	private String ID;			// 트레이너 번호 & 로그인 ID
-	private String Regist_Date;	// 입사일
-	private int salary;			// 월급
-	private String Name;		// 개인정보 : 이름
-	private String Address;		// 개인정보 : 주소
-	private String Phone;		// 개인전호 : 전화번호
-	/*
-id				VARCHAR2(10),
-grade			CHAR(10),
-regi_date		DATE,
-attend			NUMBER,
-vacation_day	NUMBER,
-salary			NUMBER,
-password		VARCHAR2(12),
-name			VARCHAR2(10),
-age				NUMBER,
-addr			VARCHAR2(40 CHAR),
-phone			CHAR(12),
-	 */
-/* 수정
-id				VARCHAR2(10),
-`name` 			VARCHAR(10) NOT NULL,
-`regi_date`		DATE,
-`salary`		INT,
-`age`			INT,
-`addr`			VARCHAR(50),
-`phone`			CHAR(12), 
-*/
+	private String id;				// 트레이너 번호
+	private String loginId;			// 로그인ID
+	private String pwd;				// 로그인 PW
+	private String registDate;		// 입사일
+	private int salary;				// 월급
+	private String name;			// 개인정보 : 이름
+	private String address;			// 개인정보 : 주소
+	private String phone;			// 개인전호 : 전화번호
+	private String comment;			// 비고
+	//client에서 foreign key로 설정해놓으면 필요없을까요..??
+	private Vector<Client> clients; // 배정회원
+
 
 	/* constructor */
-	public Trainer()
-	{
+	public Trainer() {
 	}
 	
-	public Trainer(String id, String rd, int sal, String n, String addr, String phone) {
+	public Trainer(String id, String loginId, String pwd, String name, String rDate, String phone, String addr, int salary) {
 		this.setID(id);
-		//this.setGrade(g);
-		this.setRegistDate(rd);
-		//this.setAttendance(att);
-		//this.setVacation(v);
-		this.setSalary(sal);
-		//this.setPW(pw);
-		this.setName(n);
-		//this.setAge(age);
-		this.setAddress(addr);
-		this.setPhone(phone);
-	}
-	
-	public Trainer(String id, String rDate, String name,String addr, String phone) {
-		this.setID(id);
-		this.setRegistDate(rDate);
+		this.setLoginId(loginId);
+		this.setPwd(pwd);
 		this.setName(name);
-		this.setAddress(addr);
+		this.setRegistDate(rDate);
 		this.setPhone(phone);
+		this.setAddress(addr);
+		this.setSalary(salary);
 	}
 	/* constructor */
-
+	
+	/* set & get function */
 	public String getID() {
-		return ID;
+		return id;
 	}
 
-	public void setID(String iD) {
-		ID = iD;
+	public void setID(String id) {
+		this.id = id;
 	}
 
+	public String getLoginId() {
+		return loginId;
+	}
+
+	public void setLoginId(String loginId) {
+		this.loginId = loginId;
+	}
+
+	public String getPwd() {
+		return pwd;
+	}
+
+	public void setPwd(String pwd) {
+		this.pwd = pwd;
+	}
+	
 	public String getRegistDate() {
-		return Regist_Date;
+		return registDate;
 	}
 
-	public void setRegistDate(String regist_Date) {
-		Regist_Date = regist_Date;
+	public void setRegistDate(String registDate) {
+		this.registDate = registDate;
 	}
 
 	public int getSalary() {
@@ -84,28 +75,44 @@ id				VARCHAR2(10),
 	}
 
 	public String getName() {
-		return Name;
+		return name;
 	}
 
 	public void setName(String name) {
-		Name = name;
+		this.name = name;
 	}
 
 	public String getAddress() {
-		return Address;
+		return address;
 	}
 
 	public void setAddress(String address) {
-		Address = address;
+		this.address = address;
 	}
 
 	public String getPhone() {
-		return Phone;
+		return phone;
 	}
 
 	public void setPhone(String phone) {
-		Phone = phone;
+		this.phone = phone;
 	}
 
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+
+	public Vector<Client> clients() {
+		return clients;
+	}
+	
+	public void setClients(Vector<Client> clients) {
+		this.clients = clients;
+	}
+	/* set & get function */
 
 }
