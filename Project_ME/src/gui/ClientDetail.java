@@ -5,6 +5,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.Calendar;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -13,8 +14,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
-import com.sun.media.jfxmedia.logging.Logger;
 
 import database.FileManager;
 import object.Client;
@@ -25,16 +24,12 @@ public class ClientDetail extends JDialog implements ActionListener {
 
 	FileManager filemanager;
 	Client clt;
-	String name, address, phone, state;
-	int age, height, weight, muscle, attend, etc, grade;
-	int regi_date_year, regi_date_month, regi_date_date;		//등록날짜
-	int exper_date_year, exper_date_month, exper_date_date;		//만료날짜
-	
-	JButton Button_Cancel = new JButton("취소");
-	JButton Button_Save = new JButton("저장");
-	JButton Button_Modify = new JButton("수정");
-	JButton Button_addTrainer = new JButton("트레이너배정");
-	JButton Button_addProgram = new JButton("프로그램배정");
+
+	JButton closeButton = new JButton("닫기");
+	JButton saveButton = new JButton("저장");
+	JButton modifyButton = new JButton("수정");
+	JButton addTrainerButton = new JButton("트레이너배정");
+	JButton addProgramButton = new JButton("프로그램배정");
 	JPanel backgroundPanel = new JPanel();
 	JPanel contentPanel = new JPanel();
 	JPanel buttonPanel = new JPanel();
@@ -55,17 +50,17 @@ public class ClientDetail extends JDialog implements ActionListener {
 		termiDatePanel.setLayout(new FlowLayout());
 		phonePanel.setLayout(new FlowLayout());
 		
-		buttonPanel.add(Button_Modify);
-		buttonPanel.add(Button_addTrainer);
-		buttonPanel.add(Button_addProgram);
-		buttonPanel.add(Button_Save);
-		buttonPanel.add(Button_Cancel);
+		buttonPanel.add(modifyButton);
+		buttonPanel.add(addTrainerButton);
+		buttonPanel.add(addProgramButton);
+		buttonPanel.add(saveButton);
+		buttonPanel.add(closeButton);
 		
-		Button_Modify.addActionListener(this);
-		Button_addTrainer.addActionListener(this);
-		Button_addProgram.addActionListener(this);
-		Button_Save.addActionListener(this);
-		Button_Cancel.addActionListener(this);
+		modifyButton.addActionListener(this);
+		addTrainerButton.addActionListener(this);
+		addProgramButton.addActionListener(this);
+		saveButton.addActionListener(this);
+		closeButton.addActionListener(this);
 		
 		contentPanel.add(new JLabel("이름:",JLabel.CENTER));
 		contentPanel.add(new JTextField(clt.getName()));
@@ -157,9 +152,9 @@ public class ClientDetail extends JDialog implements ActionListener {
 			regiDatePanel.getComponent(i).setEnabled(false);
 			termiDatePanel.getComponent(i).setEnabled(false);
 		}
-		Button_addProgram.setEnabled(false);
-		Button_addTrainer.setEnabled(false);
-		Button_Save.setEnabled(false);
+		addProgramButton.setEnabled(false);
+		addTrainerButton.setEnabled(false);
+		saveButton.setEnabled(false);
 		
 		pack();
 		setModal(true);
@@ -169,8 +164,10 @@ public class ClientDetail extends JDialog implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == Button_Modify){
+		if(e.getSource() == modifyButton){
 			for(int i = 0; i < contentPanel.getComponentCount(); i++){
+				if(i == 19 || i == 21)
+					continue;
 				if(i%2 != 0)
 					contentPanel.getComponent(i).setEnabled(true);
 			}
@@ -180,17 +177,17 @@ public class ClientDetail extends JDialog implements ActionListener {
 				regiDatePanel.getComponent(i).setEnabled(true);
 				//termiDatePanel.getComponent(i).setEnabled(true);
 			}
-			Button_addProgram.setEnabled(true);
-			Button_addTrainer.setEnabled(true);
-			Button_Save.setEnabled(true);
+			addProgramButton.setEnabled(true);
+			addTrainerButton.setEnabled(true);
+			saveButton.setEnabled(true);
 			
 		}
-		else if(e.getSource() == Button_Save) {
+		else if(e.getSource() == saveButton) {
 			JTextField nameTextField = (JTextField)contentPanel.getComponent(1);
 			JTextField birthdayTextField1 = (JTextField)birthdayPanel.getComponent(0);
 			JTextField birthdayTextField2 = (JTextField)birthdayPanel.getComponent(2);
 			JTextField birthdayTextField3 = (JTextField)birthdayPanel.getComponent(4);
-			JTextField ageTextField = (JTextField)contentPanel.getComponent(5);
+			//JTextField ageTextField = (JTextField)contentPanel.getComponent(5);
 			JTextField phoneTextField1 = (JTextField)phonePanel.getComponent(0);
 			JTextField phoneTextField2 = (JTextField)phonePanel.getComponent(2);
 			JTextField phoneTextField3 = (JTextField)phonePanel.getComponent(4);
@@ -199,8 +196,8 @@ public class ClientDetail extends JDialog implements ActionListener {
 			JTextField weightTextField = (JTextField)contentPanel.getComponent(13);
 			JTextField bodyFatTextField = (JTextField)contentPanel.getComponent(15);
 			JTextField bodyMuscleTextField = (JTextField)contentPanel.getComponent(17);
-			JTextField trainerTextField = (JTextField)contentPanel.getComponent(19);
-			JTextField programTextField = (JTextField)contentPanel.getComponent(21);
+			//JTextField trainerTextField = (JTextField)contentPanel.getComponent(19);
+			//JTextField programTextField = (JTextField)contentPanel.getComponent(21);
 			JTextField regiDateTextField1 = (JTextField)regiDatePanel.getComponent(0);
 			JTextField regiDateTextField2 = (JTextField)regiDatePanel.getComponent(2);
 			JTextField regiDateTextField3 = (JTextField)regiDatePanel.getComponent(4);
@@ -212,16 +209,16 @@ public class ClientDetail extends JDialog implements ActionListener {
 			
 			clt.setName(nameTextField.getText());
 			clt.setBirthday(birthdayTextField1.getText()+"-"+birthdayTextField2.getText()+"-"+birthdayTextField3.getText());
-			clt.setAge(Integer.parseInt(ageTextField.getText()));
+			clt.setAge(calculateAge(Integer.parseInt(birthdayTextField1.getText())));
 			clt.setPhone(phoneTextField1.getText()+"-"+phoneTextField2.getText()+"-"+phoneTextField3.getText());
 			clt.setAddress(addrTextField.getText());
 			clt.setHeight(Integer.parseInt(heightTextField.getText()));
 			clt.setWeight(Integer.parseInt(weightTextField.getText()));
 			clt.setBodyFat(Integer.parseInt(bodyFatTextField.getText()));
 			clt.setBodyMuscle(Integer.parseInt(bodyMuscleTextField.getText()));
-			clt.setTrainer(trainerTextField.getText());
-			clt.setProgram(programTextField.getText());
-			clt.setRegistDate(regiDateTextField1.getText());
+			//clt.setTrainer(trainerTextField.getText());
+			//clt.setProgram(programTextField.getText());
+			clt.setRegistDate(regiDateTextField1.getText()+"-"+regiDateTextField2.getText()+"-"+regiDateTextField3.getText());
 			clt.setTerminateDate(terminateDate);
 			clt.setRegistperiod(regiPerTextField.getText());
 			clt.setComment(commentTextField.getText());
@@ -242,34 +239,33 @@ public class ClientDetail extends JDialog implements ActionListener {
 					birthdayPanel.getComponent(i).setEnabled(false);
 					regiDatePanel.getComponent(i).setEnabled(false);
 				}
-				Button_addProgram.setEnabled(false);
-				Button_addTrainer.setEnabled(false);
-				Button_Save.setEnabled(false);
+				addProgramButton.setEnabled(false);
+				addTrainerButton.setEnabled(false);
+				saveButton.setEnabled(false);
 			} catch (ClassNotFoundException | SQLException e1) {
 				JOptionPane.showMessageDialog(null, "Database 저장실패");
-				e1.printStackTrace();
 			}
 		}
-		else if(e.getSource() == Button_Cancel) {
-			int result = JOptionPane.showConfirmDialog(null, "수정을 취소하시겠습니까?",
+		else if(e.getSource() == closeButton) {
+			int result = JOptionPane.showConfirmDialog(null, "창을 닫으시겠습니까?\n(저장하지 않은내용은 삭제됩니다.)",
 					null, JOptionPane.OK_CANCEL_OPTION,
 					JOptionPane.WARNING_MESSAGE, null);
 			if (result == 0) {
 				dispose();
 			}
 		}
-		else if(e.getSource() == Button_addTrainer) {
+		else if(e.getSource() == addTrainerButton) {
 			try {
 				new ClientTrainer<Trainer>(filemanager.getTrainer("all"), clt);
 			} catch (ClassNotFoundException | SQLException e1) {
-				Logger.logMsg(ERROR, "failmatchTrainer");
+				e1.printStackTrace();
 			}
 		}
-		else if(e.getSource() == Button_addProgram) {
+		else if(e.getSource() == addProgramButton) {
 			try {
 				new CleintProgram<Program>(filemanager.getProgram("all"), clt);
 			} catch (ClassNotFoundException | SQLException e1) {
-				Logger.logMsg(ERROR, "failtoMatchProgram");
+				e1.printStackTrace();
 			}
 		}
 	}
@@ -295,8 +291,12 @@ public class ClientDetail extends JDialog implements ActionListener {
 		return terminateDate;
 	}
 	
-	public void refresh()
-	{
-		
+	public int calculateAge(int birthdayYear) {
+		int age = 0;
+
+		Calendar cal = Calendar.getInstance();
+		age = cal.get(Calendar.YEAR) - birthdayYear;
+		age += 1;
+		return age;
 	}
 }

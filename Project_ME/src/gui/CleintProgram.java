@@ -2,73 +2,60 @@ package gui;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-
+import javax.swing.JOptionPane;
+import database.FileManager;
 import object.Client;
 import object.Program;
 
 
 public class CleintProgram<T> extends JDialog implements ActionListener{
 
+	FileManager filemanager;
+	
 	Vector<Program> list;
-	JComboBox<String> Combo = new JComboBox<String>();
-	JButton Button = new JButton("배정");
-	JTextField JT_perpose = new JTextField(8);
-	JTextField JT_number = new JTextField(8);
-	JTextField JT_time = new JTextField(8);
+	JComboBox<String> combo = new JComboBox<String>();
+	JButton button = new JButton("배정");
 	
 	private Client clt;
 	
 	public CleintProgram(Vector<Program> list, Client c) {
+		filemanager = FileManager.getInstance();
 		clt = c;
 		this.list = list;
 		
 		setLayout(new FlowLayout());
-		/*JPanel panel = new JPanel();
-		JPanel[] pan = new JPanel[4];
-		for(int i=0; i<4; i++)
-			pan[i] = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		pan[1].add(new JLabel("목적"));
-		pan[2].add(new JLabel("횟수"));
-		pan[3].add(new JLabel("시간"));
-		*/
 		
-		Button.addActionListener(this);
-		
+		button.addActionListener(this);
+		combo.addItem(" ");
 		for (Program p : list) {
-			Combo.addItem(p.getName());
+			combo.addItem(p.getName());
 		}
 		
-		add(Combo);
-		/*for(int i=1; i<4; i++)
-			panel.add(pan[i]);
-		add(panel);*/
-		add(new JLabel("목적"));
-		add(JT_perpose);
-		add(new JLabel("횟수"));
-		add(JT_number);
-		add(new JLabel("시간"));
-		add(JT_time);
-		add(Button);
-		setSize(150, 200);
+		add(combo);
+		add(button);
 		setModal(true);
-		//pack();
+		pack();
 		setVisible(true);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == Button) {
-			int index = Combo.getSelectedIndex();
-			
-			if (index != -1) {
-				//FileManager.FileManager.getInstance().update(clt, "client");
+		int index = combo.getSelectedIndex();
+		
+		if (index != -1) {
+			clt.setProgram(combo.getItemAt(index));
+			try {
+				filemanager.updateClient(clt);
+				JOptionPane.showMessageDialog(null, "저장했습니다.");
+			} catch (ClassNotFoundException | SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
 		}
 		dispose();

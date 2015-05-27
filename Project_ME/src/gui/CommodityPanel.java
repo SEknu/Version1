@@ -9,6 +9,8 @@ import java.util.Vector;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -25,16 +27,18 @@ public class CommodityPanel extends JPanel implements ActionListener {
 	JTable jtable;
 	JScrollPane scroll;
 
-	Vector<Commodity> allCommo = new Vector<Commodity>();
+	Vector<Commodity> vectorCommodity;
 	Vector<Vector<String>> row = new Vector<Vector<String>>();
 	Vector<String> col = new Vector<String>();
 	// ★수정부분
 	String[] colArray = { "이름", "구입날짜", "재고량", "비고" };
+	String[] selectionArray = { "이름", "구입날짜" };
 	JButton addButton = new JButton("추가");
 	JButton deleteButton = new JButton("삭제");
 	JButton searchButton = new JButton("검색");
 	JButton detailButton = new JButton("상세보기");
-	JTextField tf_Name = new JTextField(10);
+	JComboBox selectionList = new JComboBox(selectionArray);
+	JTextField searchTextField = new JTextField(10);
 
 	// ★수정부분
 	public CommodityPanel() throws ClassNotFoundException, SQLException {
@@ -45,8 +49,12 @@ public class CommodityPanel extends JPanel implements ActionListener {
 		for (int i = 0; i < colArray.length; i++) {
 			col.add(colArray[i]);
 		}
-
-		row = getRow();
+		try {
+			vectorCommodity = filemanager.getCommodity("all");
+		} catch (ClassNotFoundException | SQLException e1) {
+			JOptionPane.showMessageDialog(null, "데이터베이스 오류");
+		}
+		row = getRow(vectorCommodity);
 
 		jtable = new JTable(row, col);
 		scroll = new JScrollPane(jtable);
@@ -57,7 +65,8 @@ public class CommodityPanel extends JPanel implements ActionListener {
 		searchButton.addActionListener(this);
 
 		add(scroll);
-		panel.add(tf_Name);
+		panel.add(selectionList);
+		panel.add(searchTextField);
 		panel.add(searchButton);
 		panel.add(addButton);
 		panel.add(deleteButton);
@@ -75,12 +84,13 @@ public class CommodityPanel extends JPanel implements ActionListener {
 	}
 
 	// ★수정부분
-	public Vector<Vector<String>> getRow() throws ClassNotFoundException,
-			SQLException {
+	public Vector<Vector<String>> getRow(Vector<Commodity> com)
+			throws ClassNotFoundException, SQLException {
 		Vector<Vector<String>> result = new Vector<Vector<String>>();
-		allCommo = filemanager.getCommodity("all");
-		for (Commodity c : this.allCommo) {
+
+		for (Commodity c : com) {
 			Vector<String> commodity = new Vector<String>();
+
 			commodity.add(c.getName());
 			commodity.add(c.getBuyDate());
 			commodity.add(String.valueOf(c.getInventory()));
@@ -92,48 +102,59 @@ public class CommodityPanel extends JPanel implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		String key = null;
 		if (e.getSource() == addButton) {
 			new CommodityRegister();
+			try {
+				vectorCommodity = filemanager.getCommodity("all");
+			} catch (ClassNotFoundException | SQLException e1) {
+				JOptionPane.showMessageDialog(null, "데이터베이스 오류");
+			}
 		} else if (e.getSource() == searchButton) {
-			Vector<Vector<String>> result = new Vector<Vector<String>>();
+			if (selectionList.getSelectedItem().equals(selectionArray[0])) {
+				key = "name";
+			} else if (selectionList.getSelectedItem()
+					.equals(selectionArray[1])) {
+				key = "buy_date";
+			}
 
-			String name = this.tf_Name.getText();
+			String str = this.searchTextField.getText();
 
-			if (name != null && name.length() > 0) {
-				for (Commodity c : this.allCommo) {
-					Vector<String> commodity = new Vector<String>();
-
-					if (c.getName().equals(name)) {
-						commodity.add(c.getName());
-						commodity.add(c.getBuyDate());
-						commodity.add(String.valueOf(c.getInventory()));
-						commodity.add(c.getComment());
-						result.add(commodity);
-					}
+			if (str != null && str.length() > 0) {
+				try {
+					vectorCommodity = filemanager.selectCommodity(key, str);
+				} catch (ClassNotFoundException | SQLException e1) {
+					JOptionPane.showMessageDialog(null, "데이터베이스 접근실패");
+				}
+			} else {
+				try {
+					vectorCommodity = filemanager.getCommodity("all");
+				} catch (ClassNotFoundException | SQLException e1) {
+					JOptionPane.showMessageDialog(null, "데이터베이스 접근실패");
 				}
 			}
-			patch(result);
 		} else if (e.getSource() == deleteButton) {
 			int index = jtable.getSelectedRow();
-			if (index != -1) {
-				try {
-					filemanager.delete(this.allCommo.get(index).getID(),
-							"commodity");
-				} catch (ClassNotFoundException |SQLException e1) {
-					Logger.logMsg(ERROR, "failToDeleteCommodity");
-				}
-				index = -1;
+			try {
+				filemanager.delete(filemanager.getCommodity("all").get(index)
+						.getID(), "commodity");
+				vectorCommodity = filemanager.getCommodity("all");
+			} catch (ClassNotFoundException | SQLException e1) {
+				// TODO Auto-generated catch block
+				JOptionPane.showMessageDialog(null, "데이터베이스 오류");
+			} catch (ArrayIndexOutOfBoundsException e2) {
+				JOptionPane.showMessageDialog(null, "삭제할 운동기구가 없습니다.");
 			}
 		} else if (e.getSource() == detailButton) {
 			int index = jtable.getSelectedRow();
 			if (index != -1) {
-				new CommodityDetail(this.allCommo.get(index));
+				new CommodityDetail(this.vectorCommodity.get(index));
 			}
 		}
 		try {
-			patch(getRow());
-		} catch (ClassNotFoundException|SQLException e1) {
-			Logger.logMsg(ERROR, "failToPatchCommodity");
+			patch(getRow(vectorCommodity));
+		} catch (ClassNotFoundException | SQLException e1) {
+			JOptionPane.showMessageDialog(null, "불러오기 실패");
 		}
 	}
 }

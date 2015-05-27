@@ -8,8 +8,7 @@ import java.util.Vector;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
-
-import com.sun.media.jfxmedia.logging.Logger;
+import javax.swing.JOptionPane;
 
 import object.Client;
 import object.Trainer;
@@ -21,8 +20,8 @@ public class ClientTrainer<T> extends JDialog implements ActionListener{
 	FileManager filemanager;
 	
 	Vector<Trainer> list;
-	JComboBox<String> Combo = new JComboBox<String>();
-	JButton Button = new JButton("배정");
+	JComboBox<String> combo = new JComboBox<String>();
+	JButton button = new JButton("배정");
 	
 	private Client clt;
 	
@@ -33,14 +32,14 @@ public class ClientTrainer<T> extends JDialog implements ActionListener{
 		this.list = list;
 		setLayout(new FlowLayout());
 		
-		Button.addActionListener(this);
-		Combo.addItem("배정안함");
+		button.addActionListener(this);
+		combo.addItem(" ");
 		for (Trainer t : list) {
-			Combo.addItem(t.toString());
+			combo.addItem(t.getName());
 		}
 		
-		add(Combo);
-		add(Button);
+		add(combo);
+		add(button);
 		
 		setModal(true);
 		pack();
@@ -49,15 +48,18 @@ public class ClientTrainer<T> extends JDialog implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == Button) {
-			int index = Combo.getSelectedIndex();
+		if(e.getSource() == button) {
+			int index = combo.getSelectedIndex();
 			
 			if (index != -1) {
-				clt.setTrainer((this.list.get(index)).getName());
+				
+				clt.setTrainer(combo.getItemAt(index));
 				try {
 					filemanager.updateClient(clt);
+					JOptionPane.showMessageDialog(null, "저장했습니다.");
 				} catch (ClassNotFoundException | SQLException e1) {
-					Logger.logMsg(ERROR, "cannotUpdateTrainer");
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
 			}
 		}

@@ -8,49 +8,43 @@ import java.sql.SQLException;
 import java.util.Calendar;
 
 import javax.swing.BoxLayout;
-import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
-import com.sun.media.jfxmedia.logging.Logger;
-
 import object.Client;
-import database.FileManager;
 
 public class ClientRegister extends JDialog implements ActionListener {
 
-	private JButton register = new JButton("등록");
-	private JButton cancel = new JButton("취소");
+	private JButton registerButon = new JButton("등록");
+	private JButton cancelButton = new JButton("취소");
 
-	private JTextField JTName = new JTextField(10);
-	private JTextField JTRegisterYear = new JTextField(4);
-	private JTextField JTRegisterMonth = new JTextField(2);
-	private JTextField JTRegisterDay = new JTextField(2);
-	private JTextField JTBirthdayYear = new JTextField(4);
-	private JTextField JTBirthdayMonth = new JTextField(2);
-	private JTextField JTBirthdayDay = new JTextField(2);
-	private JTextField JTWeight = new JTextField(5);
-	private JTextField JTHeight = new JTextField(5);
-	private JTextField JTBodyFat = new JTextField(5);
-	private JTextField JTBodyMuscle = new JTextField(5);
-	private JTextField JTPhone1 = new JTextField(3);
-	private JTextField JTPhone2 = new JTextField(4);
-	private JTextField JTPhone3 = new JTextField(4);
-	private JTextField JTAddress1 = new JTextField(20);
+	private JTextField nameTextField = new JTextField(10);
+	private JTextField registerYearTextField = new JTextField(4);
+	private JTextField registerMonthTextField = new JTextField(2);
+	private JTextField registerDayTextField = new JTextField(2);
+	private JTextField birthdayYearTextField = new JTextField(4);
+	private JTextField birthdayMonthTextField = new JTextField(2);
+	private JTextField birthdayDayTextField = new JTextField(2);
+	private JTextField weightTextField = new JTextField(5);
+	private JTextField heightTextField = new JTextField(5);
+	private JTextField bodyFatTextField = new JTextField(5);
+	private JTextField BodyMuscleTextField = new JTextField(5);
+	private JTextField phone1TextField = new JTextField(3);
+	private JTextField phone2TextField = new JTextField(4);
+	private JTextField phone3TextField = new JTextField(4);
+	private JTextField addressTextField = new JTextField(20);
 	// private JTextField JTAddress2 = new JTextField(10);
-	private JTextField JTNote = new JTextField(20);
+	private JTextField commentTextField = new JTextField(20);
 	private JComboBox<String> registPeriodComboBox = new JComboBox<String>();
 
 	public ClientRegister() {
-		register.addActionListener(this);
-		cancel.addActionListener(this);
+		registerButon.addActionListener(this);
+		cancelButton.addActionListener(this);
 
 		JPanel homePanel = new JPanel();
 		homePanel.setLayout(new BoxLayout(homePanel, BoxLayout.Y_AXIS));
@@ -69,11 +63,11 @@ public class ClientRegister extends JDialog implements ActionListener {
 				new String[] { "1개월", "2개월", "3개월", "6개월", "12개월" }));
 
 		mainPanel.add(new JLabel("등록일"));
-		registDataPanel.add(JTRegisterYear);
+		registDataPanel.add(registerYearTextField);
 		registDataPanel.add(new JLabel("년"));
-		registDataPanel.add(JTRegisterMonth);
+		registDataPanel.add(registerMonthTextField);
 		registDataPanel.add(new JLabel("월"));
-		registDataPanel.add(JTRegisterDay);
+		registDataPanel.add(registerDayTextField);
 		registDataPanel.add(new JLabel("일"));
 		mainPanel.add(registDataPanel);
 
@@ -81,45 +75,45 @@ public class ClientRegister extends JDialog implements ActionListener {
 		mainPanel.add(registPeriodComboBox);
 
 		mainPanel.add(new JLabel("이름"));
-		mainPanel.add(JTName);
+		mainPanel.add(nameTextField);
 
 		mainPanel.add(new JLabel("생일"));
-		birthdayPanel.add(JTBirthdayYear);
+		birthdayPanel.add(birthdayYearTextField);
 		birthdayPanel.add(new JLabel("년"));
-		birthdayPanel.add(JTBirthdayMonth);
+		birthdayPanel.add(birthdayMonthTextField);
 		birthdayPanel.add(new JLabel("월"));
-		birthdayPanel.add(JTBirthdayDay);
+		birthdayPanel.add(birthdayDayTextField);
 		birthdayPanel.add(new JLabel("일"));
 		mainPanel.add(birthdayPanel);
 
 		mainPanel.add(new JLabel("휴대폰번호"));
-		phoneNumPanel.add(JTPhone1);
+		phoneNumPanel.add(phone1TextField);
 		phoneNumPanel.add(new JLabel("-"));
-		phoneNumPanel.add(JTPhone2);
+		phoneNumPanel.add(phone2TextField);
 		phoneNumPanel.add(new JLabel("-"));
-		phoneNumPanel.add(JTPhone3);
+		phoneNumPanel.add(phone3TextField);
 		mainPanel.add(phoneNumPanel);
 
 		mainPanel.add(new JLabel("주소"));
-		mainPanel.add(JTAddress1);
+		mainPanel.add(addressTextField);
 
 		mainPanel.add(new JLabel("키"));
-		mainPanel.add(JTHeight);
+		mainPanel.add(heightTextField);
 
 		mainPanel.add(new JLabel("몸무게"));
-		mainPanel.add(JTWeight);
+		mainPanel.add(weightTextField);
 
 		mainPanel.add(new JLabel("체지방량"));
-		mainPanel.add(JTBodyFat);
+		mainPanel.add(bodyFatTextField);
 
 		mainPanel.add(new JLabel("근육량"));
-		mainPanel.add(JTBodyMuscle);
+		mainPanel.add(BodyMuscleTextField);
 
 		mainPanel.add(new JLabel("비고"));
-		mainPanel.add(JTNote);
+		mainPanel.add(commentTextField);
 		
-		buttonPanel.add(register);
-		buttonPanel.add(cancel);
+		buttonPanel.add(registerButon);
+		buttonPanel.add(cancelButton);
 
 		homePanel.add(mainPanel);
 		homePanel.add(buttonPanel);
@@ -134,28 +128,28 @@ public class ClientRegister extends JDialog implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == register) {
+		if (e.getSource() == registerButon) {
 			// Calendar calendar = Calendar.getInstance();
 
 			String id = createDBId();
-			String registDate = JTRegisterYear.getText() + "-"
-					+ JTRegisterMonth.getText() + "-" + JTRegisterDay.getText();
+			String registDate = registerYearTextField.getText() + "-"
+					+ registerMonthTextField.getText() + "-" + registerDayTextField.getText();
 			String registPeriod = registPeriodComboBox.getSelectedItem()
 					.toString();
 			String terminateDate = calculateTerminateDate(registDate,
 					registPeriod);
-			int height = Integer.parseInt(JTHeight.getText());
-			int weight = Integer.parseInt(JTWeight.getText());
-			int bodyFat = Integer.parseInt(JTBodyFat.getText());
-			int bodyMuscle = Integer.parseInt(JTBodyMuscle.getText());
-			String note = JTNote.getText();
-			String name = JTName.getText();
-			int age = calculateAge(Integer.parseInt(JTBirthdayYear.getText()));
-			String birthday = JTBirthdayYear.getText() + "-"
-					+ JTBirthdayMonth.getText() + "-" + JTBirthdayDay.getText();
-			String address = JTAddress1.getText();
-			String phone = JTPhone1.getText() + "-" + JTPhone2.getText() + "-"
-					+ JTPhone3.getText();
+			int height = Integer.parseInt(heightTextField.getText());
+			int weight = Integer.parseInt(weightTextField.getText());
+			int bodyFat = Integer.parseInt(bodyFatTextField.getText());
+			int bodyMuscle = Integer.parseInt(BodyMuscleTextField.getText());
+			String note = commentTextField.getText();
+			String name = nameTextField.getText();
+			int age = calculateAge(Integer.parseInt(birthdayYearTextField.getText()));
+			String birthday = birthdayYearTextField.getText() + "-"
+					+ birthdayMonthTextField.getText() + "-" + birthdayDayTextField.getText();
+			String address = addressTextField.getText();
+			String phone = phone1TextField.getText() + "-" + phone2TextField.getText() + "-"
+					+ phone3TextField.getText();
 			String loginId = createClientId(phone);
 			String pwd = createClientPwd();
 
@@ -165,12 +159,16 @@ public class ClientRegister extends JDialog implements ActionListener {
 
 			try {
 				database.FileManager.getInstance().addClient(client);
-			} catch (ClassNotFoundException|SQLException e1) {
-				Logger.logMsg(ERROR, "failToRegisterClient");
+			} catch (ClassNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
 
 			dispose();
-		} else if (e.getSource() == cancel) {
+		} else if (e.getSource() == cancelButton) {
 			dispose();
 		}
 	}
@@ -211,7 +209,7 @@ public class ClientRegister extends JDialog implements ActionListener {
 
 		Calendar cal = Calendar.getInstance();
 		age = cal.get(Calendar.YEAR) - birthdayYear;
-
+		age += 1;
 		return age;
 	}
 
