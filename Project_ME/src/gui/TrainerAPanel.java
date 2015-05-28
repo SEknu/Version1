@@ -49,6 +49,7 @@ public class TrainerAPanel extends TrainerTPanel implements ActionListener {
 				if(delete==JOptionPane.YES_OPTION)
 					try {
 						filemanager.delete(this.allTrainer.get(index).getID(), "trainer");
+						filemanager.delete(this.allTrainer.get(index).getID(), "Member");
 					} catch (ClassNotFoundException | SQLException e1) {
 						JOptionPane.showMessageDialog(null, "삭제 실패");
 					}

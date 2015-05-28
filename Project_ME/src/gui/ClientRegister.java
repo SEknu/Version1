@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import object.Client;
+import object.Member;
 
 public class ClientRegister extends JDialog implements ActionListener {
 
@@ -152,13 +153,16 @@ public class ClientRegister extends JDialog implements ActionListener {
 					+ phone3TextField.getText();
 			String loginId = createClientId(phone);
 			String pwd = createClientPwd();
+			String position = "client";
 
 			Client client = new Client(id, loginId, pwd, registDate,
 					registPeriod, terminateDate, name, age, birthday, address,
 					phone, height, weight, bodyFat, bodyMuscle, note);
+			Member member = new Member(id, loginId, pwd, position);
 
 			try {
 				database.FileManager.getInstance().addClient(client);
+				database.FileManager.getInstance().addMember(member);
 			} catch (ClassNotFoundException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
