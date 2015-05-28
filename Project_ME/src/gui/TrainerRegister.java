@@ -116,7 +116,7 @@ public class TrainerRegister extends JDialog implements ActionListener{
 				try {
 					filemanager.addTrainer(trainer);
 					filemanager.addMember(member);
-					JOptionPane.showMessageDialog(null, "등록되었습니다.");
+					//JOptionPane.showMessageDialog(null, "등록되었습니다.");
 					dispose();
 				} catch (ClassNotFoundException | SQLException e1) {
 					JOptionPane.showMessageDialog(null, "DB문제발생");
@@ -124,6 +124,8 @@ public class TrainerRegister extends JDialog implements ActionListener{
 					e1.printStackTrace();
 				}
 			}
+		} else if (e.getSource() == cancelButton) {
+			dispose();
 		}
 	}
 	

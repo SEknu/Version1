@@ -1,82 +1,105 @@
 package gui;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.sql.SQLException;
+import java.util.Vector;
 
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import object.Client;
+import object.Member;
 import object.Trainer;
 import database.FileManager;
 
 public class LogIn extends JDialog implements ActionListener, KeyListener {
 
-	JTextField pwTextfield = new JTextField(15);
+	JTextField idTextfield = new JTextField(15);
+	JPasswordField pwTextfield = new JPasswordField(15);
 	JButton logInButton = new JButton("Login");
-	JButton registButton = new JButton("Regist");
-	JCheckBox adminCheckbox = new JCheckBox("관리자로 로그인");
 		
 	public LogIn()
 	{
 		pwTextfield.addKeyListener(this);
 		logInButton.addActionListener(this);
-		registButton.addActionListener(this);
 		
-		JPanel panel = new JPanel();
-		panel.add(pwTextfield);
-		panel.add(logInButton);
-		panel.add(registButton);
-		panel.add(adminCheckbox);
-		getContentPane().add(panel);
+		setLayout(new GridLayout(4, 2));
+		JPanel panel0 = new JPanel();
+		JPanel panel1 = new JPanel();
+		JPanel panel2 = new JPanel();
+		JPanel panel3 = new JPanel();
 		
-		setResizable(false);
-		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		panel0.add(new JLabel(" 헬스장 입니다 :)"));
+		panel1.add(new JLabel(" ID  "));
+		panel1.add(idTextfield);
+		panel2.add(new JLabel("PW "));
+		panel2.add(pwTextfield);
+		panel3.add(logInButton);
+		
+		add(panel0);
+		add(panel1);
+		add(panel2);
+		add(panel3);
+		
 		pack();
+		setResizable(false);
 		setVisible(true);
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		if (e.getSource() == logInButton) {
-			String id = this.pwTextfield.getText();
-			if (adminCheckbox.isSelected() == true) { // 관리자 로그인
+		try {
+			if (e.getSource() == logInButton) {
+				String id = this.idTextfield.getText();
+				String pw = new String(this.pwTextfield.getPassword());
 				
-//				Trainer login_trainer = (Trainer) FileManager.getInstance().select("phone", "id");
-// 트레이너 로그인 구현 필요~
+				Member member = FileManager.getInstance().selectMember("loginId", id);
 				
-				if (id.equals("root")) {
-					dispose();
-					new AdminAMode();
+				if (id.equals("root")) { //관리자 로그인
+					if(pw.equals("1111")){
+						dispose();
+						new AdminAMode();
+					}
+					else
+						JOptionPane.showMessageDialog(null, "패스워드가 틀렸습니다.");
+						
+				} else if(member == null){
+					JOptionPane.showMessageDialog(null, "해당 id가 존재하지 않습니다.");
 					
-//				} else if (login_trainer != null) {
-//					JOptionPane.showMessageDialog(null, "로그인 성공");
-//					dispose();
-//					new AdminMode(login_trainer);
+				} else if (member.getPwd().equals(pw)) {
 					
+					if(member.getPosition().equals("trainer")){ //trainer 로그인
+						
+						//Trainer trainer = FileManager.getInstance().selectTrainer("loginId", id).firstElement();
+						dispose();
+						new AdminTMode();
+						
+					} else if(member.getPosition().equals("client")){ //client 로그인
+						
+						Client client = FileManager.getInstance().selectClient("loginId", id).firstElement();
+						dispose();
+						new UserMode(client);
+					}
 				} else
 					JOptionPane.showMessageDialog(null, "패스워드가 틀렸습니다.");
 			}
-			else {	// client 로그인 , 아직 안됨 쿼리 안만듬 !
-//				Client login_client = (Client) FileManager.getInstance().select(id, "client");
-//
-//				if (login_client != null) {
-//					JOptionPane.showMessageDialog(null, "로그인 성공");
-//					dispose();
-//					login_client.incAttendance();
-//				//	new UserMode(login);
-//					new MyFrame(login_client);
-//				} else
-//					JOptionPane.showMessageDialog(null, "패스워드가 틀렸습니다.");
-			}
-		} else if (e.getSource() == registButton) {
-			new ClientRegister();
+			
+		}catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
 	}
 
@@ -92,9 +115,10 @@ public class LogIn extends JDialog implements ActionListener, KeyListener {
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		if (e.getSource() == pwTextfield && pwTextfield.getText().length() > 15)
+		String pw = new String(this.pwTextfield.getPassword());
+		if (e.getSource() == pwTextfield && pw.length() > 15)
 		{
-			pwTextfield.setText(pwTextfield.getText().substring(0, 15));
+			pwTextfield.setText(pw.substring(0, 15));
 		}
 	}
 	

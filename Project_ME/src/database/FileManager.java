@@ -235,10 +235,9 @@ public class FileManager {
 		);
 	}
 	
-	public Vector<Member> selectMember(final String col,final String str) throws SQLException, ClassNotFoundException {
-		Member member;
+	public Member selectMember(final String col,final String str) throws SQLException, ClassNotFoundException {
+		Member member = null;
 		ResultSet rs = null;
-		Vector<Member> vectorMember = new Vector<Member>();
 			
 		rs = resultSetStatementStrategy(
 				new StatementStrategy() {
@@ -254,12 +253,11 @@ public class FileManager {
 		// 수정할 부분!
 		while(rs.next()) {
 			member = getMemberInfo(rs);
-			vectorMember.add(member);
 		}
 		if(rs != null) {	
 			try { rs.close(); } catch(SQLException e) {}
 		}	
-		return vectorMember;
+		return member;
 	}
 	
 	

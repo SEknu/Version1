@@ -159,7 +159,7 @@ public class ClientRegister extends JDialog implements ActionListener {
 					registPeriod, terminateDate, name, age, birthday, address,
 					phone, height, weight, bodyFat, bodyMuscle, note);
 			Member member = new Member(id, loginId, pwd, position);
-
+			
 			try {
 				database.FileManager.getInstance().addClient(client);
 				database.FileManager.getInstance().addMember(member);

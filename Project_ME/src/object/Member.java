@@ -45,7 +45,7 @@ public class Member {
 	}
 	
 	public String getPosition() {
-		return pwd;
+		return position;
 	}
 
 	public void setPosition(String position) {

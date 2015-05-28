@@ -137,13 +137,13 @@ public class ClientAPanel extends JPanel implements ActionListener {
 			int index = jtable.getSelectedRow();
 			try {
 				filemanager.delete(filemanager.getClient("all").get(index).getId(), "client");
-				filemanager.delete(filemanager.getClient("all").get(index).getId(), "Member");//★★★★★이거 추가했더니
+				//filemanager.delete(filemanager.getClient("all").get(index).getId(), "Member");
 				vectorClient = filemanager.getClient("all");
 			} catch (ClassNotFoundException | SQLException e1) {
 				// TODO Auto-generated catch block
 				JOptionPane.showMessageDialog(null, "데이터베이스 오류");
 			} catch (ArrayIndexOutOfBoundsException e2) {
-				JOptionPane.showMessageDialog(null, "삭제할 회원이 없습니다."); //★★★★★이창이 계속 떠요!!
+				JOptionPane.showMessageDialog(null, "삭제할 회원이 없습니다.");
 			}
 		} else if (e.getSource() == detailButton) {
 			int index = jtable.getSelectedRow();
