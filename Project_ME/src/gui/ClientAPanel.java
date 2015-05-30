@@ -28,6 +28,7 @@ public class ClientAPanel extends JPanel implements ActionListener {
 	Vector<Client> vectorClient;
 	Vector<Vector<String>> row = new Vector<Vector<String>>();
 	Vector<String> col = new Vector<String>();
+	GuiProcess gui;
 
 	String[] colArray = { "이름", "연락처", "담당트레이너", "배정프로그램" };
 	String[] selectionArray = {"이름", "연락처", "트레이너", "프로그램"};
@@ -40,6 +41,8 @@ public class ClientAPanel extends JPanel implements ActionListener {
 
 	public ClientAPanel() throws ClassNotFoundException, SQLException {
 		filemanager = FileManager.getInstance();
+		gui = GuiProcess.getInstance();
+		
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
 		JPanel panel = new JPanel();
@@ -52,12 +55,12 @@ public class ClientAPanel extends JPanel implements ActionListener {
 			col.add(colArray[i]);
 		}
 		try {
-			vectorClient = filemanager.getClient("all");
+			vectorClient = gui.guiGetClient();
 		} catch (ClassNotFoundException | SQLException e1) {
 			JOptionPane.showMessageDialog(null, "데이터베이스 오류");
 		}
 
-		row = getRow(vectorClient);
+		row = gui.getRowClient(vectorClient);
 		jtable = new JTable(row, col);
 		scroll = new JScrollPane(jtable);
 
@@ -80,34 +83,17 @@ public class ClientAPanel extends JPanel implements ActionListener {
 		jtable.updateUI();
 	}
 
-	public Vector<Vector<String>> getRow(Vector<Client> cli) throws ClassNotFoundException,
-	SQLException {
-		Vector<Vector<String>> result = new Vector<Vector<String>>();
-
-		for (Client c : cli) {
-			Vector<String> client = new Vector<String>();
-
-			client.add(c.getName());
-			client.add(c.getPhone());
-			client.add(c.getTrainer());
-			client.add(c.getProgram());
-
-			result.add(client);
-		}
-
-		return result;
-	}
-
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String key = null;
 		if (e.getSource() == addButton) {
 			new ClientRegister();
 			try {
-				vectorClient = filemanager.getClient("all");
+				vectorClient = gui.guiGetClient();
 			} catch (ClassNotFoundException | SQLException e1) {
 				JOptionPane.showMessageDialog(null, "데이터베이스 오류");
 			}
+			
 		}else if (e.getSource() == searchButton) {
 			if(selectionList.getSelectedItem().equals(selectionArray[0])) {
 				key = "name";
@@ -128,17 +114,18 @@ public class ClientAPanel extends JPanel implements ActionListener {
 				}
 			} else {
 				try {
-					vectorClient = filemanager.getClient("all");
+					vectorClient = gui.guiGetClient();
 				} catch (ClassNotFoundException | SQLException e1) {
 					JOptionPane.showMessageDialog(null, "데이터베이스 접근실패");
 				}
 			}
+			
 		} else if (e.getSource() == deleteButton) {
 			int index = jtable.getSelectedRow();
 			try {
-				filemanager.delete(filemanager.getClient("all").get(index).getId(), "client");
-				//filemanager.delete(filemanager.getClient("all").get(index).getId(), "Member");
-				vectorClient = filemanager.getClient("all");
+				filemanager.delete(gui.guiGetClient().get(index).getId(), "client");
+				filemanager.delete(gui.guiGetClient().get(index).getPhone(), "Member");
+				vectorClient = gui.guiGetClient();
 			} catch (ClassNotFoundException | SQLException e1) {
 				// TODO Auto-generated catch block
 				JOptionPane.showMessageDialog(null, "데이터베이스 오류");
@@ -153,7 +140,7 @@ public class ClientAPanel extends JPanel implements ActionListener {
 			}
 		}
 		try {
-			patch(getRow(vectorClient));
+			patch(gui.getRowClient(vectorClient));
 		} catch (ClassNotFoundException | SQLException e1) {
 			JOptionPane.showMessageDialog(null, "불러오기 실패");
 		}

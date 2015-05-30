@@ -84,7 +84,7 @@ public class FileManager {
 		return vectorClient;
 	}
 	
-	public void addClient(final Client client) throws ClassNotFoundException, SQLException {
+	public void add(final Client client) throws ClassNotFoundException, SQLException {
 		jdbcContextWithStatementStrategy(
 				new StatementStrategy() {
 			@Override
@@ -148,7 +148,7 @@ public class FileManager {
 		return vectorTrainer;
 	}
 	
-	public void addTrainer(final Trainer trainer) throws ClassNotFoundException, SQLException {
+	public void add(final Trainer trainer) throws ClassNotFoundException, SQLException {
 		jdbcContextWithStatementStrategy(
 				new StatementStrategy() {
 			@Override
@@ -222,7 +222,7 @@ public class FileManager {
 		return vectorMember;
 	}
 	
-	public void addMember(final Member member) throws ClassNotFoundException, SQLException {
+	public void add(final Member member) throws ClassNotFoundException, SQLException {
 		jdbcContextWithStatementStrategy(
 				new StatementStrategy() {
 			@Override
@@ -295,7 +295,7 @@ public class FileManager {
 	}
 	
 	/*add commodity*/
-	public void addCommodity(final Commodity commodity) throws ClassNotFoundException, SQLException {
+	public void add(final Commodity commodity) throws ClassNotFoundException, SQLException {
 		jdbcContextWithStatementStrategy(
 				new StatementStrategy() {
 			@Override
@@ -351,7 +351,7 @@ public class FileManager {
 	
 	/*****************program********************/
 	/*program*/
-	public void addProgram(final Program program) throws ClassNotFoundException, SQLException {
+	public void add(final Program program) throws ClassNotFoundException, SQLException {
 		jdbcContextWithStatementStrategy(
 				new StatementStrategy() {
 			@Override

@@ -22,7 +22,8 @@ import com.sun.media.jfxmedia.logging.Logger;
 import object.Commodity;
 
 public class CommodityRegister extends JDialog implements ActionListener {
-
+	GuiProcess gui;
+	
 	JButton okButton = new JButton("추가");
 	JButton cancelButton = new JButton("취소");
 
@@ -38,6 +39,8 @@ public class CommodityRegister extends JDialog implements ActionListener {
 	JTextField commentTextfield = new JTextField(5);
 
 	public CommodityRegister() {
+		gui = GuiProcess.getInstance();
+		
 		okButton.addActionListener(this);
 		cancelButton.addActionListener(this);
 
@@ -96,7 +99,7 @@ public class CommodityRegister extends JDialog implements ActionListener {
 			commdity.setComment(this.commentTextfield.getText());
 
 			try {
-				database.FileManager.getInstance().addCommodity(commdity);
+				gui.add(commdity);
 			} catch (ClassNotFoundException|SQLException e1) {
 				Logger.logMsg(ERROR, "failToAddCommodity");
 			}

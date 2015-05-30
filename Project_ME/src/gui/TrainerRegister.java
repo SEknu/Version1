@@ -19,6 +19,8 @@ import object.Trainer;
 import database.FileManager;
 
 public class TrainerRegister extends JDialog implements ActionListener{
+	GuiProcess gui;
+	
 	JButton okButton = new JButton("등록");
 	JButton cancelButton = new JButton("취소");
 		
@@ -37,6 +39,8 @@ public class TrainerRegister extends JDialog implements ActionListener{
 	FileManager filemanager = FileManager.getInstance();
 		
 	public TrainerRegister() {
+		gui = GuiProcess.getInstance();
+		
 		okButton.addActionListener(this);
 		cancelButton.addActionListener(this);
 		
@@ -114,8 +118,8 @@ public class TrainerRegister extends JDialog implements ActionListener{
 				Member member = new Member(id, loginId, pwd, position);
 				
 				try {
-					filemanager.addTrainer(trainer);
-					filemanager.addMember(member);
+					gui.add(trainer);
+					gui.add(member);
 					//JOptionPane.showMessageDialog(null, "등록되었습니다.");
 					dispose();
 				} catch (ClassNotFoundException | SQLException e1) {

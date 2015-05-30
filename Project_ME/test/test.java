@@ -31,7 +31,7 @@ public class test {
 		client.setProgram("프로그램");
 		//찾기를 할만한 항목이 이름, 끝나는 날, 트레이너, 프로그램 정도일듯?
 		
-		filemanager.addClient(client);
+		filemanager.add(client);
 		
 		Vector<Client> clientComp1;
 		Vector<Client> clientComp2;
@@ -78,7 +78,7 @@ public class test {
 		Vector<Program> programComp2;
 		Vector<Program> programComp3;
 		
-		filemanager.addProgram(program);
+		filemanager.add(program);
 		
 		programComp1 = filemanager.selectProgram("name", "운동");
 		programComp2 = filemanager.selectProgram("difficulty", "쉬움");
@@ -111,7 +111,7 @@ public class test {
 		Vector<Commodity> commodityComp2;
 		Vector<Commodity> commodityComp3;
 		
-		filemanager.addCommodity(commodity);
+		filemanager.add(commodity);
 	
 		commodityComp1 = filemanager.selectCommodity("name", "운동기구");
 		commodityComp2 = filemanager.selectCommodity("inventory", "1");
@@ -139,7 +139,7 @@ public class test {
 		
 		Vector<Trainer> trainerComp1;
 		
-		filemanager.addTrainer(trainer);
+		filemanager.add(trainer);
 		
 		trainerComp1 = filemanager.selectTrainer("name", "트레이너");
 		

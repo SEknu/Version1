@@ -24,6 +24,7 @@ public class ClientDetail extends JDialog implements ActionListener {
 
 	FileManager filemanager;
 	Client clt;
+	GuiProcess gui;
 
 	JButton closeButton = new JButton("닫기");
 	JButton saveButton = new JButton("저장");
@@ -40,6 +41,7 @@ public class ClientDetail extends JDialog implements ActionListener {
 	
 	public ClientDetail(Client clt) {
 		filemanager = FileManager.getInstance();
+		gui = GuiProcess.getInstance();
 		this.clt = clt;
 		
 		backgroundPanel.setLayout(new BoxLayout(backgroundPanel, BoxLayout.Y_AXIS));
@@ -228,7 +230,7 @@ public class ClientDetail extends JDialog implements ActionListener {
 				clt.setCurrentStatus(0);
 			// DB에 저장.
 			try {
-				filemanager.updateClient(clt);
+				gui.update(clt);;
 				JOptionPane.showMessageDialog(null, "저장했습니다.");
 				for(int i = 0; i < contentPanel.getComponentCount(); i++){
 					if(i%2 != 0)
@@ -256,14 +258,14 @@ public class ClientDetail extends JDialog implements ActionListener {
 		}
 		else if(e.getSource() == addTrainerButton) {
 			try {
-				new ClientTrainer<Trainer>(filemanager.getTrainer("all"), clt);
+				new ClientTrainer<Trainer>(gui.guiGetTrainer(), clt);
 			} catch (ClassNotFoundException | SQLException e1) {
 				e1.printStackTrace();
 			}
 		}
 		else if(e.getSource() == addProgramButton) {
 			try {
-				new CleintProgram<Program>(filemanager.getProgram("all"), clt);
+				new CleintProgram<Program>(gui.guiGetProgram(), clt);
 			} catch (ClassNotFoundException | SQLException e1) {
 				e1.printStackTrace();
 			}

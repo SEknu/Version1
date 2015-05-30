@@ -18,6 +18,7 @@ import database.FileManager;
 public class ClientTrainer<T> extends JDialog implements ActionListener{
 
 	FileManager filemanager;
+	GuiProcess gui;
 	
 	Vector<Trainer> list;
 	JComboBox<String> combo = new JComboBox<String>();
@@ -28,6 +29,8 @@ public class ClientTrainer<T> extends JDialog implements ActionListener{
 	public ClientTrainer(Vector<Trainer> list, Client c)
 	{
 		filemanager = FileManager.getInstance();
+		gui = GuiProcess.getInstance();
+		
 		clt = c;
 		this.list = list;
 		setLayout(new FlowLayout());
@@ -55,11 +58,10 @@ public class ClientTrainer<T> extends JDialog implements ActionListener{
 				
 				clt.setTrainer(combo.getItemAt(index));
 				try {
-					filemanager.updateClient(clt);
+					gui.update(clt);;
 					JOptionPane.showMessageDialog(null, "저장했습니다.");
 				} catch (ClassNotFoundException | SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					JOptionPane.showMessageDialog(null, "트레이너 지정 실패");
 				}
 			}
 		}

@@ -16,6 +16,8 @@ import object.Program;
 import database.FileManager;
 
 public class ProgramRegister extends JDialog implements ActionListener {
+	GuiProcess gui;
+	
 	JButton Add_B = new JButton("추가");
 	JButton Cancel_B = new JButton("취소");
 	
@@ -25,6 +27,8 @@ public class ProgramRegister extends JDialog implements ActionListener {
 	JTextField commentTextfield = new JTextField(20);
 	
 	public ProgramRegister() {
+		gui = GuiProcess.getInstance();
+		
 		Add_B.addActionListener(this);
 		Cancel_B.addActionListener(this);
 		
@@ -64,7 +68,7 @@ public class ProgramRegister extends JDialog implements ActionListener {
 			
 			filemanager = new FileManager();
 			try {
-				filemanager.addProgram(program);
+				gui.add(program);;
 			} catch (ClassNotFoundException | SQLException e1) {
 				JOptionPane.showMessageDialog(null, "프로그램 추가 실패");
 			}			

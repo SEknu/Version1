@@ -23,6 +23,7 @@ public class CommodityDetail extends JDialog implements ActionListener {
 
 	Commodity commodity;
 	String year, month, day;
+	GuiProcess gui;
 
 	JButton modifyButton = new JButton("수정"); // 수정버튼
 	JButton saveButton = new JButton("저장"); // 저장버튼
@@ -35,6 +36,7 @@ public class CommodityDetail extends JDialog implements ActionListener {
 
 	public CommodityDetail(Commodity commodity) {
 		this.commodity = commodity;
+		gui = GuiProcess.getInstance();
 
 		// 버튼추가
 		cancelButton.addActionListener(this);
@@ -139,7 +141,7 @@ public class CommodityDetail extends JDialog implements ActionListener {
 			}
 			// DB에 저장.
 			try {
-				FileManager.getInstance().updateCommodity(commodity);
+				gui.update(commodity);
 				JOptionPane.showMessageDialog(null, "저장했습니다.");
 				saveButton.setEnabled(false);
 				cancelButton.setEnabled(false);

@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -20,7 +21,8 @@ import object.Client;
 import object.Member;
 
 public class ClientRegister extends JDialog implements ActionListener {
-
+	GuiProcess gui;
+	
 	private JButton registerButon = new JButton("등록");
 	private JButton cancelButton = new JButton("취소");
 
@@ -44,6 +46,8 @@ public class ClientRegister extends JDialog implements ActionListener {
 	private JComboBox<String> registPeriodComboBox = new JComboBox<String>();
 
 	public ClientRegister() {
+		gui = GuiProcess.getInstance();
+		
 		registerButon.addActionListener(this);
 		cancelButton.addActionListener(this);
 
@@ -161,14 +165,12 @@ public class ClientRegister extends JDialog implements ActionListener {
 			Member member = new Member(id, loginId, pwd, position);
 			
 			try {
-				database.FileManager.getInstance().addClient(client);
-				database.FileManager.getInstance().addMember(member);
+				gui.add(client);
+				gui.add(member);
 			} catch (ClassNotFoundException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				JOptionPane.showMessageDialog(null, "client, member 찾기 실패");
 			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				JOptionPane.showMessageDialog(null, "데이터베이스 저장 실패");
 			}
 
 			dispose();
