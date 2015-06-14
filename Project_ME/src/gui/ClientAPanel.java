@@ -55,12 +55,12 @@ public class ClientAPanel extends JPanel implements ActionListener {
 			col.add(colArray[i]);
 		}
 		try {
-			vectorClient = gui.guiGetClient();
+			vectorClient = gui.getClient();
 		} catch (ClassNotFoundException | SQLException e1) {
 			JOptionPane.showMessageDialog(null, "데이터베이스 오류");
 		}
 
-		row = gui.getRowClient(vectorClient);
+		row = gui.getClientRow(vectorClient);
 		jtable = new JTable(row, col);
 		scroll = new JScrollPane(jtable);
 
@@ -89,7 +89,7 @@ public class ClientAPanel extends JPanel implements ActionListener {
 		if (e.getSource() == addButton) {
 			new ClientRegister();
 			try {
-				vectorClient = gui.guiGetClient();
+				vectorClient = gui.getClient();
 			} catch (ClassNotFoundException | SQLException e1) {
 				JOptionPane.showMessageDialog(null, "데이터베이스 오류");
 			}
@@ -108,26 +108,28 @@ public class ClientAPanel extends JPanel implements ActionListener {
 					
 			if (str != null && str.length() > 0) {
 				try {
-					vectorClient = filemanager.selectClient(key, str);
+					vectorClient = gui.selectClient(key, str);
 				} catch (ClassNotFoundException | SQLException e1) {
 					JOptionPane.showMessageDialog(null, "데이터베이스 접근실패");
 				}
 			} else {
 				try {
-					vectorClient = gui.guiGetClient();
+					vectorClient = gui.getClient();
 				} catch (ClassNotFoundException | SQLException e1) {
 					JOptionPane.showMessageDialog(null, "데이터베이스 접근실패");
 				}
-			}
-			
+			}		
 		} else if (e.getSource() == deleteButton) {
 			int index = jtable.getSelectedRow();
+			String id;
+			String phone;
 			try {
-				filemanager.delete(gui.guiGetClient().get(index).getId(), "client");
-				filemanager.delete(gui.guiGetClient().get(index).getPhone(), "Member");
-				vectorClient = gui.guiGetClient();
+				id = gui.getClient().get(index).getId();
+				phone = gui.getClient().get(index).getPhone();
+				gui.delete(id, "client");
+				gui.delete(phone, "member");
+				vectorClient = gui.getClient();
 			} catch (ClassNotFoundException | SQLException e1) {
-				// TODO Auto-generated catch block
 				JOptionPane.showMessageDialog(null, "데이터베이스 오류");
 			} catch (ArrayIndexOutOfBoundsException e2) {
 				JOptionPane.showMessageDialog(null, "삭제할 회원이 없습니다.");
@@ -140,7 +142,7 @@ public class ClientAPanel extends JPanel implements ActionListener {
 			}
 		}
 		try {
-			patch(gui.getRowClient(vectorClient));
+			patch(gui.getClientRow(vectorClient));
 		} catch (ClassNotFoundException | SQLException e1) {
 			JOptionPane.showMessageDialog(null, "불러오기 실패");
 		}

@@ -53,11 +53,11 @@ public class CommodityPanel extends JPanel implements ActionListener {
 			col.add(colArray[i]);
 		}
 		try {
-			vectorCommodity = gui.guiGetCommodity();
+			vectorCommodity = gui.guiCommodity();
 		} catch (ClassNotFoundException | SQLException e1) {
 			JOptionPane.showMessageDialog(null, "데이터베이스 오류");
 		}
-		row = gui.getRowCommodity(vectorCommodity);
+		row = gui.getCommodityRow(vectorCommodity);
 
 		jtable = new JTable(row, col);
 		scroll = new JScrollPane(jtable);
@@ -95,7 +95,7 @@ public class CommodityPanel extends JPanel implements ActionListener {
 		if (e.getSource() == addButton) {
 			new CommodityRegister();
 			try {
-				vectorCommodity = gui.guiGetCommodity();
+				vectorCommodity = gui.guiCommodity();
 			} catch (ClassNotFoundException | SQLException e1) {
 				JOptionPane.showMessageDialog(null, "데이터베이스 오류");
 			}
@@ -117,7 +117,7 @@ public class CommodityPanel extends JPanel implements ActionListener {
 				}
 			} else {
 				try {
-					vectorCommodity = gui.guiGetCommodity();
+					vectorCommodity = gui.guiCommodity();
 				} catch (ClassNotFoundException | SQLException e1) {
 					JOptionPane.showMessageDialog(null, "데이터베이스 접근실패");
 				}
@@ -125,9 +125,9 @@ public class CommodityPanel extends JPanel implements ActionListener {
 		} else if (e.getSource() == deleteButton) {
 			int index = jtable.getSelectedRow();
 			try {
-				filemanager.delete(gui.guiGetCommodity().get(index)
+				filemanager.delete(gui.guiCommodity().get(index)
 						.getID(), "commodity");
-				vectorCommodity = gui.guiGetCommodity();
+				vectorCommodity = gui.guiCommodity();
 			} catch (ClassNotFoundException | SQLException e1) {
 				JOptionPane.showMessageDialog(null, "데이터베이스 오류");
 			} catch (ArrayIndexOutOfBoundsException e2) {
@@ -140,7 +140,7 @@ public class CommodityPanel extends JPanel implements ActionListener {
 			}
 		}
 		try {
-			patch(gui.getRowCommodity(vectorCommodity));
+			patch(gui.getCommodityRow(vectorCommodity));
 		} catch (ClassNotFoundException | SQLException e1) {
 			JOptionPane.showMessageDialog(null, "불러오기 실패");
 		}

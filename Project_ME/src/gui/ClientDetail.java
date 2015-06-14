@@ -258,14 +258,14 @@ public class ClientDetail extends JDialog implements ActionListener {
 		}
 		else if(e.getSource() == addTrainerButton) {
 			try {
-				new ClientTrainer<Trainer>(gui.guiGetTrainer(), clt);
+				new ClientTrainer<Trainer>(gui.getTrainer(), clt);
 			} catch (ClassNotFoundException | SQLException e1) {
 				e1.printStackTrace();
 			}
 		}
 		else if(e.getSource() == addProgramButton) {
 			try {
-				new CleintProgram<Program>(gui.guiGetProgram(), clt);
+				new CleintProgram<Program>(gui.guiProgram(), clt);
 			} catch (ClassNotFoundException | SQLException e1) {
 				e1.printStackTrace();
 			}

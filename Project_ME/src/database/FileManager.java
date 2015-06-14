@@ -395,7 +395,6 @@ public class FileManager {
 		}	
 		return vectorProgram;
 	}
-
 	
 	public void updateProgram(final Program program) throws ClassNotFoundException, SQLException {
 		jdbcContextWithStatementStrategy(

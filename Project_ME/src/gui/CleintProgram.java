@@ -17,6 +17,7 @@ import object.Program;
 public class CleintProgram<T> extends JDialog implements ActionListener{
 
 	FileManager filemanager;
+	GuiProcess gui;
 	
 	Vector<Program> list;
 	JComboBox<String> combo = new JComboBox<String>();
@@ -26,6 +27,8 @@ public class CleintProgram<T> extends JDialog implements ActionListener{
 	
 	public CleintProgram(Vector<Program> list, Client c) {
 		filemanager = FileManager.getInstance();
+		gui = GuiProcess.getInstance();
+		
 		clt = c;
 		this.list = list;
 		
@@ -51,11 +54,10 @@ public class CleintProgram<T> extends JDialog implements ActionListener{
 		if (index != -1) {
 			clt.setProgram(combo.getItemAt(index));
 			try {
-				filemanager.updateClient(clt);
+				gui.update(clt);
 				JOptionPane.showMessageDialog(null, "저장했습니다.");
 			} catch (ClassNotFoundException | SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				JOptionPane.showMessageDialog(null, "저장실패");
 			}
 		}
 		dispose();
