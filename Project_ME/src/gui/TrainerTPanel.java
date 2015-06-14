@@ -4,10 +4,12 @@ import java.sql.SQLException;
 import java.util.Vector;
 
 import javax.swing.BoxLayout;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import database.FileManager;
 import object.Trainer;
 
 public class TrainerTPanel extends JPanel {
@@ -17,18 +19,27 @@ public class TrainerTPanel extends JPanel {
 	Vector<Trainer> allTrainer = new Vector<Trainer>();
 	Vector<Vector<String>> row = new Vector<Vector<String>>();
 	Vector<String> col = new Vector<String>();
-	
+	GuiProcess gui;
+	FileManager fileManager;
 	String[] colArray = {"이름","전화번호","주소","입사일"};
 	
 	public TrainerTPanel() throws ClassNotFoundException, SQLException {
+		fileManager = FileManager.getInstance();
+		gui = GuiProcess.getInstance();
+		
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
 		JPanel panel = new JPanel();
 		
 		for(int i=0; i<colArray.length; i++)
 			col.add(colArray[i]);
-		
-		row = getRow();
+		try {
+			allTrainer = gui.guiGetTrainer();
+		} catch (ClassNotFoundException | SQLException e1) {
+			JOptionPane.showMessageDialog(null, "데이터베이스 오류");
+		}
+
+		row = gui.getRowTrainer(allTrainer);
 		jtable = new JTable(row, col);
 		scroll = new JScrollPane(jtable);
 		
@@ -43,23 +54,5 @@ public class TrainerTPanel extends JPanel {
 		row.removeAllElements();
 		row.addAll(New);
 		jtable.updateUI();
-	}
-	
-	public Vector<Vector<String>> getRow() throws ClassNotFoundException, SQLException {
-		Vector<Vector<String>> result = new Vector<Vector<String>>();
-		
-		allTrainer = database.FileManager.getInstance().getTrainer("all");
-		for (Trainer t : this.allTrainer) {
-			Vector<String> v = new Vector<String>();
-			
-			v.add(t.getName());
-			v.add(t.getPhone());
-			v.add(t.getAddress());
-			v.add(t.getRegistDate());
-			
-			result.add(v);
-		}
-			
-		return result;
 	}
 }

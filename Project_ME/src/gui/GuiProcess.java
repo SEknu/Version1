@@ -11,7 +11,7 @@ import object.Trainer;
 import database.FileManager;
 
 public class GuiProcess {	
-	FileManager filemanager;
+	FileManager filemanager = FileManager.getInstance();
 	static private GuiProcess instance = new GuiProcess();
 	
 	/* getInstance */
@@ -53,6 +53,41 @@ public class GuiProcess {
 		}
 		return result;
 	}
+	
+	public Vector<Vector<String>> getRowTrainer(Vector<Trainer> allTrainer) throws ClassNotFoundException, SQLException {
+		Vector<Vector<String>> result = new Vector<Vector<String>>();
+		
+		for (Trainer t : allTrainer) {
+			Vector<String> v = new Vector<String>();
+			
+			v.add(t.getName());
+			v.add(t.getPhone());
+			v.add(t.getAddress());
+			v.add(t.getRegistDate());
+			
+			result.add(v);
+		}
+			
+		return result;
+	}
+	
+	public Vector<Vector<String>> getRowPrograme(Vector<Program> prog) throws ClassNotFoundException, SQLException
+	{
+		Vector<Vector<String>> result = new Vector<Vector<String>>();
+		
+		for (Program p : prog) {
+			Vector<String> program = new Vector<String>();
+			
+			program.add(p.getName());
+			program.add(p.getPartOfBody());
+			program.add(p.getDifficulty());
+			program.add(p.getComment());
+					
+			result.add(program);
+		}		
+		return result;
+	}
+	
 	
 	// 정보를 받아들이는 곳
 	public Vector<Client> guiGetClient() throws ClassNotFoundException, SQLException {
@@ -107,5 +142,16 @@ public class GuiProcess {
 	
 	public void update(Commodity commodity) throws ClassNotFoundException, SQLException {
 		filemanager.updateCommodity(commodity);
+	}
+	
+	public void update(Trainer trainer) throws ClassNotFoundException, SQLException {
+		filemanager.updateTrainer(trainer);
+	}
+	
+	public void update(Program program) throws ClassNotFoundException, SQLException {
+		filemanager.updateProgram(program);
+	}
+	public void update(Member member) throws ClassNotFoundException, SQLException {
+		filemanager.updateMember(member);
 	}
 }
