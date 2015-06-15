@@ -56,7 +56,6 @@ public class ProgramRegister extends JDialog implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == Add_B) {
 			//DB부르기 ★수정
-			FileManager filemanager;
 			Program program = new Program();
 			Calendar calender = Calendar.getInstance();
 			
@@ -66,7 +65,6 @@ public class ProgramRegister extends JDialog implements ActionListener {
 			program.setPartOfBody(this.partTextfield.getText());
 			program.setComment(this.commentTextfield.getText());
 			
-			filemanager = new FileManager();
 			try {
 				gui.add(program);;
 			} catch (ClassNotFoundException | SQLException e1) {

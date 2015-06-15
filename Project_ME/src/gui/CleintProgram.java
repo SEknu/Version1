@@ -15,8 +15,6 @@ import object.Program;
 
 
 public class CleintProgram<T> extends JDialog implements ActionListener{
-
-	FileManager filemanager;
 	GuiProcess gui;
 	
 	Vector<Program> list;
@@ -26,7 +24,6 @@ public class CleintProgram<T> extends JDialog implements ActionListener{
 	private Client clt;
 	
 	public CleintProgram(Vector<Program> list, Client c) {
-		filemanager = FileManager.getInstance();
 		gui = GuiProcess.getInstance();
 		
 		clt = c;

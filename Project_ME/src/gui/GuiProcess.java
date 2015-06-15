@@ -3,6 +3,8 @@ package gui;
 import java.sql.SQLException;
 import java.util.Vector;
 
+import javax.swing.JTable;
+
 import object.Client;
 import object.Commodity;
 import object.Member;
@@ -120,7 +122,12 @@ public class GuiProcess {
 		return allClient;
 	}
 	
-
+	public Vector<Program> selectProgram(final String key, final String str) throws ClassNotFoundException, SQLException {
+		Vector<Program> allProgram;
+		allProgram = filemanager.selectProgram(key, str);
+		return allProgram;
+	}
+	
 	public void add(Client client) throws ClassNotFoundException, SQLException {
 		filemanager.add(client);
 	}
@@ -142,6 +149,7 @@ public class GuiProcess {
 	}
 	
 
+	/******************* update ********************/
 	public void update(Client client) throws ClassNotFoundException, SQLException {
 		filemanager.updateClient(client);
 	}
@@ -165,5 +173,5 @@ public class GuiProcess {
 		filemanager.delete(index, table);
 	}
 	 
-	
+
 }

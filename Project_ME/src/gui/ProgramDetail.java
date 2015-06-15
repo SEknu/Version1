@@ -81,7 +81,7 @@ public class ProgramDetail extends JDialog implements ActionListener {
 			program.setComment(((JTextField)pan[3].getComponent(1)).getText().toString());
 			
 			try {
-				FileManager.getInstance().updateProgram(program);
+				GuiProcess.getInstance().update(program);
 				JOptionPane.showMessageDialog(null, "저장했습니다.");
 				dispose();
 			} catch (ClassNotFoundException | SQLException e1) {

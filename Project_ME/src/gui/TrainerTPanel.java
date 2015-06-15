@@ -25,7 +25,6 @@ public class TrainerTPanel extends JPanel {
 	String[] colArray = {"이름","전화번호","주소","입사일"};
 	
 	public TrainerTPanel() throws ClassNotFoundException, SQLException {
-		fileManager = FileManager.getInstance();
 		gui = GuiProcess.getInstance();
 		
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -38,6 +37,7 @@ public class TrainerTPanel extends JPanel {
 			vectorTrainer = gui.getTrainer();
 		} catch (ClassNotFoundException | SQLException e1) {
 			JOptionPane.showMessageDialog(null, "데이터베이스 오류");
+			e1.printStackTrace();
 		}
 
 		row = gui.getRowTrainer(vectorTrainer);
@@ -49,7 +49,7 @@ public class TrainerTPanel extends JPanel {
 		
 		setSize(500, 550);
 		setVisible(true);
-	}
+	}	
 	
 	public void Patch(Vector<Vector<String>> New) {
 		row.removeAllElements();

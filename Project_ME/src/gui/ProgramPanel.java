@@ -40,7 +40,6 @@ public class ProgramPanel extends JPanel implements ActionListener{
 	JComboBox selectionList = new JComboBox(selectionArray);
 	JTextField searchTextField = new JTextField(10);
 	
-	FileManager filemanager = FileManager.getInstance();
 	GuiProcess gui = GuiProcess.getInstance();
 		
 	public ProgramPanel() throws ClassNotFoundException, SQLException	{
@@ -93,7 +92,7 @@ public class ProgramPanel extends JPanel implements ActionListener{
 		if(e.getSource() == addButton)  {
 			new ProgramRegister();
 			try {
-				vectorProgram = filemanager.getProgram("all");
+				vectorProgram = gui.getProgram();
 			} catch (ClassNotFoundException | SQLException e1) {
 				JOptionPane.showMessageDialog(null, "데이터베이스 오류");
 			}
@@ -101,8 +100,8 @@ public class ProgramPanel extends JPanel implements ActionListener{
 		else if(e.getSource() == deleteButton) {
 			int index = jtable.getSelectedRow();
 			try {
-				filemanager.delete(filemanager.getProgram("all").get(index).getID(), "program");
-				vectorProgram = filemanager.getProgram("all");
+				gui.delete(vectorProgram.get(index).getID(), "program");
+				vectorProgram = gui.getProgram();
 			} catch (ClassNotFoundException | SQLException e1) {
 				// TODO Auto-generated catch block
 				JOptionPane.showMessageDialog(null, "데이터베이스 오류");
@@ -124,13 +123,13 @@ public class ProgramPanel extends JPanel implements ActionListener{
 					
 			if (str != null && str.length() > 0) {
 				try {
-					vectorProgram = filemanager.selectProgram(col, str);
+					vectorProgram = gui.selectProgram(col, str);
 				} catch (ClassNotFoundException | SQLException e1) {
 					JOptionPane.showMessageDialog(null, "데이터베이스 접근실패");
 				}
 			} else {
 				try {
-					vectorProgram = filemanager.getProgram("all");
+					vectorProgram = gui.getProgram();
 				} catch (ClassNotFoundException | SQLException e1) {
 					JOptionPane.showMessageDialog(null, "데이터베이스 접근실패");
 				}

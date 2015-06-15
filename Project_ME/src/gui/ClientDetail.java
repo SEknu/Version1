@@ -21,8 +21,6 @@ import object.Program;
 import object.Trainer;
 
 public class ClientDetail extends JDialog implements ActionListener {
-
-	FileManager filemanager;
 	Client clt;
 	GuiProcess gui;
 
@@ -40,7 +38,6 @@ public class ClientDetail extends JDialog implements ActionListener {
 	JPanel termiDatePanel = new JPanel();
 	
 	public ClientDetail(Client clt) {
-		filemanager = FileManager.getInstance();
 		gui = GuiProcess.getInstance();
 		this.clt = clt;
 		

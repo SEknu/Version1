@@ -41,7 +41,6 @@ public class ClientRegister extends JDialog implements ActionListener {
 	private JTextField phone2TextField = new JTextField(4);
 	private JTextField phone3TextField = new JTextField(4);
 	private JTextField addressTextField = new JTextField(20);
-	// private JTextField JTAddress2 = new JTextField(10);
 	private JTextField commentTextField = new JTextField(20);
 	private JComboBox<String> registPeriodComboBox = new JComboBox<String>();
 

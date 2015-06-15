@@ -124,8 +124,8 @@ public class ClientAPanel extends JPanel implements ActionListener {
 			String id;
 			String phone;
 			try {
-				id = gui.getClient().get(index).getId();
-				phone = gui.getClient().get(index).getPhone();
+				id = vectorClient.get(index).getId();
+				phone = vectorClient.get(index).getPhone();
 				gui.delete(id, "client");
 				gui.delete(phone, "member");
 				vectorClient = gui.getClient();
@@ -141,6 +141,7 @@ public class ClientAPanel extends JPanel implements ActionListener {
 				new ClientDetail(this.vectorClient.get(index));
 			}
 		}
+		
 		try {
 			patch(gui.getClientRow(vectorClient));
 		} catch (ClassNotFoundException | SQLException e1) {
