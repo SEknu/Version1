@@ -17,37 +17,37 @@ import object.Client;
 public class UserMode extends JFrame implements ActionListener, WindowListener {
 	
 	JPanel panel = new JPanel();
-	JPanel panel1 = new JPanel();
-	JPanel Info = new JPanel();
-	JButton clubButton = new JButton("Fitness club info");
-	JButton programButton = new JButton("Exercise info");
-	JButton clientButton = new JButton("Personal");
+	JPanel menu = new JPanel();
+	JPanel window = new JPanel();
+	JButton clientButton = new JButton("내 정보");
+	JButton programButton = new JButton("내 프로그램");
+	JButton passwordButton = new JButton("비밀번호 변경");
 	JButton logoutButton = new JButton("logout");
 	
-	private Client login = null;
+	private Client loginClient = null;
 	
-	public UserMode(Client login)
+	public UserMode(Client loginClient)
 	{
-		this.login = login;
+		this.loginClient = loginClient;
 		
 		addWindowListener(this);
-		clubButton.addActionListener(this);
+		passwordButton.addActionListener(this);
 		programButton.addActionListener(this);
 		clientButton.addActionListener(this);
 		logoutButton.addActionListener(this);
 		
-		Info.setPreferredSize(new Dimension(500,500));
+		window.setPreferredSize(new Dimension(500,500));
 		
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		
-		panel1.setLayout(new FlowLayout());
-		panel1.add(clubButton);
-		panel1.add(programButton);
-		panel1.add(clientButton);
-		panel1.add(logoutButton);
+		menu.setLayout(new FlowLayout());
+		menu.add(clientButton);
+		menu.add(programButton);
+		menu.add(passwordButton);
+		menu.add(logoutButton);
 		
-		panel.add(panel1);
-		panel.add(Info);
+		panel.add(menu);
+		panel.add(window);
 		
 		getContentPane().add(panel);
 		
@@ -60,42 +60,42 @@ public class UserMode extends JFrame implements ActionListener, WindowListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
-		if (e.getSource() == clubButton)
+		if (e.getSource() == clientButton)
 		{
-			Info.setVisible(false);
-			Info.removeAll();
-			Info.add(new ClubInfo());
-			Info.setVisible(true);
+			window.setVisible(false);
+			window.removeAll();
+			try {
+				window.add(new UserPanel(loginClient));
+			} catch (ClassNotFoundException e1) {
+				e1.printStackTrace();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			window.setVisible(true);
 		}
 		else if (e.getSource() == programButton)
 		{
-			Info.setVisible(false);
-			Info.removeAll();
+			window.setVisible(false);
+			window.removeAll();
 			try {
-				Info.add(new ExerInfo());
+				window.add(new UserProgram(loginClient));
 			} catch (ClassNotFoundException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			Info.setVisible(true);
+			window.setVisible(true);
 		}
-		else if (e.getSource() == clientButton)
+		else if (e.getSource() == passwordButton)
 		{
-			Info.setVisible(false);
-			Info.removeAll();
 			try {
-				Info.add(new UserPanel(login));
+				new PasswordModify(loginClient);
 			} catch (ClassNotFoundException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			Info.setVisible(true);
+			
 		}
 		else if (e.getSource() == logoutButton)
 		{

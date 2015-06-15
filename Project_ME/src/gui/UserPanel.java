@@ -4,121 +4,101 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
-import java.util.Vector;
 
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import object.Client;
-import object.Program;
 
 public class UserPanel extends JPanel implements ActionListener{
 
+	private String name;
+	private String phone;
+	private int height;
+	private int weight;
+	private int bodyFat;
+	private int bodyMuscle;
 	private int regiDateYear;
 	private int regiDateMonth;
 	private int regiDateDate;
 	private int experDateYear;
 	private int experDateMonth;
 	private int experDateDate;
-	private int Attendance;
-	private String rank;
-	private String trainer;
-	
-	//JButton Logout = new JButton("Log out");
-	//JTextField lg = new JTextField(15);
-	
-	JComboBox<String> combo = new JComboBox<String>();
-	Vector<Program> program;
-	JButton Button_Program_Delete = new JButton("삭제");
+	private String currentStatus;
 		
-	public UserPanel(Client login) throws ClassNotFoundException, SQLException {
-		if (login.getRegistDate() != null) {
-			String date = login.getRegistDate();
+	public UserPanel(Client loginClient) throws ClassNotFoundException, SQLException {
+		
+		name = loginClient.getName();
+		phone = loginClient.getPhone();
+		height = loginClient.getHeight();
+		weight = loginClient.getWeight();
+		bodyFat = loginClient.getBodyFat();
+		bodyMuscle = loginClient.getBodyMuscle();
+		if(loginClient.isCurrentStatus()==0)
+			currentStatus = "등록 중이 아닙니다.";
+		else
+			currentStatus = "등록 중입니다.";
+		
+		if (loginClient.getRegistDate() != null) {
+			String date = loginClient.getRegistDate();
 			this.regiDateYear = Integer.valueOf(date.substring(0, 4));
 			this.regiDateMonth = Integer.valueOf(date.substring(5, 7));
 			this.regiDateDate = Integer.valueOf(date.substring(8, 10));
 		}
-		if (login.getTerminateDate() != null) {
-			String date = login.getTerminateDate();
+		if (loginClient.getTerminateDate() != null) {
+			String date = loginClient.getTerminateDate();
 			this.experDateYear = Integer.valueOf(date.substring(0, 4));
 			this.experDateMonth = Integer.valueOf(date.substring(5, 7));
 			this.experDateDate = Integer.valueOf(date.substring(8, 10));
 		}
-		//this.Attendance = login.getAttendance();
-		this.trainer = login.getTrainer();
-		
-		Button_Program_Delete.addActionListener(this);
-		//Logout.addActionListener(this);
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		
-		JPanel panel1 = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		//regi_date_year = login.getDate().getYear()+1900;
-		//regi_date_month = login.getDate().getMonth()+1;
-		//regi_date_date = login.getDate().getDate();
-		
-		panel1.add(new JLabel("등록일"));
-		panel1.add(new JLabel(regiDateYear + "년 " + regiDateMonth + "월 "
-				+ regiDateDate + "일"));
-		
-		experDateYear = regiDateYear;
-		if (regiDateMonth + 3 > 12)
-			experDateYear++;
-		
-		experDateMonth = (regiDateMonth + 3);
-		if (experDateMonth > 12)
-			experDateMonth = experDateMonth % 12;
-		
-		experDateDate = regiDateDate;
-		
+		JPanel panel1 = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		JPanel panel2 = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		panel2.add(new JLabel("만료일"));
-		panel2.add(new JLabel(experDateYear + "년 " + experDateMonth + "월 " +
-				experDateDate + "일"));
-		
 		JPanel panel3 = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		panel3.add(new JLabel("출석일"));
-		panel3.add(new JLabel(Integer.toString(this.Attendance)));
-		
 		JPanel panel4 = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		panel4.add(new JLabel("등급"));  //
-		if (Attendance > 10)
-		{
-			rank = "우수회원";
-		}
-		else
-			rank = "일반회원";
-		panel4.add(new JLabel(rank));
-		
 		JPanel panel5 = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		panel5.add(new JLabel("트레이너"));
-		panel5.add(new JLabel( this.trainer ));
+		JPanel panel6 = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		JPanel panel7 = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		JPanel panel8 = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		JPanel panel9 = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		
-		//JPanel panel6 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		//panel6.add(lg);
-		//panel6.add(Logout);
+		panel1.add(new JLabel(name + "님의 정보"));
+		panel2.add(new JLabel("휴대폰번호"));
+		panel2.add(new JLabel(phone));
 		
-		program = database.FileManager.getInstance().getProgram("all");
+		panel3.add(new JLabel("키"));
+		panel3.add(new JLabel(height + "cm"));
 		
-		for (Program p : program) {
-			combo.addItem(p.getName());
-		}
+		panel4.add(new JLabel("몸무게"));
+		panel4.add(new JLabel(weight + "kg"));
 		
-		JPanel panel7 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		panel7.add(combo);
-		panel7.add(Button_Program_Delete);
+		panel5.add(new JLabel("근육량"));
+		panel5.add(new JLabel(bodyMuscle + "kg"));
+		
+		panel6.add(new JLabel("체지방"));
+		panel6.add(new JLabel(bodyFat + "%"));
+		
+		panel7.add(new JLabel("등록일"));
+		panel7.add(new JLabel(regiDateYear + "년 " + regiDateMonth + "월 " + regiDateDate + "일"));
+		
+		panel8.add(new JLabel("만료일"));
+		panel8.add(new JLabel(experDateYear + "년 " + experDateMonth + "월 " + experDateDate + "일"));
+		
+		panel9.add(new JLabel(currentStatus));
+		
 		
 		panel.add(panel1);
 		panel.add(panel2);
 		panel.add(panel3);
 		panel.add(panel4);
 		panel.add(panel5);
+		panel.add(panel6);
 		panel.add(panel7);
-		//panel.add(panel6);
-		
+		panel.add(panel8);
+		panel.add(panel9);
 		
 		add(panel);
 		//pack();
@@ -136,13 +116,5 @@ public class UserPanel extends JPanel implements ActionListener{
 			if (logout == true)
 				dispose();
 		}*/
-		
-		if(e.getSource() == Button_Program_Delete) {
-			int index = combo.getSelectedIndex();
-			if (index != -1) {
-				combo.remove(combo.getSelectedIndex());
-			}
-			combo.updateUI();
-		}
 	}
 }
