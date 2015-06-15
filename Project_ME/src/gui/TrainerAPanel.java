@@ -37,7 +37,7 @@ public class TrainerAPanel extends TrainerTPanel implements ActionListener {
 			new TrainerRegister();
 			
 			try {
-				Patch(getRow());
+				Patch(gui.getRowTrainer(allTrainer));
 			} catch (ClassNotFoundException | SQLException e1) {
 				JOptionPane.showMessageDialog(null, "불러오기 실패");
 			}
@@ -55,7 +55,7 @@ public class TrainerAPanel extends TrainerTPanel implements ActionListener {
 					}
 			}
 			try {
-				Patch(getRow());
+				Patch(gui.getRowTrainer(allTrainer));
 			} catch (ClassNotFoundException | SQLException e1) {
 				JOptionPane.showMessageDialog(null, "불러오기 실패");
 			}

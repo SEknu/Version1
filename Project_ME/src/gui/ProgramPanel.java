@@ -41,6 +41,7 @@ public class ProgramPanel extends JPanel implements ActionListener{
 	JTextField searchTextField = new JTextField(10);
 	
 	FileManager filemanager = FileManager.getInstance();
+	GuiProcess gui = GuiProcess.getInstance();
 		
 	public ProgramPanel() throws ClassNotFoundException, SQLException	{
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -51,11 +52,11 @@ public class ProgramPanel extends JPanel implements ActionListener{
 		for(int i=0; i<colArray.length; i++)
 			col.add(colArray[i]);	
 		try {
-			vectorProgram = filemanager.getProgram("all");
+			vectorProgram = gui.guiGetProgram();
 		} catch (ClassNotFoundException | SQLException e1) {
 			JOptionPane.showMessageDialog(null, "데이터베이스 오류");
 		}
-		row = getRow(vectorProgram);
+		row = gui.getRowPrograme(vectorProgram);
 		
 		//테이블 생성
 		jtable = new JTable(row, col);
@@ -84,24 +85,6 @@ public class ProgramPanel extends JPanel implements ActionListener{
 		row.removeAllElements();
 		row.addAll(New);
 		jtable.updateUI();
-	}
-	
-	
-	public Vector<Vector<String>> getRow(Vector<Program> prog) throws ClassNotFoundException, SQLException
-	{
-		Vector<Vector<String>> result = new Vector<Vector<String>>();
-		
-		for (Program p : prog) {
-			Vector<String> program = new Vector<String>();
-			
-			program.add(p.getName());
-			program.add(p.getPartOfBody());
-			program.add(p.getDifficulty());
-			program.add(p.getComment());
-					
-			result.add(program);
-		}		
-		return result;
 	}
 	
 	@Override
@@ -155,7 +138,7 @@ public class ProgramPanel extends JPanel implements ActionListener{
 		} 
 		
 		try {
-			Patch(getRow(vectorProgram));
+			Patch(gui.getRowPrograme(vectorProgram));
 		} catch (ClassNotFoundException | SQLException e1) {
 			JOptionPane.showMessageDialog(null, "불러오기 실패");
 		}

@@ -161,6 +161,20 @@ public class FileManager {
 		);
 	}
 	
+	public void updateTrainer(final Trainer trainer) throws ClassNotFoundException, SQLException {
+		jdbcContextWithStatementStrategy(
+				new StatementStrategy() {
+			@Override
+			public PreparedStatement makePreparedStatement(Connection c)
+					throws SQLException {
+					PreparedStatement ps = c.prepareStatement("update trainer set loginId=?, "
+							+ "pwd=?, name=?, regi_date=?, salary=?, addr=?, phone=? where id=?");
+					return setTrainerInfo(trainer, ps);
+				}
+			}
+		);
+	}
+	
 	public Vector<Trainer> selectTrainer(final String col,final String str) throws SQLException, ClassNotFoundException {
 		Trainer trainer;
 		ResultSet rs = null;
@@ -229,6 +243,20 @@ public class FileManager {
 			public PreparedStatement makePreparedStatement(Connection c)
 					throws SQLException {
 					PreparedStatement ps = c.prepareStatement("insert into member(loginId, pwd, position, id) values(?,?,?,?)");
+					return setMemberInfo(member, ps);
+				}
+			}
+		);
+	}
+	
+	public void updateMember(final Member member) throws ClassNotFoundException, SQLException {
+		jdbcContextWithStatementStrategy(
+				new StatementStrategy() {
+			@Override
+			public PreparedStatement makePreparedStatement(Connection c)
+					throws SQLException {
+					PreparedStatement ps = c.prepareStatement("update member set loginId=?, "
+							+ "pwd=?, position=? where id=?");
 					return setMemberInfo(member, ps);
 				}
 			}
@@ -395,6 +423,7 @@ public class FileManager {
 		}	
 		return vectorProgram;
 	}
+
 	
 	public void updateProgram(final Program program) throws ClassNotFoundException, SQLException {
 		jdbcContextWithStatementStrategy(
