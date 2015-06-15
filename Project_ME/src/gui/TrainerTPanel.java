@@ -34,7 +34,7 @@ public class TrainerTPanel extends JPanel {
 		for(int i=0; i<colArray.length; i++)
 			col.add(colArray[i]);
 		try {
-			allTrainer = gui.guiGetTrainer();
+			allTrainer = gui.getTrainer();
 		} catch (ClassNotFoundException | SQLException e1) {
 			JOptionPane.showMessageDialog(null, "데이터베이스 오류");
 		}

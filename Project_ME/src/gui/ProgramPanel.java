@@ -52,7 +52,7 @@ public class ProgramPanel extends JPanel implements ActionListener{
 		for(int i=0; i<colArray.length; i++)
 			col.add(colArray[i]);	
 		try {
-			vectorProgram = gui.guiGetProgram();
+			vectorProgram = gui.getProgram();
 		} catch (ClassNotFoundException | SQLException e1) {
 			JOptionPane.showMessageDialog(null, "데이터베이스 오류");
 		}

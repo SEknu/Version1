@@ -53,7 +53,7 @@ public class CommodityPanel extends JPanel implements ActionListener {
 			col.add(colArray[i]);
 		}
 		try {
-			vectorCommodity = gui.guiCommodity();
+			vectorCommodity = gui.getCommodity();
 		} catch (ClassNotFoundException | SQLException e1) {
 			JOptionPane.showMessageDialog(null, "데이터베이스 오류");
 		}
@@ -95,7 +95,7 @@ public class CommodityPanel extends JPanel implements ActionListener {
 		if (e.getSource() == addButton) {
 			new CommodityRegister();
 			try {
-				vectorCommodity = gui.guiCommodity();
+				vectorCommodity = gui.getCommodity();
 			} catch (ClassNotFoundException | SQLException e1) {
 				JOptionPane.showMessageDialog(null, "데이터베이스 오류");
 			}
@@ -117,7 +117,7 @@ public class CommodityPanel extends JPanel implements ActionListener {
 				}
 			} else {
 				try {
-					vectorCommodity = gui.guiCommodity();
+					vectorCommodity = gui.getCommodity();
 				} catch (ClassNotFoundException | SQLException e1) {
 					JOptionPane.showMessageDialog(null, "데이터베이스 접근실패");
 				}
@@ -125,9 +125,9 @@ public class CommodityPanel extends JPanel implements ActionListener {
 		} else if (e.getSource() == deleteButton) {
 			int index = jtable.getSelectedRow();
 			try {
-				filemanager.delete(gui.guiCommodity().get(index)
+				filemanager.delete(gui.getCommodity().get(index)
 						.getID(), "commodity");
-				vectorCommodity = gui.guiCommodity();
+				vectorCommodity = gui.getCommodity();
 			} catch (ClassNotFoundException | SQLException e1) {
 				JOptionPane.showMessageDialog(null, "데이터베이스 오류");
 			} catch (ArrayIndexOutOfBoundsException e2) {
