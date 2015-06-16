@@ -13,7 +13,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import object.Program;
-import database.FileManager;
 
 public class ProgramRegister extends JDialog implements ActionListener {
 	GuiProcess gui;

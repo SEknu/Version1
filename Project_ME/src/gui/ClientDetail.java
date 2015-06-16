@@ -15,7 +15,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import database.FileManager;
 import object.Client;
 import object.Program;
 import object.Trainer;

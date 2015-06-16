@@ -1,19 +1,9 @@
 package gui;
 
-import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-
 import com.sun.media.jfxmedia.logging.Logger;
-
-import object.Trainer;
 
 
 public class AdminTMode extends AdminAbstract {

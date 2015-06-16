@@ -15,7 +15,6 @@ import javax.swing.JTextField;
 
 import object.Client;
 import object.Member;
-import database.FileManager;
 
 public class PasswordModify extends JFrame implements ActionListener {
 

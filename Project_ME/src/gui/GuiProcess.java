@@ -119,10 +119,22 @@ public class GuiProcess {
 		return allClient;
 	}
 	
+	public Vector<Trainer> selectTrainer(final String key, final String str) throws ClassNotFoundException, SQLException {
+		Vector<Trainer> allTrainer;
+		allTrainer = filemanager.selectTrainer(key, str);
+		return allTrainer;
+	}
+	
 	public Vector<Program> selectProgram(final String key, final String str) throws ClassNotFoundException, SQLException {
 		Vector<Program> allProgram;
 		allProgram = filemanager.selectProgram(key, str);
 		return allProgram;
+	}
+	
+	public Vector<Commodity> selectCommodity(final String key, final String str) throws ClassNotFoundException, SQLException {
+		Vector<Commodity> allCommodity;
+		allCommodity = filemanager.selectCommodity(key, str);
+		return allCommodity;
 	}
 	
 	public Member selectMember(final String key, final String str) throws ClassNotFoundException, SQLException {
@@ -173,6 +185,7 @@ public class GuiProcess {
 		filemanager.updateMember(member);
 	}
 
+	/******************* delete ********************/
 	public void delete(final String index, final String table) throws ClassNotFoundException, SQLException {
 		filemanager.delete(index, table);
 	}

@@ -14,11 +14,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import database.FileManager;
 import object.Trainer;
 
 public class TrainerDetail extends JDialog implements ActionListener {
 	
+	GuiProcess gui;
 	Trainer trainer;
 	
 	JButton saveButton = new JButton("저장"); //저장버튼
@@ -31,7 +31,7 @@ public class TrainerDetail extends JDialog implements ActionListener {
 	JPanel[] pan = new JPanel[6];
 			
 	public TrainerDetail(Trainer trainer) {
-		
+		gui = GuiProcess.getInstance();
 		this.trainer = trainer;
 		
 		saveButton.addActionListener(this);
@@ -54,7 +54,7 @@ public class TrainerDetail extends JDialog implements ActionListener {
 		pan[3].add(new JLabel("입사일"));
 		pan[3].add(new JTextField(trainer.getRegistDate()));
 		pan[4].add(new JLabel("월급"));
-		pan[4].add(new JTextField(trainer.getSalary()));
+		pan[4].add(new JTextField(Integer.toString(trainer.getSalary())));
 		pan[5].add(new JLabel("비고"));
 		pan[5].add(new JTextField(trainer.getComment()));
 		
@@ -96,7 +96,7 @@ public class TrainerDetail extends JDialog implements ActionListener {
 			trainer.setComment(commentField.getText());
 			
 			try {
-				FileManager.getInstance().updateTrainer(trainer);
+				gui.update(trainer);
 				JOptionPane.showMessageDialog(null, "저장했습니다.");
 				dispose();
 			} catch (ClassNotFoundException | SQLException e1) {

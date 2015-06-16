@@ -3,7 +3,6 @@ package gui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Vector;
 
 import javax.swing.BoxLayout;
@@ -16,15 +15,11 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 
 import object.Client;
-import object.Program;
-import object.Trainer;
-import database.FileManager;
 
 public class ClientAPanel extends JPanel implements ActionListener {
 
 	JTable jtable;
 	JScrollPane scroll;
-	FileManager filemanager;
 	Vector<Client> vectorClient;
 	Vector<Vector<String>> row = new Vector<Vector<String>>();
 	Vector<String> col = new Vector<String>();
@@ -32,7 +27,7 @@ public class ClientAPanel extends JPanel implements ActionListener {
 
 	String[] colArray = { "이름", "연락처", "담당트레이너", "배정프로그램" };
 	String[] selectionArray = {"이름", "연락처", "트레이너", "프로그램"};
-	JButton addButton = new JButton("추가");
+	JButton addButton = new JButton("등록");
 	JButton deleteButton = new JButton("삭제");
 	JButton searchButton = new JButton("검색");
 	JButton detailButton = new JButton("상세보기");
@@ -40,7 +35,6 @@ public class ClientAPanel extends JPanel implements ActionListener {
 	JTextField searchTextField = new JTextField(10);
 
 	public ClientAPanel() throws ClassNotFoundException, SQLException {
-		filemanager = FileManager.getInstance();
 		gui = GuiProcess.getInstance();
 		
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -86,15 +80,18 @@ public class ClientAPanel extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String key = null;
+		
+		////등록
 		if (e.getSource() == addButton) {
 			new ClientRegister();
 			try {
 				vectorClient = gui.getClient();
 			} catch (ClassNotFoundException | SQLException e1) {
 				JOptionPane.showMessageDialog(null, "데이터베이스 오류");
-			}
-			
-		}else if (e.getSource() == searchButton) {
+			}	
+		}
+		////검색
+		else if (e.getSource() == searchButton) {
 			if(selectionList.getSelectedItem().equals(selectionArray[0])) {
 				key = "name";
 			} else if(selectionList.getSelectedItem().equals(selectionArray[1])) {
@@ -119,7 +116,9 @@ public class ClientAPanel extends JPanel implements ActionListener {
 					JOptionPane.showMessageDialog(null, "데이터베이스 접근실패");
 				}
 			}		
-		} else if (e.getSource() == deleteButton) {
+		}
+		////삭제
+		else if (e.getSource() == deleteButton) {
 			int index = jtable.getSelectedRow();
 			String id;
 			try {
@@ -132,7 +131,9 @@ public class ClientAPanel extends JPanel implements ActionListener {
 			} catch (ArrayIndexOutOfBoundsException e2) {
 				JOptionPane.showMessageDialog(null, "삭제할 회원이 없습니다.");
 			}
-		} else if (e.getSource() == detailButton) {
+		}
+		////상세보기
+		else if (e.getSource() == detailButton) {
 			int index = jtable.getSelectedRow();
 			if (index != -1) {
 				// DB에서 맞는 정보 불러와서 보여주기.★수정

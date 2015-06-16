@@ -5,7 +5,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.sql.SQLException;
-import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -17,17 +16,17 @@ import javax.swing.JTextField;
 
 import object.Client;
 import object.Member;
-import object.Trainer;
-import database.FileManager;
 
 public class LogIn extends JDialog implements ActionListener, KeyListener {
 
+	GuiProcess gui;
 	JTextField idTextfield = new JTextField(15);
 	JPasswordField pwTextfield = new JPasswordField(15);
 	JButton logInButton = new JButton("Login");
 		
 	public LogIn()
 	{
+		gui = GuiProcess.getInstance();
 		pwTextfield.addKeyListener(this);
 		logInButton.addActionListener(this);
 		
@@ -63,7 +62,7 @@ public class LogIn extends JDialog implements ActionListener, KeyListener {
 				String id = this.idTextfield.getText();
 				String pw = new String(this.pwTextfield.getPassword());
 				
-				Member member = FileManager.getInstance().selectMember("loginId", id);
+				Member member = gui.selectMember("loginId", id);
 				
 				if (id.equals("root")) { //관리자 로그인
 					if(pw.equals("1111")){
@@ -86,7 +85,7 @@ public class LogIn extends JDialog implements ActionListener, KeyListener {
 						
 					} else if(member.getPosition().equals("client")){ //client 로그인
 						
-						Client client = FileManager.getInstance().selectClient("loginId", id).firstElement();
+						Client client = gui.selectClient("loginId", id).firstElement();
 						dispose();
 						new UserMode(client);
 					}

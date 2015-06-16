@@ -16,7 +16,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import object.Commodity;
-import database.FileManager;
 
 ////★수정부분 새로운 클래스(운동기구정보 상세보기용)
 public class CommodityDetail extends JDialog implements ActionListener {

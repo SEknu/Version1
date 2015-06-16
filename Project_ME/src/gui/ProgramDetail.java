@@ -14,7 +14,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import database.FileManager;
 import object.Program;
 
 public class ProgramDetail extends JDialog implements ActionListener {

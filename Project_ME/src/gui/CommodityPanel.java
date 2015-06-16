@@ -16,13 +16,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
-import com.sun.media.jfxmedia.logging.Logger;
-
 import object.Commodity;
-import database.FileManager;
 
 public class CommodityPanel extends JPanel implements ActionListener {
-	FileManager filemanager = FileManager.getInstance();
 	GuiProcess gui;
 
 	JTable jtable;
@@ -34,7 +30,7 @@ public class CommodityPanel extends JPanel implements ActionListener {
 	// ★수정부분
 	String[] colArray = { "이름", "구입날짜", "재고량", "비고" };
 	String[] selectionArray = { "이름", "구입날짜" };
-	JButton addButton = new JButton("추가");
+	JButton addButton = new JButton("등록");
 	JButton deleteButton = new JButton("삭제");
 	JButton searchButton = new JButton("검색");
 	JButton detailButton = new JButton("상세보기");
@@ -111,7 +107,7 @@ public class CommodityPanel extends JPanel implements ActionListener {
 
 			if (str != null && str.length() > 0) {
 				try {
-					vectorCommodity = filemanager.selectCommodity(key, str);
+					vectorCommodity = gui.selectCommodity(key, str);
 				} catch (ClassNotFoundException | SQLException e1) {
 					JOptionPane.showMessageDialog(null, "데이터베이스 접근실패");
 				}
@@ -125,7 +121,7 @@ public class CommodityPanel extends JPanel implements ActionListener {
 		} else if (e.getSource() == deleteButton) {
 			int index = jtable.getSelectedRow();
 			try {
-				filemanager.delete(gui.getCommodity().get(index)
+				gui.delete(gui.getCommodity().get(index)
 						.getID(), "commodity");
 				vectorCommodity = gui.getCommodity();
 			} catch (ClassNotFoundException | SQLException e1) {

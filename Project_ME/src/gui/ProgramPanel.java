@@ -16,11 +16,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
-import com.sun.media.jfxmedia.logging.Logger;
-
-import object.Client;
 import object.Program;
-import database.FileManager;
 
 public class ProgramPanel extends JPanel implements ActionListener{
 
@@ -33,7 +29,7 @@ public class ProgramPanel extends JPanel implements ActionListener{
 	
 	String[] colArray = {"이름", "운동부위", "난이도", "비고"};
 	String[] selectionArray = {"이름", "운동부위", "난이도"};
-	JButton addButton = new JButton("추가");
+	JButton addButton = new JButton("등록");
 	JButton deleteButton = new JButton("삭제");
 	JButton detailButton = new JButton("상세보기");
 	JButton searchButton = new JButton("검색");
@@ -103,7 +99,6 @@ public class ProgramPanel extends JPanel implements ActionListener{
 				gui.delete(vectorProgram.get(index).getID(), "program");
 				vectorProgram = gui.getProgram();
 			} catch (ClassNotFoundException | SQLException e1) {
-				// TODO Auto-generated catch block
 				JOptionPane.showMessageDialog(null, "데이터베이스 오류");
 			} catch (ArrayIndexOutOfBoundsException e2) {
 				JOptionPane.showMessageDialog(null, "삭제할 운동 프로그램이 없습니다.");

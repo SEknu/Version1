@@ -9,18 +9,15 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-import database.FileManager;
 import object.Trainer;
 
 public class TrainerTPanel extends JPanel {
 	JTable jtable;
 	JScrollPane scroll;
-
 	Vector<Trainer> vectorTrainer;
 	Vector<Vector<String>> row = new Vector<Vector<String>>();
 	Vector<String> col = new Vector<String>();
 	GuiProcess gui;
-	FileManager fileManager;
 	
 	String[] colArray = {"이름","전화번호","주소","입사일"};
 	
@@ -33,6 +30,7 @@ public class TrainerTPanel extends JPanel {
 		
 		for(int i=0; i<colArray.length; i++)
 			col.add(colArray[i]);
+		
 		try {
 			vectorTrainer = gui.getTrainer();
 		} catch (ClassNotFoundException | SQLException e1) {
