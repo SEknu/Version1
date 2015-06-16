@@ -97,7 +97,6 @@ public class TrainerDetail extends JDialog implements ActionListener {
 			
 			try {
 				gui.update(trainer);
-				JOptionPane.showMessageDialog(null, "저장했습니다.");
 				dispose();
 			} catch (ClassNotFoundException | SQLException e1) {
 				JOptionPane.showMessageDialog(null, "저장실패");
