@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -43,6 +44,15 @@ public class TrainerRegister extends JDialog implements ActionListener{
 		
 		okButton.addActionListener(this);
 		cancelButton.addActionListener(this);
+		
+		GregorianCalendar cal = new GregorianCalendar();
+        String year = Integer.toString(cal.get(Calendar.YEAR));
+        String month = Integer.toString(cal.get(Calendar.MONTH)+1);
+        String day = Integer.toString(cal.get(Calendar.DATE));
+        
+        yearTextfield = new JTextField(year,4);
+    	monthTextfield = new JTextField(month,2);
+    	dateTextfield = new JTextField(day,2);
 		
 		setLayout(new GridLayout(5, 2));
 		JPanel panel1 = new JPanel(new FlowLayout());

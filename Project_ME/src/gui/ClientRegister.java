@@ -5,7 +5,10 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
@@ -49,7 +52,16 @@ public class ClientRegister extends JDialog implements ActionListener {
 		
 		registerButon.addActionListener(this);
 		cancelButton.addActionListener(this);
-
+		
+		GregorianCalendar cal = new GregorianCalendar();
+        String year = Integer.toString(cal.get(Calendar.YEAR));
+        String month = Integer.toString(cal.get(Calendar.MONTH)+1);
+        String day = Integer.toString(cal.get(Calendar.DATE));
+        
+        registerYearTextField = new JTextField(year,4);
+    	registerMonthTextField = new JTextField(month,2);
+    	registerDayTextField = new JTextField(day,2);
+        
 		JPanel homePanel = new JPanel();
 		homePanel.setLayout(new BoxLayout(homePanel, BoxLayout.Y_AXIS));
 		JPanel mainPanel = new JPanel();

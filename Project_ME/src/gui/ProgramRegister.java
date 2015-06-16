@@ -66,7 +66,7 @@ public class ProgramRegister extends JDialog implements ActionListener {
 			program.setComment(this.commentTextfield.getText());
 			
 			try {
-				gui.add(program);;
+				gui.add(program);
 			} catch (ClassNotFoundException | SQLException e1) {
 				JOptionPane.showMessageDialog(null, "프로그램 추가 실패");
 			}			

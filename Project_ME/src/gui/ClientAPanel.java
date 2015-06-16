@@ -122,12 +122,10 @@ public class ClientAPanel extends JPanel implements ActionListener {
 		} else if (e.getSource() == deleteButton) {
 			int index = jtable.getSelectedRow();
 			String id;
-			String phone;
 			try {
 				id = vectorClient.get(index).getId();
-				phone = vectorClient.get(index).getPhone();
 				gui.delete(id, "client");
-				gui.delete(phone, "member");
+				gui.delete(id, "member");
 				vectorClient = gui.getClient();
 			} catch (ClassNotFoundException | SQLException e1) {
 				JOptionPane.showMessageDialog(null, "데이터베이스 오류");
