@@ -29,14 +29,15 @@ public abstract class AdminAbstract extends JFrame implements ActionListener {
 
 	public AdminAbstract() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		//ActionListener 등록
 		clientButton.addActionListener(this);
 		programButton.addActionListener(this);
 		commodityButton.addActionListener(this);
 		trainerButton.addActionListener(this);
 		passwordButton.addActionListener(this);
 		logoutButton.addActionListener(this);
-
-		icon = new ImageIcon("C:\\Users\\user\\Desktop\\image.png");
+		//배경이미지 삽입.
+		icon = new ImageIcon("C:\\Users\\user\\Desktop\\advertising2.png");
 		JPanel p = new JPanel() {
 			public void paintComponent(Graphics g) {
 				g.drawImage(icon.getImage(), 0, 0, null);
@@ -44,7 +45,9 @@ public abstract class AdminAbstract extends JFrame implements ActionListener {
 				super.paintComponent(g);
 			}
 		};
+		//배경 Panel 레이아웃 설정
 		p.setLayout(new FlowLayout(FlowLayout.LEFT));
+		//패널별 component넣기
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 

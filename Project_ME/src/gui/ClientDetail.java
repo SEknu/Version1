@@ -151,6 +151,7 @@ public class ClientDetail extends JDialog implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		//저장버튼 클릭시.
 		if (e.getSource() == saveButton) {
 			JTextField nameTextField = (JTextField) contentPanel
 					.getComponent(1);
@@ -160,8 +161,6 @@ public class ClientDetail extends JDialog implements ActionListener {
 					.getComponent(2);
 			JTextField birthdayTextField3 = (JTextField) birthdayPanel
 					.getComponent(4);
-			// JTextField ageTextField =
-			// (JTextField)contentPanel.getComponent(5);
 			JTextField phoneTextField1 = (JTextField) phonePanel
 					.getComponent(0);
 			JTextField phoneTextField2 = (JTextField) phonePanel
@@ -178,10 +177,6 @@ public class ClientDetail extends JDialog implements ActionListener {
 					.getComponent(15);
 			JTextField bodyMuscleTextField = (JTextField) contentPanel
 					.getComponent(17);
-			// JTextField trainerTextField =
-			// (JTextField)contentPanel.getComponent(19);
-			// JTextField programTextField =
-			// (JTextField)contentPanel.getComponent(21);
 			JTextField regiDateTextField1 = (JTextField) regiDatePanel
 					.getComponent(0);
 			JTextField regiDateTextField2 = (JTextField) regiDatePanel
@@ -199,7 +194,6 @@ public class ClientDetail extends JDialog implements ActionListener {
 					.getComponent(29);
 			JTextField registTextField = (JTextField) contentPanel
 					.getComponent(31);
-
 			clt.setName(nameTextField.getText());
 			clt.setBirthday(birthdayTextField1.getText() + "-"
 					+ birthdayTextField2.getText() + "-"
@@ -214,8 +208,6 @@ public class ClientDetail extends JDialog implements ActionListener {
 			clt.setWeight(Integer.parseInt(weightTextField.getText()));
 			clt.setBodyFat(Integer.parseInt(bodyFatTextField.getText()));
 			clt.setBodyMuscle(Integer.parseInt(bodyMuscleTextField.getText()));
-			// clt.setTrainer(trainerTextField.getText());
-			// clt.setProgram(programTextField.getText());
 			clt.setRegistDate(regiDateTextField1.getText() + "-"
 					+ regiDateTextField2.getText() + "-"
 					+ regiDateTextField3.getText());
@@ -243,6 +235,7 @@ public class ClientDetail extends JDialog implements ActionListener {
 				e1.printStackTrace();
 				JOptionPane.showMessageDialog(null, "Database 저장실패");
 			}
+		//닫기 버튼클릭시.
 		} else if (e.getSource() == closeButton) {
 			int result = JOptionPane.showConfirmDialog(null,
 					"창을 닫으시겠습니까?\n(저장하지 않은내용은 삭제됩니다.)", null,
@@ -251,6 +244,7 @@ public class ClientDetail extends JDialog implements ActionListener {
 			if (result == 0) {
 				dispose();
 			}
+		//트레이너 배정버튼 클릭시.
 		} else if (e.getSource() == addTrainerButton) {
 			try {
 				new ClientTrainer<Trainer>(gui.getTrainer(), clt);
@@ -259,6 +253,7 @@ public class ClientDetail extends JDialog implements ActionListener {
 			} catch (ClassNotFoundException | SQLException e1) {
 				e1.printStackTrace();
 			}
+		//프로그램 배정버튼 클릭시.
 		} else if (e.getSource() == addProgramButton) {
 			try {
 				new CleintProgram<Program>(gui.getProgram(), clt);
@@ -269,7 +264,7 @@ public class ClientDetail extends JDialog implements ActionListener {
 			}
 		}
 	}
-
+	//만료날짜 계산 Method
 	public String calculateTerminateDate(String registDate, String registPeriod) {
 		String terminateDate = null;
 
@@ -279,7 +274,6 @@ public class ClientDetail extends JDialog implements ActionListener {
 		int registMonth = Integer.parseInt(registdate[1]);
 		int registperiod = Integer.parseInt(period[0]);
 		int result = registMonth + registperiod;
-		//System.out.println(result);
 		while(result > 12)
 		{
 			if (result > 12) {
@@ -295,7 +289,7 @@ public class ClientDetail extends JDialog implements ActionListener {
 				+ registdate[2];
 		return terminateDate;
 	}
-
+	//나이 계산 Method.
 	public int calculateAge(int birthdayYear) {
 		int age = 0;
 

@@ -32,6 +32,7 @@ public class CleintProgram<T> extends JDialog implements ActionListener {
 
 		button.addActionListener(this);
 		combo.addItem(" ");
+		//DB로부터 파일을 읽어들임.
 		for (Program p : list) {
 			combo.addItem(p.getName());
 		}
@@ -45,16 +46,19 @@ public class CleintProgram<T> extends JDialog implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		int index = combo.getSelectedIndex();
-
-		if (index != -1) {
-			clt.setProgram(combo.getItemAt(index));
-			try {
-				gui.update(clt);
-				JOptionPane.showMessageDialog(null, "저장했습니다.");
-				dispose();
-			} catch (ClassNotFoundException | SQLException e1) {
-				JOptionPane.showMessageDialog(null, "저장실패");
+		//배정버튼 클릭시
+		if (e.getSource() == button) {
+			int index = combo.getSelectedIndex();
+	
+			if (index != -1) {
+				clt.setProgram(combo.getItemAt(index));
+				try {
+					gui.update(clt);
+					JOptionPane.showMessageDialog(null, "저장했습니다.");
+					dispose();
+				} catch (ClassNotFoundException | SQLException e1) {
+					JOptionPane.showMessageDialog(null, "저장실패");
+				}
 			}
 		}
 	}

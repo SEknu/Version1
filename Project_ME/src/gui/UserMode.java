@@ -2,6 +2,7 @@ package gui;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
@@ -9,6 +10,7 @@ import java.awt.event.WindowListener;
 import java.sql.SQLException;
 
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -17,14 +19,15 @@ import object.Client;
 
 public class UserMode extends JFrame implements ActionListener, WindowListener {
 
-	JPanel panel = new JPanel();
+	JPanel panel;
 	JPanel menu = new JPanel();
 	JPanel window = new JPanel();
 	JButton clientButton = new JButton("내 정보");
 	JButton programButton = new JButton("내 프로그램");
 	JButton passwordButton = new JButton("비밀번호 변경");
 	JButton logoutButton = new JButton("logout");
-
+	ImageIcon icon;
+	
 	private Client loginClient = null;
 
 	public UserMode(Client loginClient) {
@@ -37,7 +40,14 @@ public class UserMode extends JFrame implements ActionListener, WindowListener {
 		logoutButton.addActionListener(this);
 
 		window.setPreferredSize(new Dimension(500, 500));
-
+		icon = new ImageIcon("C:\\Users\\user\\Desktop\\advertising2.png");
+		panel = new JPanel() {
+			public void paintComponent(Graphics g) {
+				g.drawImage(icon.getImage(), 0, 0, null);
+				setOpaque(false);
+				super.paintComponent(g);
+			}
+		};
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
 		menu.setLayout(new FlowLayout());
@@ -45,7 +55,8 @@ public class UserMode extends JFrame implements ActionListener, WindowListener {
 		menu.add(programButton);
 		menu.add(passwordButton);
 		menu.add(logoutButton);
-
+		menu.setOpaque(false);
+		window.setOpaque(false);
 		panel.add(menu);
 		panel.add(window);
 

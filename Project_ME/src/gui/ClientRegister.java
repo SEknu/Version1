@@ -143,9 +143,8 @@ public class ClientRegister extends JDialog implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		//등록 버튼 클릭시.
 		if (e.getSource() == registerButon) {
-			// Calendar calendar = Calendar.getInstance();
-
 			String id = createDBId();
 			String registDate = registerYearTextField.getText() + "-"
 					+ registerMonthTextField.getText() + "-"
@@ -179,6 +178,7 @@ public class ClientRegister extends JDialog implements ActionListener {
 			Member member = new Member(id, loginId, pwd, position);
 
 			try {
+				//DB에 저장.
 				gui.add(client);
 				gui.add(member);
 			} catch (ClassNotFoundException e1) {

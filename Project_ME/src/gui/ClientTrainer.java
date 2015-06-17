@@ -33,6 +33,7 @@ public class ClientTrainer<T> extends JDialog implements ActionListener {
 
 		button.addActionListener(this);
 		combo.addItem(" ");
+		//DB로부터 데이터 읽음.
 		for (Trainer t : list) {
 			combo.addItem(t.getName());
 		}
