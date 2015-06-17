@@ -7,27 +7,22 @@ public class Program {
 	private String difficulty;
 	private String partOfBody;
 	private String comment;
+
 	/*
-id				VARCHAR2(10),
-name			VARCHAR(10),
-difficulty		CHAR(6),
-part_of_body	VARCHAR(20),
-comment		VARCHAR2(200),
-아직 밑의 제약사항은 없음 ㅠㅠ
-PRIMARY KEY (id),
-FOREIGN KEY (commodity) REFERENCES commodity (id)
+	 * id VARCHAR2(10), name VARCHAR(10), difficulty CHAR(6), part_of_body
+	 * VARCHAR(20), comment VARCHAR2(200), 아직 밑의 제약사항은 없음 ㅠㅠ PRIMARY KEY (id),
+	 * FOREIGN KEY (commodity) REFERENCES commodity (id)
 	 */
 	@Override
-	public String toString()
-	{
+	public String toString() {
 		return name;
 	}
-	
+
 	/* constructor */
 	public Program() {
-		
+
 	}
-	
+
 	public Program(String id, String name, String d, String p, String c) {
 		this.setID(id);
 		this.setName(name);
@@ -75,6 +70,5 @@ FOREIGN KEY (commodity) REFERENCES commodity (id)
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
-	
 
 }

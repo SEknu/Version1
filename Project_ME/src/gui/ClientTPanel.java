@@ -6,8 +6,9 @@ import object.Client;
 
 public class ClientTPanel extends ClientAbstractPanel {
 	private String name;
-	
-	public ClientTPanel(String name) throws ClassNotFoundException, SQLException {			
+
+	public ClientTPanel(String name) throws ClassNotFoundException,
+			SQLException {
 		super(name);
 		// TODO Auto-generated constructor stub
 	}

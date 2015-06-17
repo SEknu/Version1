@@ -40,7 +40,7 @@ public class CommodityPanel extends JPanel implements ActionListener {
 	// ★수정부분
 	public CommodityPanel() throws ClassNotFoundException, SQLException {
 		gui = GuiProcess.getInstance();
-		
+
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
 		JPanel panel = new JPanel();
@@ -84,7 +84,6 @@ public class CommodityPanel extends JPanel implements ActionListener {
 
 	// ★수정부분
 
-
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String key = null;
@@ -121,8 +120,7 @@ public class CommodityPanel extends JPanel implements ActionListener {
 		} else if (e.getSource() == deleteButton) {
 			int index = jtable.getSelectedRow();
 			try {
-				gui.delete(gui.getCommodity().get(index)
-						.getID(), "commodity");
+				gui.delete(gui.getCommodity().get(index).getID(), "commodity");
 				vectorCommodity = gui.getCommodity();
 			} catch (ClassNotFoundException | SQLException e1) {
 				JOptionPane.showMessageDialog(null, "데이터베이스 오류");

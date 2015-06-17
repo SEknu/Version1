@@ -23,7 +23,7 @@ import object.Member;
 
 public class ClientRegister extends JDialog implements ActionListener {
 	GuiProcess gui;
-	
+
 	private JButton registerButon = new JButton("등록");
 	private JButton cancelButton = new JButton("취소");
 
@@ -45,22 +45,22 @@ public class ClientRegister extends JDialog implements ActionListener {
 	private JTextField commentTextField = new JTextField(20);
 	private JComboBox<String> registPeriodComboBox = new JComboBox<String>();
 	String birthday;
-	
+
 	public ClientRegister() {
 		gui = GuiProcess.getInstance();
-		
+
 		registerButon.addActionListener(this);
 		cancelButton.addActionListener(this);
-		
+
 		GregorianCalendar cal = new GregorianCalendar();
-        String year = Integer.toString(cal.get(Calendar.YEAR));
-        String month = Integer.toString(cal.get(Calendar.MONTH)+1);
-        String day = Integer.toString(cal.get(Calendar.DATE));
-        
-        registerYearTextField = new JTextField(year,4);
-    	registerMonthTextField = new JTextField(month,2);
-    	registerDayTextField = new JTextField(day,2);
-        
+		String year = Integer.toString(cal.get(Calendar.YEAR));
+		String month = Integer.toString(cal.get(Calendar.MONTH) + 1);
+		String day = Integer.toString(cal.get(Calendar.DATE));
+
+		registerYearTextField = new JTextField(year, 4);
+		registerMonthTextField = new JTextField(month, 2);
+		registerDayTextField = new JTextField(day, 2);
+
 		JPanel homePanel = new JPanel();
 		homePanel.setLayout(new BoxLayout(homePanel, BoxLayout.Y_AXIS));
 		JPanel mainPanel = new JPanel();
@@ -73,7 +73,7 @@ public class ClientRegister extends JDialog implements ActionListener {
 		phoneNumPanel.setLayout(new FlowLayout());
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new FlowLayout());
-		
+
 		registPeriodComboBox.setModel(new DefaultComboBoxModel<String>(
 				new String[] { "1개월", "2개월", "3개월", "6개월", "12개월" }));
 
@@ -126,7 +126,7 @@ public class ClientRegister extends JDialog implements ActionListener {
 
 		mainPanel.add(new JLabel("비고"));
 		mainPanel.add(commentTextField);
-		
+
 		buttonPanel.add(registerButon);
 		buttonPanel.add(cancelButton);
 
@@ -134,11 +134,11 @@ public class ClientRegister extends JDialog implements ActionListener {
 		homePanel.add(buttonPanel);
 
 		getContentPane().add(homePanel);
-		
+
 		pack();
 		setModal(true);
 		setVisible(true);
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);	
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
 
 	@Override
@@ -148,7 +148,8 @@ public class ClientRegister extends JDialog implements ActionListener {
 
 			String id = createDBId();
 			String registDate = registerYearTextField.getText() + "-"
-					+ registerMonthTextField.getText() + "-" + registerDayTextField.getText();
+					+ registerMonthTextField.getText() + "-"
+					+ registerDayTextField.getText();
 			String registPeriod = registPeriodComboBox.getSelectedItem()
 					.toString();
 			String terminateDate = calculateTerminateDate(registDate,
@@ -159,27 +160,31 @@ public class ClientRegister extends JDialog implements ActionListener {
 			int bodyMuscle = Integer.parseInt(BodyMuscleTextField.getText());
 			String note = commentTextField.getText();
 			String name = nameTextField.getText();
-			int age = calculateAge(Integer.parseInt(birthdayYearTextField.getText()));
+			int age = calculateAge(Integer.parseInt(birthdayYearTextField
+					.getText()));
 			birthday = birthdayYearTextField.getText() + "-"
-					+ birthdayMonthTextField.getText() + "-" + birthdayDayTextField.getText();
+					+ birthdayMonthTextField.getText() + "-"
+					+ birthdayDayTextField.getText();
 			String address = addressTextField.getText();
-			String phone = phone1TextField.getText() + "-" + phone2TextField.getText() + "-"
+			String phone = phone1TextField.getText() + "-"
+					+ phone2TextField.getText() + "-"
 					+ phone3TextField.getText();
 			String loginId = createClientId(phone);
-			String pwd = createClientPwd();
+			String pwd = createClientPwd(birthday);
 			String position = "client";
 
 			Client client = new Client(id, loginId, pwd, registDate,
 					registPeriod, terminateDate, name, age, birthday, address,
 					phone, height, weight, bodyFat, bodyMuscle, note);
 			Member member = new Member(id, loginId, pwd, position);
-			
+
 			try {
 				gui.add(client);
 				gui.add(member);
 			} catch (ClassNotFoundException e1) {
 				JOptionPane.showMessageDialog(null, "client, member 찾기 실패");
 			} catch (SQLException e1) {
+				e1.printStackTrace();
 				JOptionPane.showMessageDialog(null, "데이터베이스 저장 실패");
 			}
 
@@ -213,9 +218,16 @@ public class ClientRegister extends JDialog implements ActionListener {
 	}
 
 	// Client password create
-	public String createClientPwd() {
+	public String createClientPwd(String birthday) {
 		String clientPwd = null;
-		clientPwd = birthday;
+		String[] pwd = birthday.split("-");
+
+		if (Integer.parseInt(pwd[1]) < 10)
+			pwd[1] = "0" + pwd[1];
+		if (Integer.parseInt(pwd[2]) < 10)
+			pwd[2] = "0" + pwd[2];
+
+		clientPwd = pwd[0] + pwd[1] + pwd[2];
 		return clientPwd;
 	}
 

@@ -23,7 +23,7 @@ import object.Commodity;
 
 public class CommodityRegister extends JDialog implements ActionListener {
 	GuiProcess gui;
-	
+
 	JButton okButton = new JButton("추가");
 	JButton cancelButton = new JButton("취소");
 
@@ -40,7 +40,7 @@ public class CommodityRegister extends JDialog implements ActionListener {
 
 	public CommodityRegister() {
 		gui = GuiProcess.getInstance();
-		
+
 		okButton.addActionListener(this);
 		cancelButton.addActionListener(this);
 
@@ -84,7 +84,8 @@ public class CommodityRegister extends JDialog implements ActionListener {
 			Calendar calender = Calendar.getInstance();
 
 			String date = this.yearTextfield.getText() + "-"
-					+ this.monthTextfield.getText() + "-" + this.dateTextfield.getText();
+					+ this.monthTextfield.getText() + "-"
+					+ this.dateTextfield.getText();
 			int price = Integer.valueOf(this.priceTextfield.getText());
 			int inv = Integer.valueOf(this.quantityTextfield.getText());
 
@@ -100,7 +101,7 @@ public class CommodityRegister extends JDialog implements ActionListener {
 
 			try {
 				gui.add(commdity);
-			} catch (ClassNotFoundException|SQLException e1) {
+			} catch (ClassNotFoundException | SQLException e1) {
 				Logger.logMsg(ERROR, "failToAddCommodity");
 			}
 		}

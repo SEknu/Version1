@@ -131,14 +131,7 @@ public class CommodityDetail extends JDialog implements ActionListener {
 					null, JOptionPane.OK_CANCEL_OPTION,
 					JOptionPane.WARNING_MESSAGE, null);
 			if (result == 0) {
-				// 수정필요 jtextfeild내용이 원래내용으로 돌아가도록 해야됨.
-				saveButton.setEnabled(false);
-				cancelButton.setEnabled(false);
-				for (int i = 0; i < 6; i++) {
-					pan[i].getComponent(1).setEnabled(false);
-				}
-				pan[1].getComponent(2).setEnabled(false);
-				pan[1].getComponent(3).setEnabled(false);
+				dispose();
 			}
 		}
 	}
@@ -155,7 +148,7 @@ public class CommodityDetail extends JDialog implements ActionListener {
 				JOptionPane.showMessageDialog(null, "날짜를 정확하게 입력하세요.");
 				return false;
 			}
-			if ( month > 12 || day > 31) {
+			if (month > 12 || day > 31) {
 				JOptionPane.showMessageDialog(null, "날짜를 정확하게 입력하세요.");
 				return false;
 			}

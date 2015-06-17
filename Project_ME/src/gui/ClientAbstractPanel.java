@@ -16,7 +16,8 @@ import javax.swing.JTextField;
 
 import object.Client;
 
-public abstract class ClientAbstractPanel extends JPanel implements ActionListener {
+public abstract class ClientAbstractPanel extends JPanel implements
+		ActionListener {
 
 	JTable jtable;
 	JScrollPane scroll;
@@ -26,22 +27,23 @@ public abstract class ClientAbstractPanel extends JPanel implements ActionListen
 	GuiProcess gui;
 
 	String[] colArray = { "이름", "연락처", "담당트레이너", "배정프로그램" };
-	String[] selectionArray = {"이름", "연락처", "트레이너", "프로그램"};
+	String[] selectionArray = { "이름", "연락처", "트레이너", "프로그램" };
 	JButton addButton = new JButton("등록");
 	JButton deleteButton = new JButton("삭제");
 	JButton searchButton = new JButton("검색");
 	JButton detailButton = new JButton("상세보기");
 	JComboBox selectionList = new JComboBox(selectionArray);
 	JTextField searchTextField = new JTextField(10);
-	
+
 	protected String name;
 
 	public ClientAbstractPanel() throws ClassNotFoundException, SQLException {
 		gui = GuiProcess.getInstance();
 		doGui();
 	}
-	
-	public ClientAbstractPanel(String name) throws ClassNotFoundException, SQLException {
+
+	public ClientAbstractPanel(String name) throws ClassNotFoundException,
+			SQLException {
 		gui = GuiProcess.getInstance();
 		this.name = name;
 		doGui();
@@ -77,12 +79,12 @@ public abstract class ClientAbstractPanel extends JPanel implements ActionListen
 		panel.add(deleteButton);
 		panel.add(detailButton);
 		add(panel);
-
 		setSize(500, 550);
 		setVisible(true);
 	}
-	
-	public abstract void getClient() throws ClassNotFoundException, SQLException;
+
+	public abstract void getClient() throws ClassNotFoundException,
+			SQLException;
 
 	public void patch(Vector<Vector<String>> newInfo) {
 		row.removeAllElements();
@@ -93,8 +95,8 @@ public abstract class ClientAbstractPanel extends JPanel implements ActionListen
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String key = null;
-		
-		////등록
+
+		// //등록
 		if (e.getSource() == addButton) {
 			new ClientRegister();
 			try {
@@ -102,21 +104,24 @@ public abstract class ClientAbstractPanel extends JPanel implements ActionListen
 				patch(gui.getClientRow(vectorClient));
 			} catch (ClassNotFoundException | SQLException e1) {
 				JOptionPane.showMessageDialog(null, "데이터베이스 오류");
-			}	
+			}
 		}
-		////검색
+		// //검색
 		else if (e.getSource() == searchButton) {
-			if(selectionList.getSelectedItem().equals(selectionArray[0])) {
+			if (selectionList.getSelectedItem().equals(selectionArray[0])) {
 				key = "name";
-			} else if(selectionList.getSelectedItem().equals(selectionArray[1])) {
+			} else if (selectionList.getSelectedItem()
+					.equals(selectionArray[1])) {
 				key = "phone";
-			} else if(selectionList.getSelectedItem().equals(selectionArray[2])) {
-				key = "trainer";				
-			} else if(selectionList.getSelectedItem().equals(selectionArray[3])) {
-				key = "program";				
+			} else if (selectionList.getSelectedItem()
+					.equals(selectionArray[2])) {
+				key = "trainer";
+			} else if (selectionList.getSelectedItem()
+					.equals(selectionArray[3])) {
+				key = "program";
 			}
 			String str = this.searchTextField.getText();
-					
+
 			if (str != null && str.length() > 0) {
 				try {
 					vectorClient = gui.selectClient(key, str);
@@ -129,9 +134,9 @@ public abstract class ClientAbstractPanel extends JPanel implements ActionListen
 				} catch (ClassNotFoundException | SQLException e1) {
 					JOptionPane.showMessageDialog(null, "데이터베이스 접근실패");
 				}
-			}		
+			}
 		}
-		////삭제
+		// //삭제
 		else if (e.getSource() == deleteButton) {
 			int index = jtable.getSelectedRow();
 			String id;
@@ -146,7 +151,7 @@ public abstract class ClientAbstractPanel extends JPanel implements ActionListen
 				JOptionPane.showMessageDialog(null, "삭제할 회원이 없습니다.");
 			}
 		}
-		////상세보기
+		// //상세보기
 		else if (e.getSource() == detailButton) {
 			int index = jtable.getSelectedRow();
 			if (index != -1) {
@@ -154,7 +159,7 @@ public abstract class ClientAbstractPanel extends JPanel implements ActionListen
 				new ClientDetail(this.vectorClient.get(index));
 			}
 		}
-		
+
 		try {
 			getClient();
 			patch(gui.getClientRow(vectorClient));

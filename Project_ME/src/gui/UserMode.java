@@ -1,4 +1,5 @@
 package gui;
+
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -15,7 +16,7 @@ import javax.swing.JPanel;
 import object.Client;
 
 public class UserMode extends JFrame implements ActionListener, WindowListener {
-	
+
 	JPanel panel = new JPanel();
 	JPanel menu = new JPanel();
 	JPanel window = new JPanel();
@@ -23,45 +24,43 @@ public class UserMode extends JFrame implements ActionListener, WindowListener {
 	JButton programButton = new JButton("내 프로그램");
 	JButton passwordButton = new JButton("비밀번호 변경");
 	JButton logoutButton = new JButton("logout");
-	
+
 	private Client loginClient = null;
-	
-	public UserMode(Client loginClient)
-	{
+
+	public UserMode(Client loginClient) {
 		this.loginClient = loginClient;
-		
+
 		addWindowListener(this);
 		passwordButton.addActionListener(this);
 		programButton.addActionListener(this);
 		clientButton.addActionListener(this);
 		logoutButton.addActionListener(this);
-		
-		window.setPreferredSize(new Dimension(500,500));
-		
+
+		window.setPreferredSize(new Dimension(500, 500));
+
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-		
+
 		menu.setLayout(new FlowLayout());
 		menu.add(clientButton);
 		menu.add(programButton);
 		menu.add(passwordButton);
 		menu.add(logoutButton);
-		
+
 		panel.add(menu);
 		panel.add(window);
-		
+
 		getContentPane().add(panel);
-		
+
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setSize(500, 500);
 		setResizable(false);
 		setVisible(true);
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
-		if (e.getSource() == clientButton)
-		{
+
+		if (e.getSource() == clientButton) {
 			window.setVisible(false);
 			window.removeAll();
 			try {
@@ -72,9 +71,7 @@ public class UserMode extends JFrame implements ActionListener, WindowListener {
 				e1.printStackTrace();
 			}
 			window.setVisible(true);
-		}
-		else if (e.getSource() == programButton)
-		{
+		} else if (e.getSource() == programButton) {
 			window.setVisible(false);
 			window.removeAll();
 			try {
@@ -85,9 +82,7 @@ public class UserMode extends JFrame implements ActionListener, WindowListener {
 				e1.printStackTrace();
 			}
 			window.setVisible(true);
-		}
-		else if (e.getSource() == passwordButton)
-		{
+		} else if (e.getSource() == passwordButton) {
 			try {
 				new PasswordModify(loginClient.getLoginId());
 			} catch (ClassNotFoundException e1) {
@@ -95,10 +90,8 @@ public class UserMode extends JFrame implements ActionListener, WindowListener {
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
-			
-		}
-		else if (e.getSource() == logoutButton)
-		{
+
+		} else if (e.getSource() == logoutButton) {
 			dispose();
 			new LogIn();
 		}
@@ -118,11 +111,11 @@ public class UserMode extends JFrame implements ActionListener, WindowListener {
 	}
 
 	@Override
-	public void windowDeactivated(WindowEvent e) {		
+	public void windowDeactivated(WindowEvent e) {
 	}
 
 	@Override
-	public void windowDeiconified(WindowEvent e) {		
+	public void windowDeiconified(WindowEvent e) {
 	}
 
 	@Override
@@ -132,5 +125,4 @@ public class UserMode extends JFrame implements ActionListener, WindowListener {
 	@Override
 	public void windowOpened(WindowEvent e) {
 	}
-	
 }

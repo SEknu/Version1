@@ -13,525 +13,564 @@ import object.Program;
 import object.Trainer;
 
 // select 메소드 필요~ get을 수정하던지 해야지..
+//데이터베이스 정보 관리 Class
+public class FileManager {
+	private static FileManager instance = new FileManager();
 
-public class FileManager {	
-	static private FileManager instance = new FileManager();
-	
 	/* getInstance */
 	static public FileManager getInstance() {
 		return instance;
 	}
+
 	/* getInstance */
-	
+
 	// client 수정해주세요~
-	/*****************client ********************/
-	public Vector<Client> getClient(final String id) throws ClassNotFoundException, SQLException {
+	/***************** client ********************/
+	// Client 정보를 가져오는 method
+	public Vector<Client> getClient(final String id)
+			throws ClassNotFoundException, SQLException {
 		Client client;
 		ResultSet rs = null;
 		Vector<Client> vectorClient = new Vector<Client>();
-			
-		rs = resultSetStatementStrategy(
-				new StatementStrategy() {
-			@Override
-			public PreparedStatement makePreparedStatement(Connection c)
-					throws SQLException {
-					PreparedStatement ps;
-					if(id.equals("all")) {
-						ps = c.prepareStatement("select * from client");
-					} else {
-						ps = c.prepareStatement("select * from client where id = " + id);
-					}
-					return ps;
-				}
-			}
-		);
-		
-		// client 수정할 부분!
-		while(rs.next()) {
-			client = getClientInfo(rs);
-			vectorClient.add(client);
-		}
-		if(rs != null) {	
-			try { rs.close(); } catch(SQLException e) {}
-		}	
-		return vectorClient;
-	}
 
-	public Vector<Client> selectClient(final String col, final String str) throws ClassNotFoundException, SQLException {
-		Client client;
-		ResultSet rs = null;
-		Vector<Client> vectorClient = new Vector<Client>();
-			
-		rs = resultSetStatementStrategy(
-				new StatementStrategy() {
-			@Override
-			public PreparedStatement makePreparedStatement(Connection c)
-					throws SQLException {
-					PreparedStatement ps = c.prepareStatement("select * from client where "+ col + "='" + str + "'");
-					return ps;
-				}
-			}
-		);
-		
-		// client 수정할 부분!
-		while(rs.next()) {
-			client = getClientInfo(rs);
-			vectorClient.add(client);
-		}
-		if(rs != null) {	
-			try { rs.close(); } catch(SQLException e) {}
-		}	
-		return vectorClient;
-	}
-	
-	public void add(final Client client) throws ClassNotFoundException, SQLException {
-		jdbcContextWithStatementStrategy(
-				new StatementStrategy() {
-			@Override
-			public PreparedStatement makePreparedStatement(Connection c)
-					throws SQLException {                     //여기 수정 바람
-					PreparedStatement ps = c.prepareStatement("insert into client(loginId, pwd, regi_date, regi_period, terminate_date, name, age, birthday, address, phone, height, weight, bodyFat, bodyMuscle, trainer, program, comment, status, id) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-
-					return setClientInfo(client, ps);
-				}
-			}
-		);
-	}
-	
-	public void updateClient(final Client client) throws ClassNotFoundException, SQLException {
-		jdbcContextWithStatementStrategy(
-				new StatementStrategy() {
-			@Override
-			public PreparedStatement makePreparedStatement(Connection c)
-					throws SQLException {
-					PreparedStatement ps = c.prepareStatement("update client set loginId=?, " 
-					+ "pwd=?, regi_date=?, regi_period=?, terminate_date=?, name=?, age=?, birthday=?, address=?, phone=?, height=?, weight=?, bodyFat=?, bodyMuscle=?, trainer=?, program=?, comment=?, status=? where id=?");
-
-					return setClientInfo(client, ps);
-				}
-			}
-		);
-	}
-	
-
-	
-	/*****************trainer********************/
-	/*get all commodity or get commodity by searching id*/
-	public Vector<Trainer> getTrainer(final String id) throws ClassNotFoundException, SQLException {
-		Trainer trainer;
-		ResultSet rs = null;
-		Vector<Trainer> vectorTrainer = new Vector<Trainer>();
-			
-		rs = resultSetStatementStrategy(
-				new StatementStrategy() {
-			@Override
-			public PreparedStatement makePreparedStatement(Connection c)
-					throws SQLException {
-					PreparedStatement ps;
-					if(id.equals("all")) {
-						ps = c.prepareStatement("select * from trainer");
-					} else {
-						ps = c.prepareStatement("select * from trainer where id = " + id);
-					}
-					return ps;
-				}
-			}
-		);
-		
-		while(rs.next()) {
-			trainer = getTrainerInfo(rs);
-			vectorTrainer.add(trainer);
-		}
-		if(rs != null) {	
-			try { rs.close(); } catch(SQLException e) {}
-		}	
-		return vectorTrainer;
-	}
-	
-	public void add(final Trainer trainer) throws ClassNotFoundException, SQLException {
-		jdbcContextWithStatementStrategy(
-				new StatementStrategy() {
-			@Override
-			public PreparedStatement makePreparedStatement(Connection c)
-					throws SQLException {
-					PreparedStatement ps = c.prepareStatement("insert into trainer(loginId, pwd, name, regi_date, salary, addr, phone, id) values(?,?,?,?,?,?,?,?)");
-					return setTrainerInfo(trainer, ps);
-				}
-			}
-		);
-	}
-	
-	public void updateTrainer(final Trainer trainer) throws ClassNotFoundException, SQLException {
-		jdbcContextWithStatementStrategy(
-				new StatementStrategy() {
-			@Override
-			public PreparedStatement makePreparedStatement(Connection c)
-					throws SQLException {
-					PreparedStatement ps = c.prepareStatement("update trainer set loginId=?, "
-							+ "pwd=?, name=?, regi_date=?, salary=?, addr=?, phone=? where id=?");
-					return setTrainerInfo(trainer, ps);
-				}
-			}
-		); 
-	}
-	
-	public Vector<Trainer> selectTrainer(final String col,final String str) throws SQLException, ClassNotFoundException {
-		Trainer trainer;
-		ResultSet rs = null;
-		Vector<Trainer> vectorTrainer = new Vector<Trainer>();
-			
-		rs = resultSetStatementStrategy(
-				new StatementStrategy() {
-			@Override
-			public PreparedStatement makePreparedStatement(Connection c)
-					throws SQLException {
-					PreparedStatement ps = c.prepareStatement("select * from trainer where "+ col + "='" + str + "'");
-					return ps;
-				}
-			}
-		);
-		
-		// client 수정할 부분!
-		while(rs.next()) {
-			trainer = getTrainerInfo(rs);
-			vectorTrainer.add(trainer);
-		}
-		if(rs != null) {	
-			try { rs.close(); } catch(SQLException e) {}
-		}	
-		return vectorTrainer;
-	}
-	
-
-	/*****************Member********************/
-	/*get all commodity or get commodity by searching id*/
-	public Vector<Member> getMember(final String id) throws ClassNotFoundException, SQLException {
-		Member member;
-		ResultSet rs = null;
-		Vector<Member> vectorMember = new Vector<Member>();
-			
-		rs = resultSetStatementStrategy(
-				new StatementStrategy() {
-			@Override
-			public PreparedStatement makePreparedStatement(Connection c)
-					throws SQLException {
-					PreparedStatement ps;
-					if(id.equals("all")) {
-						ps = c.prepareStatement("select * from member");
-					} else {
-						ps = c.prepareStatement("select * from member where id = " + id);
-					}
-					return ps;
-				}
-			}
-		);
-		
-		while(rs.next()) {
-			member = getMemberInfo(rs);
-			vectorMember.add(member);
-		}
-		if(rs != null) {	
-			try { rs.close(); } catch(SQLException e) {}
-		}	
-		return vectorMember;
-	}
-	
-	public void add(final Member member) throws ClassNotFoundException, SQLException {
-		jdbcContextWithStatementStrategy(
-				new StatementStrategy() {
-			@Override
-			public PreparedStatement makePreparedStatement(Connection c)
-					throws SQLException {
-					PreparedStatement ps = c.prepareStatement("insert into member(loginId, pwd, position, id) values(?,?,?,?)");
-					return setMemberInfo(member, ps);
-				}
-			}
-		);
-	}
-	
-	public void updateMember(final Member member) throws ClassNotFoundException, SQLException {
-		jdbcContextWithStatementStrategy(
-				new StatementStrategy() {
-			@Override
-			public PreparedStatement makePreparedStatement(Connection c)
-					throws SQLException {
-					PreparedStatement ps = c.prepareStatement("update member set loginId=?, "
-							+ "pwd=?, position=? where id=?");
-					return setMemberInfo(member, ps);
-				}
-			}
-		);
-	}
-	
-	public Member selectMember(final String col,final String str) throws SQLException, ClassNotFoundException {
-		Member member = null;
-		ResultSet rs = null;
-			
-		rs = resultSetStatementStrategy(
-				new StatementStrategy() {
-			@Override
-			public PreparedStatement makePreparedStatement(Connection c)
-					throws SQLException {
-					PreparedStatement ps = c.prepareStatement("select * from member where "+ col + "='" + str + "'");
-					return ps;
-				}
-			}
-		);
-		
-		// 수정할 부분!
-		while(rs.next()) {
-			member = getMemberInfo(rs);
-		}
-		if(rs != null) {	
-			try { rs.close(); } catch(SQLException e) {}
-		}	
-		return member;
-	}
-	
-	
-	/*****************commodity********************/
-	/*get all commodity or get commodity by searching id*/
-	public Vector<Commodity> getCommodity(final String id) throws ClassNotFoundException, SQLException {
-		Commodity commodity;
-		ResultSet rs = null;
-		Vector<Commodity> vectorCommodity = new Vector<Commodity>();
-			
-		rs = resultSetStatementStrategy(
-				new StatementStrategy() {
-			@Override
-			public PreparedStatement makePreparedStatement(Connection c)
-					throws SQLException {
-					PreparedStatement ps;
-					if(id.equals("all")) {
-						ps = c.prepareStatement("select * from commodity");
-					} else {
-						ps = c.prepareStatement("select * from commodity where id = " + id);
-					}
-					return ps;
-				}
-			}
-		);
-		
-		while(rs.next()) {
-			commodity = getCommodityInfo(rs);
-			vectorCommodity.add(commodity);
-		}
-		if(rs != null) {	
-			try { rs.close(); } catch(SQLException e) {}
-		}	
-		return vectorCommodity;
-	}
-	
-	/*add commodity*/
-	public void add(final Commodity commodity) throws ClassNotFoundException, SQLException {
-		jdbcContextWithStatementStrategy(
-				new StatementStrategy() {
-			@Override
-			public PreparedStatement makePreparedStatement(Connection c)
-					throws SQLException {
-					PreparedStatement ps = c.prepareStatement("insert into commodity(name, buy_date, inventory, price, state, comment, id) values(?,?,?,?,?,?,?)");
-					return setCommodityInfo(commodity, ps);
-				}
-			}
-		);
-	}
-
-	/*update commodity*/
-	public void updateCommodity(final Commodity commodity) throws ClassNotFoundException, SQLException {
-		jdbcContextWithStatementStrategy(
-				new StatementStrategy() {
-			@Override
-			public PreparedStatement makePreparedStatement(Connection c)
-					throws SQLException {
-					PreparedStatement ps = c.prepareStatement("update commodity set name=?, "
-							+ "buy_date=?, inventory=?, price=?, state=?, comment=? where id=?");
-					return setCommodityInfo(commodity, ps);
-				}
-			}
-		);
-	}
-	
-	public Vector<Commodity> selectCommodity(final String col, final String str) throws SQLException, ClassNotFoundException {
-		Commodity commodity;
-		ResultSet rs = null;
-		Vector<Commodity> vectorCommodity = new Vector<Commodity>();
-		
-		rs = resultSetStatementStrategy(
-				new StatementStrategy() {
-			@Override
-			public PreparedStatement makePreparedStatement(Connection c)
-					throws SQLException {
-				PreparedStatement ps = c.prepareStatement("select * from commodity where "+ col + "='" + str + "'");
-					return ps;
-				}
-			}
-		);
-		
-		while(rs.next()) {
-			commodity = getCommodityInfo(rs);
-			vectorCommodity.add(commodity);
-		}
-		if(rs != null) {	
-			try { rs.close(); } catch(SQLException e) {}
-		}	
-		return vectorCommodity;
-	}
-	
-	/*****************program********************/
-	/*program*/
-	public void add(final Program program) throws ClassNotFoundException, SQLException {
-		jdbcContextWithStatementStrategy(
-				new StatementStrategy() {
-			@Override
-			public PreparedStatement makePreparedStatement(Connection c)
-					throws SQLException {
-					PreparedStatement ps = c.prepareStatement("insert into program(name, difficulty, part_of_body, comment, id) values(?,?,?,?,?)");
-					return setProgramInfo(program, ps);
-				}
-			}
-		);
-	}
-	
-	public Vector<Program> getProgram(final String id) throws ClassNotFoundException, SQLException {
-		Program program;
-		ResultSet rs = null;
-		Vector<Program> vectorProgram = new Vector<Program>();
-		
-		rs = resultSetStatementStrategy(
-				new StatementStrategy() {
+		rs = resultSetStatementStrategy(new StatementStrategy() {
 			@Override
 			public PreparedStatement makePreparedStatement(Connection c)
 					throws SQLException {
 				PreparedStatement ps;
-					if(id.equals("all")) {
-						ps = c.prepareStatement("select * from program");
-					} else {
-						ps = c.prepareStatement("select * from program where id = ?");
-						ps.setString(1, id);
-					}
-					return ps;
+				if (id.equals("all")) {
+					ps = c.prepareStatement("select * from client");
+				} else {
+					ps = c.prepareStatement("select * from client where id = "
+							+ id);
 				}
+				return ps;
 			}
-		);
-		
-		while(rs.next()) {
-			program = getProgramInfo(rs);
-			vectorProgram.add(program);
+		});
+
+		// client 수정할 부분!
+		while (rs.next()) {
+			client = getClientInfo(rs);
+			vectorClient.add(client);
 		}
-		if(rs != null) {	
-			try { rs.close(); } catch(SQLException e) {}
-		}	
-		return vectorProgram;
+		if (rs != null) {
+			try {
+				rs.close();
+			} catch (SQLException e) {
+			}
+		}
+		return vectorClient;
 	}
 
-	
-	public void updateProgram(final Program program) throws ClassNotFoundException, SQLException {
-		jdbcContextWithStatementStrategy(
-				new StatementStrategy() {
+	public Vector<Client> selectClient(final String col, final String str)
+			throws ClassNotFoundException, SQLException {
+		Client client;
+		ResultSet rs = null;
+		Vector<Client> vectorClient = new Vector<Client>();
+
+		rs = resultSetStatementStrategy(new StatementStrategy() {
 			@Override
 			public PreparedStatement makePreparedStatement(Connection c)
 					throws SQLException {
-					PreparedStatement ps = c.prepareStatement("update program set name=?, "
-							+ "difficulty=?, part_of_body=?, comment=? where id=?");
-					return setProgramInfo(program, ps);
-				}
+				PreparedStatement ps = c
+						.prepareStatement("select * from client where " + col
+								+ "='" + str + "'");
+				return ps;
 			}
-		);
+		});
+
+		// client 수정할 부분!
+		while (rs.next()) {
+			client = getClientInfo(rs);
+			vectorClient.add(client);
+		}
+		if (rs != null) {
+			try {
+				rs.close();
+			} catch (SQLException e) {
+			}
+		}
+		return vectorClient;
 	}
-	
-	public Vector<Program> selectProgram(final String col, final String str) throws ClassNotFoundException, SQLException {
+
+	public void add(final Client client) throws ClassNotFoundException,
+			SQLException {
+		jdbcContextWithStatementStrategy(new StatementStrategy() {
+			@Override
+			public PreparedStatement makePreparedStatement(Connection c)
+					throws SQLException { // 여기 수정 바람
+				PreparedStatement ps = c
+						.prepareStatement("insert into client(loginId, pwd, regi_date, regi_period, terminate_date, name, age, birthday, address, phone, height, weight, bodyFat, bodyMuscle, trainer, program, comment, status, id) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+
+				return setClientInfo(client, ps);
+			}
+		});
+	}
+
+	public void updateClient(final Client client)
+			throws ClassNotFoundException, SQLException {
+		jdbcContextWithStatementStrategy(new StatementStrategy() {
+			@Override
+			public PreparedStatement makePreparedStatement(Connection c)
+					throws SQLException {
+				PreparedStatement ps = c
+						.prepareStatement("update client set loginId=?, "
+								+ "pwd=?, regi_date=?, regi_period=?, terminate_date=?, name=?, age=?, birthday=?, address=?, phone=?, height=?, weight=?, bodyFat=?, bodyMuscle=?, trainer=?, program=?, comment=?, status=? where id=?");
+
+				return setClientInfo(client, ps);
+			}
+		});
+	}
+
+	/***************** trainer ********************/
+	/* get all commodity or get commodity by searching id */
+	public Vector<Trainer> getTrainer(final String id)
+			throws ClassNotFoundException, SQLException {
+		Trainer trainer;
+		ResultSet rs = null;
+		Vector<Trainer> vectorTrainer = new Vector<Trainer>();
+
+		rs = resultSetStatementStrategy(new StatementStrategy() {
+			@Override
+			public PreparedStatement makePreparedStatement(Connection c)
+					throws SQLException {
+				PreparedStatement ps;
+				if (id.equals("all")) {
+					ps = c.prepareStatement("select * from trainer");
+				} else {
+					ps = c.prepareStatement("select * from trainer where id = "
+							+ id);
+				}
+				return ps;
+			}
+		});
+
+		while (rs.next()) {
+			trainer = getTrainerInfo(rs);
+			vectorTrainer.add(trainer);
+		}
+		if (rs != null) {
+			try {
+				rs.close();
+			} catch (SQLException e) {
+			}
+		}
+		return vectorTrainer;
+	}
+
+	public void add(final Trainer trainer) throws ClassNotFoundException,
+			SQLException {
+		jdbcContextWithStatementStrategy(new StatementStrategy() {
+			@Override
+			public PreparedStatement makePreparedStatement(Connection c)
+					throws SQLException {
+				PreparedStatement ps = c
+						.prepareStatement("insert into trainer(loginId, pwd, name, regi_date, salary, addr, phone, id) values(?,?,?,?,?,?,?,?)");
+				return setTrainerInfo(trainer, ps);
+			}
+		});
+	}
+
+	public void updateTrainer(final Trainer trainer)
+			throws ClassNotFoundException, SQLException {
+		jdbcContextWithStatementStrategy(new StatementStrategy() {
+			@Override
+			public PreparedStatement makePreparedStatement(Connection c)
+					throws SQLException {
+				PreparedStatement ps = c
+						.prepareStatement("update trainer set loginId=?, "
+								+ "pwd=?, name=?, regi_date=?, salary=?, addr=?, phone=? where id=?");
+				return setTrainerInfo(trainer, ps);
+			}
+		});
+	}
+
+	public Vector<Trainer> selectTrainer(final String col, final String str)
+			throws SQLException, ClassNotFoundException {
+		Trainer trainer;
+		ResultSet rs = null;
+		Vector<Trainer> vectorTrainer = new Vector<Trainer>();
+
+		rs = resultSetStatementStrategy(new StatementStrategy() {
+			@Override
+			public PreparedStatement makePreparedStatement(Connection c)
+					throws SQLException {
+				PreparedStatement ps = c
+						.prepareStatement("select * from trainer where " + col
+								+ "='" + str + "'");
+				return ps;
+			}
+		});
+
+		// client 수정할 부분!
+		while (rs.next()) {
+			trainer = getTrainerInfo(rs);
+			vectorTrainer.add(trainer);
+		}
+		if (rs != null) {
+			try {
+				rs.close();
+			} catch (SQLException e) {
+			}
+		}
+		return vectorTrainer;
+	}
+
+	/***************** Member ********************/
+	/* get all commodity or get commodity by searching id */
+	public Vector<Member> getMember(final String id)
+			throws ClassNotFoundException, SQLException {
+		Member member;
+		ResultSet rs = null;
+		Vector<Member> vectorMember = new Vector<Member>();
+
+		rs = resultSetStatementStrategy(new StatementStrategy() {
+			@Override
+			public PreparedStatement makePreparedStatement(Connection c)
+					throws SQLException {
+				PreparedStatement ps;
+				if (id.equals("all")) {
+					ps = c.prepareStatement("select * from member");
+				} else {
+					ps = c.prepareStatement("select * from member where id = "
+							+ id);
+				}
+				return ps;
+			}
+		});
+
+		while (rs.next()) {
+			member = getMemberInfo(rs);
+			vectorMember.add(member);
+		}
+		if (rs != null) {
+			try {
+				rs.close();
+			} catch (SQLException e) {
+			}
+		}
+		return vectorMember;
+	}
+
+	public void add(final Member member) throws ClassNotFoundException,
+			SQLException {
+		jdbcContextWithStatementStrategy(new StatementStrategy() {
+			@Override
+			public PreparedStatement makePreparedStatement(Connection c)
+					throws SQLException {
+				PreparedStatement ps = c
+						.prepareStatement("insert into member(loginId, pwd, position, id) values(?,?,?,?)");
+				return setMemberInfo(member, ps);
+			}
+		});
+	}
+
+	public void updateMember(final Member member)
+			throws ClassNotFoundException, SQLException {
+		jdbcContextWithStatementStrategy(new StatementStrategy() {
+			@Override
+			public PreparedStatement makePreparedStatement(Connection c)
+					throws SQLException {
+				PreparedStatement ps = c
+						.prepareStatement("update member set loginId=?, "
+								+ "pwd=?, position=? where id=?");
+				return setMemberInfo(member, ps);
+			}
+		});
+	}
+
+	public Member selectMember(final String col, final String str)
+			throws SQLException, ClassNotFoundException {
+		Member member = null;
+		ResultSet rs = null;
+
+		rs = resultSetStatementStrategy(new StatementStrategy() {
+			@Override
+			public PreparedStatement makePreparedStatement(Connection c)
+					throws SQLException {
+				PreparedStatement ps = c
+						.prepareStatement("select * from member where " + col
+								+ "='" + str + "'");
+				return ps;
+			}
+		});
+
+		// 수정할 부분!
+		while (rs.next()) {
+			member = getMemberInfo(rs);
+		}
+		if (rs != null) {
+			try {
+				rs.close();
+			} catch (SQLException e) {
+			}
+		}
+		return member;
+	}
+
+	/***************** commodity ********************/
+	/* get all commodity or get commodity by searching id */
+	public Vector<Commodity> getCommodity(final String id)
+			throws ClassNotFoundException, SQLException {
+		Commodity commodity;
+		ResultSet rs = null;
+		Vector<Commodity> vectorCommodity = new Vector<Commodity>();
+
+		rs = resultSetStatementStrategy(new StatementStrategy() {
+			@Override
+			public PreparedStatement makePreparedStatement(Connection c)
+					throws SQLException {
+				PreparedStatement ps;
+				if (id.equals("all")) {
+					ps = c.prepareStatement("select * from commodity");
+				} else {
+					ps = c.prepareStatement("select * from commodity where id = "
+							+ id);
+				}
+				return ps;
+			}
+		});
+
+		while (rs.next()) {
+			commodity = getCommodityInfo(rs);
+			vectorCommodity.add(commodity);
+		}
+		if (rs != null) {
+			try {
+				rs.close();
+			} catch (SQLException e) {
+			}
+		}
+		return vectorCommodity;
+	}
+
+	/* add commodity */
+	public void add(final Commodity commodity) throws ClassNotFoundException,
+			SQLException {
+		jdbcContextWithStatementStrategy(new StatementStrategy() {
+			@Override
+			public PreparedStatement makePreparedStatement(Connection c)
+					throws SQLException {
+				PreparedStatement ps = c
+						.prepareStatement("insert into commodity(name, buy_date, inventory, price, state, comment, id) values(?,?,?,?,?,?,?)");
+				return setCommodityInfo(commodity, ps);
+			}
+		});
+	}
+
+	/* update commodity */
+	public void updateCommodity(final Commodity commodity)
+			throws ClassNotFoundException, SQLException {
+		jdbcContextWithStatementStrategy(new StatementStrategy() {
+			@Override
+			public PreparedStatement makePreparedStatement(Connection c)
+					throws SQLException {
+				PreparedStatement ps = c
+						.prepareStatement("update commodity set name=?, "
+								+ "buy_date=?, inventory=?, price=?, state=?, comment=? where id=?");
+				return setCommodityInfo(commodity, ps);
+			}
+		});
+	}
+
+	public Vector<Commodity> selectCommodity(final String col, final String str)
+			throws SQLException, ClassNotFoundException {
+		Commodity commodity;
+		ResultSet rs = null;
+		Vector<Commodity> vectorCommodity = new Vector<Commodity>();
+
+		rs = resultSetStatementStrategy(new StatementStrategy() {
+			@Override
+			public PreparedStatement makePreparedStatement(Connection c)
+					throws SQLException {
+				PreparedStatement ps = c
+						.prepareStatement("select * from commodity where "
+								+ col + "='" + str + "'");
+				return ps;
+			}
+		});
+
+		while (rs.next()) {
+			commodity = getCommodityInfo(rs);
+			vectorCommodity.add(commodity);
+		}
+		if (rs != null) {
+			try {
+				rs.close();
+			} catch (SQLException e) {
+			}
+		}
+		return vectorCommodity;
+	}
+
+	/***************** program ********************/
+	/* program */
+	public void add(final Program program) throws ClassNotFoundException,
+			SQLException {
+		jdbcContextWithStatementStrategy(new StatementStrategy() {
+			@Override
+			public PreparedStatement makePreparedStatement(Connection c)
+					throws SQLException {
+				PreparedStatement ps = c
+						.prepareStatement("insert into program(name, difficulty, part_of_body, comment, id) values(?,?,?,?,?)");
+				return setProgramInfo(program, ps);
+			}
+		});
+	}
+
+	public Vector<Program> getProgram(final String id)
+			throws ClassNotFoundException, SQLException {
 		Program program;
 		ResultSet rs = null;
 		Vector<Program> vectorProgram = new Vector<Program>();
-		
-		rs = resultSetStatementStrategy(
-				new StatementStrategy() {
+
+		rs = resultSetStatementStrategy(new StatementStrategy() {
 			@Override
 			public PreparedStatement makePreparedStatement(Connection c)
 					throws SQLException {
-				PreparedStatement ps = c.prepareStatement("select * from program where "+ col + "='" + str + "'");
-					return ps;
+				PreparedStatement ps;
+				if (id.equals("all")) {
+					ps = c.prepareStatement("select * from program");
+				} else {
+					ps = c.prepareStatement("select * from program where id = ?");
+					ps.setString(1, id);
 				}
+				return ps;
 			}
-		);
-		
-		while(rs.next()) {
+		});
+
+		while (rs.next()) {
 			program = getProgramInfo(rs);
 			vectorProgram.add(program);
 		}
-		if(rs != null) {	
-			try { rs.close(); } catch(SQLException e) {}
-		}	
+		if (rs != null) {
+			try {
+				rs.close();
+			} catch (SQLException e) {
+			}
+		}
 		return vectorProgram;
 	}
-	
-	/*****************delete********************/
-	/*delete*/
-	public void delete(final String id, final String table) throws ClassNotFoundException, SQLException {
-		jdbcContextWithStatementStrategy(
-				new StatementStrategy() {
+
+	public void updateProgram(final Program program)
+			throws ClassNotFoundException, SQLException {
+		jdbcContextWithStatementStrategy(new StatementStrategy() {
 			@Override
 			public PreparedStatement makePreparedStatement(Connection c)
 					throws SQLException {
-					PreparedStatement ps = c.prepareStatement("delete from " + table + " where id=?");
-					ps.setString(1, id);
-					return ps;
-				}
+				PreparedStatement ps = c
+						.prepareStatement("update program set name=?, "
+								+ "difficulty=?, part_of_body=?, comment=? where id=?");
+				return setProgramInfo(program, ps);
 			}
-		);
+		});
 	}
-			
+
+	public Vector<Program> selectProgram(final String col, final String str)
+			throws ClassNotFoundException, SQLException {
+		Program program;
+		ResultSet rs = null;
+		Vector<Program> vectorProgram = new Vector<Program>();
+
+		rs = resultSetStatementStrategy(new StatementStrategy() {
+			@Override
+			public PreparedStatement makePreparedStatement(Connection c)
+					throws SQLException {
+				PreparedStatement ps = c
+						.prepareStatement("select * from program where " + col
+								+ "='" + str + "'");
+				return ps;
+			}
+		});
+
+		while (rs.next()) {
+			program = getProgramInfo(rs);
+			vectorProgram.add(program);
+		}
+		if (rs != null) {
+			try {
+				rs.close();
+			} catch (SQLException e) {
+			}
+		}
+		return vectorProgram;
+	}
+
+	/***************** delete ********************/
+	/* delete */
+	public void delete(final String id, final String table)
+			throws ClassNotFoundException, SQLException {
+		jdbcContextWithStatementStrategy(new StatementStrategy() {
+			@Override
+			public PreparedStatement makePreparedStatement(Connection c)
+					throws SQLException {
+				PreparedStatement ps = c.prepareStatement("delete from "
+						+ table + " where id=?");
+				ps.setString(1, id);
+				return ps;
+			}
+		});
+	}
+
 	/* Generic select, insert, update, delete */
-	
-	//executeupdate 실행
-	public void jdbcContextWithStatementStrategy(StatementStrategy stmt) throws SQLException, ClassNotFoundException {
+
+	// executeupdate 실행
+	public void jdbcContextWithStatementStrategy(StatementStrategy stmt)
+			throws SQLException, ClassNotFoundException {
 		Connection c = null;
 		PreparedStatement ps = null;
-		
+
 		try {
-			c = new ConnectionMaker().makeConnection();			
-			ps = stmt.makePreparedStatement(c);			
-			ps.executeUpdate();					
+			c = new ConnectionMaker().makeConnection();
+			ps = stmt.makePreparedStatement(c);
+			ps.executeUpdate();
 		} catch (SQLException e) {
 			throw e;
 		} finally {
-			if(ps != null) {
-				try { ps.close(); } catch(SQLException e) {}
+			if (ps != null) {
+				try {
+					ps.close();
+				} catch (SQLException e) {
+				}
 			}
-			
-			if(c!=null) {
-				try { c.close(); } catch(SQLException e) {}
+
+			if (c != null) {
+				try {
+					c.close();
+				} catch (SQLException e) {
+				}
 			}
 		}
 	}
-	
-	//executequery실행
-	public ResultSet resultSetStatementStrategy(StatementStrategy stmt) throws SQLException, ClassNotFoundException {
+
+	// executequery실행
+	public ResultSet resultSetStatementStrategy(StatementStrategy stmt)
+			throws SQLException, ClassNotFoundException {
 		Connection c = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		
+
 		try {
-			c = new ConnectionMaker().makeConnection();			
-			ps = stmt.makePreparedStatement(c);			
-			rs = ps.executeQuery();		
+			c = new ConnectionMaker().makeConnection();
+			ps = stmt.makePreparedStatement(c);
+			rs = ps.executeQuery();
 			return rs;
 		} catch (SQLException e) {
 			throw e;
 		} finally {
-//			if(rs != null) {	
-//				try { rs.close(); } catch(SQLException e) {}
-//			}
-////			if(ps != null) {
-////				try { ps.close(); } catch(SQLException e) {}
-////			}
-//			
-//			if(c!=null) {
-//				try { c.close(); } catch(SQLException e) {}
-//			} // connection 어떻게 닫아야 하쥐 ㅠㅠㅠ
-		}	
+			// if(rs != null) {
+			// try { rs.close(); } catch(SQLException e) {}
+			// }
+			// // if(ps != null) {
+			// // try { ps.close(); } catch(SQLException e) {}
+			// // }
+			//
+			// if(c!=null) {
+			// try { c.close(); } catch(SQLException e) {}
+			// } // connection 어떻게 닫아야 하쥐 ㅠㅠㅠ
+		}
 	}
-	
+
 	private Client getClientInfo(ResultSet rs) throws SQLException {
 		Client client;
 		client = new Client();
@@ -556,6 +595,7 @@ public class FileManager {
 		client.setCurrentStatus(rs.getInt("status"));
 		return client;
 	}
+
 	private PreparedStatement setClientInfo(final Client client,
 			PreparedStatement ps) throws SQLException {
 		ps.setString(1, client.getLoginId());
@@ -580,8 +620,7 @@ public class FileManager {
 		return ps;
 	}
 
-	private Trainer getTrainerInfo(ResultSet rs)
-			throws SQLException {
+	private Trainer getTrainerInfo(ResultSet rs) throws SQLException {
 		Trainer trainer;
 		trainer = new Trainer();
 		trainer.setID(rs.getString("id"));
@@ -594,6 +633,7 @@ public class FileManager {
 		trainer.setPhone(rs.getString("phone"));
 		return trainer;
 	}
+
 	private PreparedStatement setTrainerInfo(final Trainer trainer,
 			PreparedStatement ps) throws SQLException {
 		ps.setString(1, trainer.getLoginId());
@@ -606,9 +646,8 @@ public class FileManager {
 		ps.setString(8, trainer.getID());
 		return ps;
 	}
-	
-	private Member getMemberInfo(ResultSet rs)
-			throws SQLException {
+
+	private Member getMemberInfo(ResultSet rs) throws SQLException {
 		Member member;
 		member = new Member();
 		member.setID(rs.getString("id"));
@@ -617,6 +656,7 @@ public class FileManager {
 		member.setPosition(rs.getString("position"));
 		return member;
 	}
+
 	private PreparedStatement setMemberInfo(final Member member,
 			PreparedStatement ps) throws SQLException {
 		ps.setString(1, member.getLoginId());
@@ -625,7 +665,7 @@ public class FileManager {
 		ps.setString(4, member.getID());
 		return ps;
 	}
-	
+
 	private Commodity getCommodityInfo(ResultSet rs) throws SQLException {
 		Commodity commodity;
 		commodity = new Commodity();
@@ -637,7 +677,8 @@ public class FileManager {
 		commodity.setState(rs.getInt("state"));
 		commodity.setComment(rs.getString("comment"));
 		return commodity;
-	}	
+	}
+
 	private PreparedStatement setCommodityInfo(final Commodity commodity,
 			PreparedStatement ps) throws SQLException {
 		ps.setString(1, commodity.getName());
@@ -649,7 +690,7 @@ public class FileManager {
 		ps.setString(7, commodity.getID());
 		return ps;
 	}
-	
+
 	private PreparedStatement setProgramInfo(final Program program,
 			PreparedStatement ps) throws SQLException {
 		ps.setString(1, program.getName());
@@ -658,7 +699,8 @@ public class FileManager {
 		ps.setString(4, program.getComment());
 		ps.setString(5, program.getID());
 		return ps;
-	}	
+	}
+
 	private Program getProgramInfo(ResultSet rs) throws SQLException {
 		Program program;
 		program = new Program();
@@ -669,5 +711,5 @@ public class FileManager {
 		program.setComment(rs.getString("comment"));
 		return program;
 	}
-	
+
 } // end class

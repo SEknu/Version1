@@ -1,12 +1,12 @@
 package gui;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
 import com.sun.media.jfxmedia.logging.Logger;
 
-
-public class AdminAMode extends AdminAbstract {	
+public class AdminAMode extends AdminAbstract {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == clientButton) {
@@ -15,13 +15,12 @@ public class AdminAMode extends AdminAbstract {
 				contentpanel.add(new ClientAPanel());
 			} catch (ClassNotFoundException | SQLException e1) {
 				// TODO Auto-generated catch block
-				Logger.logMsg(ERROR, "addClientPanel");	
+				Logger.logMsg(ERROR, "addClientPanel");
 			}
 			setResizable(false);
 			pack();
 			setVisible(true);
-		}
-		else if (e.getSource() == programButton) {
+		} else if (e.getSource() == programButton) {
 			contentpanel.removeAll();
 			try {
 				contentpanel.add(new ProgramPanel());
@@ -31,8 +30,7 @@ public class AdminAMode extends AdminAbstract {
 			setResizable(false);
 			pack();
 			setVisible(true);
-		}
-		else if (e.getSource() == commodityButton) {
+		} else if (e.getSource() == commodityButton) {
 			contentpanel.removeAll();
 			try {
 				contentpanel.add(new CommodityPanel());
@@ -42,8 +40,7 @@ public class AdminAMode extends AdminAbstract {
 			setResizable(false);
 			pack();
 			setVisible(true);
-		}
-		else if (e.getSource() == trainerButton) {
+		} else if (e.getSource() == trainerButton) {
 			contentpanel.removeAll();
 			try {
 				contentpanel.add(new TrainerAPanel());
@@ -54,7 +51,7 @@ public class AdminAMode extends AdminAbstract {
 			pack();
 			setVisible(true);
 		}
-		
+
 		else if (e.getSource() == passwordButton) {
 			try {
 				new PasswordModify("root");
@@ -65,7 +62,7 @@ public class AdminAMode extends AdminAbstract {
 			pack();
 			setVisible(true);
 		}
-	
+
 		else if (e.getSource() == logoutButton) {
 			dispose();
 			new LogIn();

@@ -3,25 +3,25 @@ package object;
 import java.util.Vector;
 
 public class Trainer {
-	
-	private String id;				// 트레이너 번호
-	private String loginId;			// 로그인ID
-	private String pwd;				// 로그인 PW
-	private String registDate;		// 입사일
-	private int salary;				// 월급
-	private String name;			// 개인정보 : 이름
-	private String address;			// 개인정보 : 주소
-	private String phone;			// 개인전호 : 전화번호
-	private String comment;			// 비고
-	//client에서 foreign key로 설정해놓으면 필요없을까요..??
-	private Vector<Client> clients; // 배정회원
 
+	private String id; // 트레이너 번호
+	private String loginId; // 로그인ID
+	private String pwd; // 로그인 PW
+	private String registDate; // 입사일
+	private int salary; // 월급
+	private String name; // 개인정보 : 이름
+	private String address; // 개인정보 : 주소
+	private String phone; // 개인전호 : 전화번호
+	private String comment; // 비고
+	// client에서 foreign key로 설정해놓으면 필요없을까요..??
+	private Vector<Client> clients; // 배정회원
 
 	/* constructor */
 	public Trainer() {
 	}
-	
-	public Trainer(String id, String loginId, String pwd, String name, String rDate, String phone, String addr, int salary) {
+
+	public Trainer(String id, String loginId, String pwd, String name,
+			String rDate, String phone, String addr, int salary) {
 		this.setID(id);
 		this.setLoginId(loginId);
 		this.setPwd(pwd);
@@ -31,8 +31,9 @@ public class Trainer {
 		this.setAddress(addr);
 		this.setSalary(salary);
 	}
+
 	/* constructor */
-	
+
 	/* set & get function */
 	public String getID() {
 		return id;
@@ -57,7 +58,7 @@ public class Trainer {
 	public void setPwd(String pwd) {
 		this.pwd = pwd;
 	}
-	
+
 	public String getRegistDate() {
 		return registDate;
 	}
@@ -109,7 +110,7 @@ public class Trainer {
 	public Vector<Client> clients() {
 		return clients;
 	}
-	
+
 	public void setClients(Vector<Client> clients) {
 		this.clients = clients;
 	}

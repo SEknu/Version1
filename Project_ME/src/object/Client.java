@@ -19,7 +19,7 @@ public class Client {
 	private String trainer = null; // 배정 트레이너
 	private String program = null; // 배정 프로그램
 	private String comment = null; // 특이사항
-	private int currentStatus = 0; // 현재 등록 여부  0 - 미등록 , 1 - 등록
+	private int currentStatus = 0; // 현재 등록 여부 0 - 미등록 , 1 - 등록
 
 	/*
 	 * id VARCHAR2(10), loginId VARCHAR2(10), pwd VARCHAR2(10), regi_date DATE,
