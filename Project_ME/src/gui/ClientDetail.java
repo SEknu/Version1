@@ -25,7 +25,6 @@ public class ClientDetail extends JDialog implements ActionListener {
 
 	JButton closeButton = new JButton("닫기");
 	JButton saveButton = new JButton("저장");
-	JButton modifyButton = new JButton("수정");
 	JButton addTrainerButton = new JButton("트레이너배정");
 	JButton addProgramButton = new JButton("프로그램배정");
 	JPanel backgroundPanel = new JPanel();
@@ -48,13 +47,11 @@ public class ClientDetail extends JDialog implements ActionListener {
 		termiDatePanel.setLayout(new FlowLayout());
 		phonePanel.setLayout(new FlowLayout());
 		
-		buttonPanel.add(modifyButton);
 		buttonPanel.add(addTrainerButton);
 		buttonPanel.add(addProgramButton);
 		buttonPanel.add(saveButton);
 		buttonPanel.add(closeButton);
 		
-		modifyButton.addActionListener(this);
 		addTrainerButton.addActionListener(this);
 		addProgramButton.addActionListener(this);
 		saveButton.addActionListener(this);
@@ -101,10 +98,10 @@ public class ClientDetail extends JDialog implements ActionListener {
 		
 		contentPanel.add(new JLabel("배정트레이너:",JLabel.CENTER));
 		contentPanel.add(new JTextField(clt.getTrainer()));
-		
+
 		contentPanel.add(new JLabel("배정프로그램:",JLabel.CENTER));
 		contentPanel.add(new JTextField(clt.getProgram()));
-		
+
 		contentPanel.add(new JLabel("등록일자:",JLabel.CENTER));
 		String[] regiDate = clt.getRegistDate().split("-");
 		regiDatePanel.add(new JTextField(regiDate[0],6));
@@ -138,22 +135,11 @@ public class ClientDetail extends JDialog implements ActionListener {
 		backgroundPanel.add(contentPanel);
 		backgroundPanel.add(buttonPanel);
 		add(backgroundPanel);
-		
-		// 수정 못하도록 비활성화
-		for(int i = 0; i < contentPanel.getComponentCount(); i++){
-			if(i%2 != 0)
-				contentPanel.getComponent(i).setEnabled(false);
-		}
-		for(int i = 0; i < 5; i++){
-			phonePanel.getComponent(i).setEnabled(false);
-			birthdayPanel.getComponent(i).setEnabled(false);
-			regiDatePanel.getComponent(i).setEnabled(false);
-			termiDatePanel.getComponent(i).setEnabled(false);
-		}
-		addProgramButton.setEnabled(false);
-		addTrainerButton.setEnabled(false);
-		saveButton.setEnabled(false);
-		
+		contentPanel.getComponent(19).setEnabled(false);
+		contentPanel.getComponent(21).setEnabled(false);
+		termiDatePanel.getComponent(0).setEnabled(false);
+		termiDatePanel.getComponent(2).setEnabled(false);
+		termiDatePanel.getComponent(4).setEnabled(false);
 		pack();
 		setModal(true);
 		setVisible(true);
@@ -162,25 +148,7 @@ public class ClientDetail extends JDialog implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == modifyButton){
-			for(int i = 0; i < contentPanel.getComponentCount(); i++){
-				if(i == 19 || i == 21)
-					continue;
-				if(i%2 != 0)
-					contentPanel.getComponent(i).setEnabled(true);
-			}
-			for(int i = 0; i < 5; i++){
-				phonePanel.getComponent(i).setEnabled(true);
-				birthdayPanel.getComponent(i).setEnabled(true);
-				regiDatePanel.getComponent(i).setEnabled(true);
-				//termiDatePanel.getComponent(i).setEnabled(true);
-			}
-			addProgramButton.setEnabled(true);
-			addTrainerButton.setEnabled(true);
-			saveButton.setEnabled(true);
-			
-		}
-		else if(e.getSource() == saveButton) {
+		if(e.getSource() == saveButton) {
 			JTextField nameTextField = (JTextField)contentPanel.getComponent(1);
 			JTextField birthdayTextField1 = (JTextField)birthdayPanel.getComponent(0);
 			JTextField birthdayTextField2 = (JTextField)birthdayPanel.getComponent(2);
@@ -226,20 +194,17 @@ public class ClientDetail extends JDialog implements ActionListener {
 				clt.setCurrentStatus(0);
 			// DB에 저장.
 			try {
-				gui.update(clt);;
-				JOptionPane.showMessageDialog(null, "저장했습니다.");
-				for(int i = 0; i < contentPanel.getComponentCount(); i++){
-					if(i%2 != 0)
-						contentPanel.getComponent(i).setEnabled(false);
+				gui.update(clt);
+				int result = JOptionPane.showConfirmDialog(null, "저장했습니다\n창을 닫으시겠습니까?)",
+						null, JOptionPane.OK_CANCEL_OPTION,
+						JOptionPane.WARNING_MESSAGE, null);
+				if (result == 0) {
+					dispose();
 				}
-				for(int i = 0; i < 5; i++){
-					phonePanel.getComponent(i).setEnabled(false);
-					birthdayPanel.getComponent(i).setEnabled(false);
-					regiDatePanel.getComponent(i).setEnabled(false);
+				else{
+					dispose();
+					new ClientDetail(clt);
 				}
-				addProgramButton.setEnabled(false);
-				addTrainerButton.setEnabled(false);
-				saveButton.setEnabled(false);
 			} catch (ClassNotFoundException | SQLException e1) {
 				JOptionPane.showMessageDialog(null, "Database 저장실패");
 			}
@@ -255,6 +220,8 @@ public class ClientDetail extends JDialog implements ActionListener {
 		else if(e.getSource() == addTrainerButton) {
 			try {
 				new ClientTrainer<Trainer>(gui.getTrainer(), clt);
+				dispose();
+				new ClientDetail(clt);
 			} catch (ClassNotFoundException | SQLException e1) {
 				e1.printStackTrace();
 			}
@@ -262,6 +229,8 @@ public class ClientDetail extends JDialog implements ActionListener {
 		else if(e.getSource() == addProgramButton) {
 			try {
 				new CleintProgram<Program>(gui.getProgram(), clt);
+				dispose();
+				new ClientDetail(clt);
 			} catch (ClassNotFoundException | SQLException e1) {
 				e1.printStackTrace();
 			}

@@ -172,7 +172,7 @@ public class FileManager {
 					return setTrainerInfo(trainer, ps);
 				}
 			}
-		);
+		); 
 	}
 	
 	public Vector<Trainer> selectTrainer(final String col,final String str) throws SQLException, ClassNotFoundException {

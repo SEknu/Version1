@@ -24,7 +24,6 @@ public class CommodityDetail extends JDialog implements ActionListener {
 	String year, month, day;
 	GuiProcess gui;
 
-	JButton modifyButton = new JButton("수정"); // 수정버튼
 	JButton saveButton = new JButton("저장"); // 저장버튼
 	JButton cancelButton = new JButton("취소"); // 취소버튼
 	JCheckBox checkbox = new JCheckBox(); // 체크박스 - 파손유무체크용
@@ -40,7 +39,6 @@ public class CommodityDetail extends JDialog implements ActionListener {
 		// 버튼추가
 		cancelButton.addActionListener(this);
 		saveButton.addActionListener(this);
-		modifyButton.addActionListener(this);
 		// 날짜를 년,월,일로 나눔
 		String date[] = commodity.getBuyDate().split("-");
 		year = date[0];
@@ -77,7 +75,6 @@ public class CommodityDetail extends JDialog implements ActionListener {
 			panel1.add(pan[i]);
 		}
 		// 패널에 버튼을 추가 후 가장 상위 패널에 추가
-		panel2.add(modifyButton);
 		panel2.add(saveButton);
 		panel2.add(cancelButton);
 		panel3.add(panel1);
@@ -87,14 +84,6 @@ public class CommodityDetail extends JDialog implements ActionListener {
 		if (commodity.getState() == 1) {
 			checkbox.setSelected(true);
 		}
-		// 수정 못하도록 비활성화
-		saveButton.setEnabled(false);
-		cancelButton.setEnabled(false);
-		for (int i = 0; i < 6; i++) {
-			pan[i].getComponent(1).setEnabled(false);
-		}
-		pan[1].getComponent(2).setEnabled(false);
-		pan[1].getComponent(3).setEnabled(false);
 		pack();
 		setModal(true);
 		setVisible(true);
@@ -103,18 +92,8 @@ public class CommodityDetail extends JDialog implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == modifyButton) {
-			// 수정 버튼 클릭시 모든 창 활성화
-			saveButton.setEnabled(true);
-			cancelButton.setEnabled(true);
-			for (int i = 0; i < 6; i++) {
-				pan[i].getComponent(1).setEnabled(true);
-			}
-			pan[1].getComponent(2).setEnabled(true);
-			pan[1].getComponent(3).setEnabled(true);
-		}
 		// 저장버튼 클릭시
-		else if (e.getSource() == saveButton) {
+		if (e.getSource() == saveButton) {
 			JTextField namefield = (JTextField) pan[0].getComponent(1);
 			JTextField yearfield = (JTextField) pan[1].getComponent(1);
 			JTextField monthfield = (JTextField) pan[1].getComponent(2);
@@ -142,13 +121,6 @@ public class CommodityDetail extends JDialog implements ActionListener {
 			try {
 				gui.update(commodity);
 				JOptionPane.showMessageDialog(null, "저장했습니다.");
-				saveButton.setEnabled(false);
-				cancelButton.setEnabled(false);
-				for (int i = 0; i < 6; i++) {
-					pan[i].getComponent(1).setEnabled(false);
-				}
-				pan[1].getComponent(2).setEnabled(false);
-				pan[1].getComponent(3).setEnabled(false);
 			} catch (ClassNotFoundException | SQLException e1) {
 				JOptionPane.showMessageDialog(null, "Database 저장실패");
 			}
