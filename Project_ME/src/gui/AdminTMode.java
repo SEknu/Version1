@@ -16,7 +16,6 @@ public class AdminTMode extends AdminAbstract {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == clientButton) {
-			setVisible(false);
 			contentpanel.removeAll();
 			try {
 				contentpanel.add(new ClientTPanel(id));
@@ -28,7 +27,6 @@ public class AdminTMode extends AdminAbstract {
 			pack();
 			setVisible(true);
 		} else if (e.getSource() == programButton) {
-			setVisible(false);
 			contentpanel.removeAll();
 			try {
 				contentpanel.add(new ProgramPanel());
@@ -39,7 +37,6 @@ public class AdminTMode extends AdminAbstract {
 			pack();
 			setVisible(true);
 		} else if (e.getSource() == commodityButton) {
-			setVisible(false);
 			contentpanel.removeAll();
 
 			try {
@@ -52,7 +49,6 @@ public class AdminTMode extends AdminAbstract {
 			pack();
 			setVisible(true);
 		} else if (e.getSource() == trainerButton) {
-			setVisible(false);
 			contentpanel.removeAll();
 			try {
 				contentpanel.add(new TrainerTPanel());

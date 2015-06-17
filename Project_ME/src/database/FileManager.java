@@ -12,7 +12,6 @@ import object.Member;
 import object.Program;
 import object.Trainer;
 
-// select 메소드 필요~ get을 수정하던지 해야지..
 //데이터베이스 정보 관리 Class
 public class FileManager {
 	private static FileManager instance = new FileManager();
@@ -24,9 +23,8 @@ public class FileManager {
 
 	/* getInstance */
 
-	// client 수정해주세요~
 	/***************** client ********************/
-	// Client 정보를 가져오는 method
+	/* Client 정보를 가져옴 */
 	public Vector<Client> getClient(final String id)
 			throws ClassNotFoundException, SQLException {
 		Client client;
@@ -48,7 +46,6 @@ public class FileManager {
 			}
 		});
 
-		// client 수정할 부분!
 		while (rs.next()) {
 			client = getClientInfo(rs);
 			vectorClient.add(client);
@@ -62,6 +59,7 @@ public class FileManager {
 		return vectorClient;
 	}
 
+	/* Client 선택 */
 	public Vector<Client> selectClient(final String col, final String str)
 			throws ClassNotFoundException, SQLException {
 		Client client;
@@ -79,7 +77,6 @@ public class FileManager {
 			}
 		});
 
-		// client 수정할 부분!
 		while (rs.next()) {
 			client = getClientInfo(rs);
 			vectorClient.add(client);
@@ -93,6 +90,7 @@ public class FileManager {
 		return vectorClient;
 	}
 
+	/* Client 추가 */
 	public void add(final Client client) throws ClassNotFoundException,
 			SQLException {
 		jdbcContextWithStatementStrategy(new StatementStrategy() {
@@ -107,6 +105,7 @@ public class FileManager {
 		});
 	}
 
+	/* Client 갱신 */
 	public void updateClient(final Client client)
 			throws ClassNotFoundException, SQLException {
 		jdbcContextWithStatementStrategy(new StatementStrategy() {
@@ -123,7 +122,7 @@ public class FileManager {
 	}
 
 	/***************** trainer ********************/
-	/* get all commodity or get commodity by searching id */
+	/* Trainer 정보 가져옴 */
 	public Vector<Trainer> getTrainer(final String id)
 			throws ClassNotFoundException, SQLException {
 		Trainer trainer;
@@ -158,6 +157,7 @@ public class FileManager {
 		return vectorTrainer;
 	}
 
+	/* Trainer 추가 */
 	public void add(final Trainer trainer) throws ClassNotFoundException,
 			SQLException {
 		jdbcContextWithStatementStrategy(new StatementStrategy() {
@@ -171,6 +171,7 @@ public class FileManager {
 		});
 	}
 
+	/* Trainer 갱신 */
 	public void updateTrainer(final Trainer trainer)
 			throws ClassNotFoundException, SQLException {
 		jdbcContextWithStatementStrategy(new StatementStrategy() {
@@ -185,6 +186,7 @@ public class FileManager {
 		});
 	}
 
+	/* Trainer 선택 */
 	public Vector<Trainer> selectTrainer(final String col, final String str)
 			throws SQLException, ClassNotFoundException {
 		Trainer trainer;
@@ -202,7 +204,6 @@ public class FileManager {
 			}
 		});
 
-		// client 수정할 부분!
 		while (rs.next()) {
 			trainer = getTrainerInfo(rs);
 			vectorTrainer.add(trainer);
@@ -217,7 +218,7 @@ public class FileManager {
 	}
 
 	/***************** Member ********************/
-	/* get all commodity or get commodity by searching id */
+	/* Member 정보 가져옴 */
 	public Vector<Member> getMember(final String id)
 			throws ClassNotFoundException, SQLException {
 		Member member;
@@ -252,6 +253,7 @@ public class FileManager {
 		return vectorMember;
 	}
 
+	/* Member 추가 */
 	public void add(final Member member) throws ClassNotFoundException,
 			SQLException {
 		jdbcContextWithStatementStrategy(new StatementStrategy() {
@@ -265,6 +267,7 @@ public class FileManager {
 		});
 	}
 
+	/* Member 갱신 */
 	public void updateMember(final Member member)
 			throws ClassNotFoundException, SQLException {
 		jdbcContextWithStatementStrategy(new StatementStrategy() {
@@ -279,6 +282,7 @@ public class FileManager {
 		});
 	}
 
+	/* Member 선택 */
 	public Member selectMember(final String col, final String str)
 			throws SQLException, ClassNotFoundException {
 		Member member = null;
@@ -295,7 +299,6 @@ public class FileManager {
 			}
 		});
 
-		// 수정할 부분!
 		while (rs.next()) {
 			member = getMemberInfo(rs);
 		}
@@ -309,7 +312,7 @@ public class FileManager {
 	}
 
 	/***************** commodity ********************/
-	/* get all commodity or get commodity by searching id */
+	/* commodity 정보 가져옴 */
 	public Vector<Commodity> getCommodity(final String id)
 			throws ClassNotFoundException, SQLException {
 		Commodity commodity;
@@ -344,7 +347,7 @@ public class FileManager {
 		return vectorCommodity;
 	}
 
-	/* add commodity */
+	/* commodity 추가 */
 	public void add(final Commodity commodity) throws ClassNotFoundException,
 			SQLException {
 		jdbcContextWithStatementStrategy(new StatementStrategy() {
@@ -358,7 +361,7 @@ public class FileManager {
 		});
 	}
 
-	/* update commodity */
+	/* commodity 갱신 */
 	public void updateCommodity(final Commodity commodity)
 			throws ClassNotFoundException, SQLException {
 		jdbcContextWithStatementStrategy(new StatementStrategy() {
@@ -372,7 +375,8 @@ public class FileManager {
 			}
 		});
 	}
-
+	
+	/* commodity 선택 */
 	public Vector<Commodity> selectCommodity(final String col, final String str)
 			throws SQLException, ClassNotFoundException {
 		Commodity commodity;
@@ -404,7 +408,7 @@ public class FileManager {
 	}
 
 	/***************** program ********************/
-	/* program */
+	/* program 추가 */
 	public void add(final Program program) throws ClassNotFoundException,
 			SQLException {
 		jdbcContextWithStatementStrategy(new StatementStrategy() {
@@ -418,6 +422,7 @@ public class FileManager {
 		});
 	}
 
+	/* program 정보 가져옴 */
 	public Vector<Program> getProgram(final String id)
 			throws ClassNotFoundException, SQLException {
 		Program program;
@@ -452,6 +457,7 @@ public class FileManager {
 		return vectorProgram;
 	}
 
+	/* program 갱신 */
 	public void updateProgram(final Program program)
 			throws ClassNotFoundException, SQLException {
 		jdbcContextWithStatementStrategy(new StatementStrategy() {
@@ -466,6 +472,7 @@ public class FileManager {
 		});
 	}
 
+	/* program 선택 */
 	public Vector<Program> selectProgram(final String col, final String str)
 			throws ClassNotFoundException, SQLException {
 		Program program;
@@ -497,7 +504,7 @@ public class FileManager {
 	}
 
 	/***************** delete ********************/
-	/* delete */
+	/* tuple 삭제 */
 	public void delete(final String id, final String table)
 			throws ClassNotFoundException, SQLException {
 		jdbcContextWithStatementStrategy(new StatementStrategy() {
@@ -567,7 +574,7 @@ public class FileManager {
 			//
 			// if(c!=null) {
 			// try { c.close(); } catch(SQLException e) {}
-			// } // connection 어떻게 닫아야 하쥐 ㅠㅠㅠ
+			// }
 		}
 	}
 

@@ -69,13 +69,12 @@ public class LogIn extends JDialog implements ActionListener, KeyListener {
 					JOptionPane.showMessageDialog(null, "해당 id가 존재하지 않습니다.");
 
 				} else if (member.getPwd().equals(pw)) {
-					// 관리자 로그인
-					if (member.getPosition().equals("1")) {
+					
+					if (member.getPosition().equals("1")) { // Admin
+															 // 로그인
 						dispose();
 						new AdminAMode();
-					}
-
-					// 트레이너 로그인
+					} 
 					else if (member.getPosition().equals("trainer")) { // trainer
 																		// 로그인
 						dispose();
@@ -96,10 +95,8 @@ public class LogIn extends JDialog implements ActionListener, KeyListener {
 			}
 
 		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 	}
@@ -117,14 +114,11 @@ public class LogIn extends JDialog implements ActionListener, KeyListener {
 					JOptionPane.showMessageDialog(null, "해당 id가 존재하지 않습니다.");
 
 				} else if (member.getPwd().equals(pw)) {
-					// 관리자 로그인
-					if (member.getPosition().equals("1")) {
+					if (member.getPosition().equals("1")) { // Admin
+															 // 로그인
 						dispose();
 						new AdminAMode();
-					}
-
-					// 트레이너 로그인
-					else if (member.getPosition().equals("trainer")) { // trainer
+					} else if (member.getPosition().equals("trainer")) { // trainer
 																		// 로그인
 						dispose();
 						Vector<Trainer> trainer = gui.selectTrainer("loginId",
@@ -144,10 +138,8 @@ public class LogIn extends JDialog implements ActionListener, KeyListener {
 			}
 
 		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 	}
