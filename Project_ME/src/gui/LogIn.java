@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.sql.SQLException;
+import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -16,6 +17,7 @@ import javax.swing.JTextField;
 
 import object.Client;
 import object.Member;
+import object.Trainer;
 
 public class LogIn extends JDialog implements ActionListener, KeyListener {
 
@@ -64,27 +66,24 @@ public class LogIn extends JDialog implements ActionListener, KeyListener {
 				
 				Member member = gui.selectMember("loginId", id);
 				
-				if (id.equals("root")) { //관리자 로그인
-					if(pw.equals("1111")){
-						dispose();
-						new AdminAMode();
-					}
-					else
-						JOptionPane.showMessageDialog(null, "패스워드가 틀렸습니다.");
-						
-				} else if(member == null){
+				if(member == null){
 					JOptionPane.showMessageDialog(null, "해당 id가 존재하지 않습니다.");
 					
 				} else if (member.getPwd().equals(pw)) {
-					
-					if(member.getPosition().equals("trainer")){ //trainer 로그인
-						
-						//Trainer trainer = FileManager.getInstance().selectTrainer("loginId", id).firstElement();
+					// 관리자 로그인
+					if(member.getPosition().equals("1")) {
 						dispose();
-						new AdminTMode();
+						new AdminAMode();
+					}
+					
+					//트레이너 로그인
+					else if(member.getPosition().equals("trainer")){ //trainer 로그인
+						dispose();
+						Vector<Trainer> trainer = gui.selectTrainer("loginId", id);
+						String trainerName = trainer.get(0).getName();
+						new AdminTMode(trainerName);
 						
 					} else if(member.getPosition().equals("client")){ //client 로그인
-						
 						Client client = gui.selectClient("loginId", id).firstElement();
 						dispose();
 						new UserMode(client);

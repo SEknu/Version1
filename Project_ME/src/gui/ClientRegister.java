@@ -44,7 +44,8 @@ public class ClientRegister extends JDialog implements ActionListener {
 	private JTextField addressTextField = new JTextField(20);
 	private JTextField commentTextField = new JTextField(20);
 	private JComboBox<String> registPeriodComboBox = new JComboBox<String>();
-
+	String birthday;
+	
 	public ClientRegister() {
 		gui = GuiProcess.getInstance();
 		
@@ -133,11 +134,11 @@ public class ClientRegister extends JDialog implements ActionListener {
 		homePanel.add(buttonPanel);
 
 		getContentPane().add(homePanel);
-		setResizable(true);
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		
 		pack();
+		setModal(true);
 		setVisible(true);
-
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);	
 	}
 
 	@Override
@@ -159,7 +160,7 @@ public class ClientRegister extends JDialog implements ActionListener {
 			String note = commentTextField.getText();
 			String name = nameTextField.getText();
 			int age = calculateAge(Integer.parseInt(birthdayYearTextField.getText()));
-			String birthday = birthdayYearTextField.getText() + "-"
+			birthday = birthdayYearTextField.getText() + "-"
 					+ birthdayMonthTextField.getText() + "-" + birthdayDayTextField.getText();
 			String address = addressTextField.getText();
 			String phone = phone1TextField.getText() + "-" + phone2TextField.getText() + "-"
@@ -214,7 +215,7 @@ public class ClientRegister extends JDialog implements ActionListener {
 	// Client password create
 	public String createClientPwd() {
 		String clientPwd = null;
-		clientPwd = "1234";
+		clientPwd = birthday;
 		return clientPwd;
 	}
 

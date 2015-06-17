@@ -23,15 +23,13 @@ public class PasswordModify extends JFrame implements ActionListener {
 	JButton modify = new JButton("변경");
 	JButton close = new JButton("닫기");
 	
-	Client client;
 	Member member;
 	GuiProcess gui;
 	
-	public PasswordModify(Client client) throws ClassNotFoundException, SQLException
+	public PasswordModify(final String id) throws ClassNotFoundException, SQLException
 	{
-		this.client = client;
 		gui = GuiProcess.getInstance();
-		member = gui.selectMember("id", client.getId());
+		member = gui.selectMember("loginId", id);
 		
 		modify.addActionListener(this);
 		close.addActionListener(this);
@@ -66,6 +64,7 @@ public class PasswordModify extends JFrame implements ActionListener {
 		
 		if (e.getSource() == modify)
 		{
+			//현재 비밀번호와 비교
 			if (!currentPwd.getText().equals(member.getPwd()))
 			{
 				JOptionPane.showMessageDialog(null, "현재 패스워드가 틀렸습니다.");
@@ -78,10 +77,8 @@ public class PasswordModify extends JFrame implements ActionListener {
 			}
 			
 			member.setPwd(pwd.getText());
-			client.setPwd(pwd.getText());
 			
 			try {
-				gui.update(client);
 				gui.update(member);
 			} catch (ClassNotFoundException | SQLException e1) {
 				e1.printStackTrace();

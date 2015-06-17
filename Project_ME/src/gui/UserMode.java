@@ -89,7 +89,7 @@ public class UserMode extends JFrame implements ActionListener, WindowListener {
 		else if (e.getSource() == passwordButton)
 		{
 			try {
-				new PasswordModify(loginClient);
+				new PasswordModify(loginClient.getLoginId());
 			} catch (ClassNotFoundException e1) {
 				e1.printStackTrace();
 			} catch (SQLException e1) {

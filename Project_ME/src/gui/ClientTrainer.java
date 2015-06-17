@@ -16,8 +16,6 @@ import database.FileManager;
 
 
 public class ClientTrainer<T> extends JDialog implements ActionListener{
-
-	FileManager filemanager;
 	GuiProcess gui;
 	
 	Vector<Trainer> list;
@@ -26,9 +24,7 @@ public class ClientTrainer<T> extends JDialog implements ActionListener{
 	
 	private Client clt;
 	
-	public ClientTrainer(Vector<Trainer> list, Client c)
-	{
-		filemanager = FileManager.getInstance();
+	public ClientTrainer(Vector<Trainer> list, Client c) {
 		gui = GuiProcess.getInstance();
 		
 		clt = c;

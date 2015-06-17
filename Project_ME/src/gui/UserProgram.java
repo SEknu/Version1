@@ -39,9 +39,12 @@ public class UserProgram extends JPanel {
 		for(int i=0; i<colArray.length; i++)
 			col.add(colArray[i]);	
 		try {
-			vectorProgram = gui.getProgram();
+			String program = loginClient.getProgram();
+			vectorProgram = gui.selectProgram("name", program);
+			
 		} catch (ClassNotFoundException | SQLException e1) {
 			JOptionPane.showMessageDialog(null, "데이터베이스 오류");
+			
 		}
 		row = gui.getRowPrograme(vectorProgram);
 		

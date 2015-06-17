@@ -54,6 +54,17 @@ public class AdminAMode extends AdminAbstract {
 			pack();
 			setVisible(true);
 		}
+		
+		else if (e.getSource() == passwordButton) {
+			try {
+				new PasswordModify("root");
+			} catch (ClassNotFoundException | SQLException e1) {
+				Logger.logMsg(ERROR, "addTrainerPanel");
+			}
+			setResizable(false);
+			pack();
+			setVisible(true);
+		}
 	
 		else if (e.getSource() == logoutButton) {
 			dispose();

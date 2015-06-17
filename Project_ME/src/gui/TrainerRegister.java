@@ -37,7 +37,7 @@ public class TrainerRegister extends JDialog implements ActionListener{
 	JTextField phone3Textfield = new JTextField(4);
 	JTextField addressTextfield = new JTextField(10);
 	
-	FileManager filemanager = FileManager.getInstance();
+	String rDate;
 		
 	public TrainerRegister() {
 		gui = GuiProcess.getInstance();
@@ -93,7 +93,7 @@ public class TrainerRegister extends JDialog implements ActionListener{
 			
 			String id = createId();
 			String name = this.nameTextfield.getText();
-			String rDate = this.yearTextfield.getText() + "-" + this.monthTextfield.getText() + "-" + this.dateTextfield.getText();
+			rDate = this.yearTextfield.getText() + "-" + this.monthTextfield.getText() + "-" + this.dateTextfield.getText();
 			String phone = this.phone1Textfield.getText() + "-" + this.phone2Textfield.getText() + "-" + this.phone3Textfield.getText();
 			String addr = this.addressTextfield.getText();
 			String loginId = createLoginId(phone);
@@ -169,7 +169,7 @@ public class TrainerRegister extends JDialog implements ActionListener{
 	public String createPwd() {
 		String pwd = null;
 		
-		pwd = "1234";
+		pwd = rDate;
 		
 		return pwd;
 	}

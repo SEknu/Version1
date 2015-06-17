@@ -7,6 +7,12 @@ import com.sun.media.jfxmedia.logging.Logger;
 
 
 public class AdminTMode extends AdminAbstract {
+	private String id;
+	
+	public AdminTMode(String id) {
+		// TODO Auto-generated constructor stub
+		this.id = id;
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -14,7 +20,7 @@ public class AdminTMode extends AdminAbstract {
 			setVisible(false);
 			contentpanel.removeAll();
 			try {
-				contentpanel.add(new ClientAPanel());
+				contentpanel.add(new ClientTPanel(id));
 			} catch (ClassNotFoundException | SQLException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -56,6 +62,17 @@ public class AdminTMode extends AdminAbstract {
 				contentpanel.add(new TrainerTPanel());
 			} catch (ClassNotFoundException | SQLException e1) {
 				Logger.logMsg(ERROR, "TaddTrainerPanel");
+			}
+			setResizable(false);
+			pack();
+			setVisible(true);
+		}
+		
+		else if (e.getSource() == passwordButton) {
+			try {
+				new PasswordModify(id);
+			} catch (ClassNotFoundException | SQLException e1) {
+				Logger.logMsg(ERROR, "addTrainerPanel");
 			}
 			setResizable(false);
 			pack();

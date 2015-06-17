@@ -14,6 +14,7 @@ public abstract class AdminAbstract extends JFrame implements ActionListener {
 	JButton programButton = new JButton("운동 프로그램");
 	JButton commodityButton = new JButton("운동기구 관리");
 	JButton trainerButton = new JButton("트레이너정보");
+	JButton passwordButton = new JButton("비밀번호 변경");
 	JButton logoutButton = new JButton("logout");
 	
 	JPanel p = new JPanel();
@@ -25,6 +26,7 @@ public abstract class AdminAbstract extends JFrame implements ActionListener {
 		programButton.addActionListener(this);
 		commodityButton.addActionListener(this);
 		trainerButton.addActionListener(this);
+		passwordButton.addActionListener(this);
 		logoutButton.addActionListener(this);
 
 		
@@ -45,6 +47,9 @@ public abstract class AdminAbstract extends JFrame implements ActionListener {
 		JPanel panel4 = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		panel4.add(trainerButton);	
 		
+		JPanel panel5 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		panel5.add(passwordButton);
+		
 		JPanel panel6 = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		panel6.add(logoutButton);
 		
@@ -52,6 +57,7 @@ public abstract class AdminAbstract extends JFrame implements ActionListener {
 		panel.add(panel2);
 		panel.add(panel3);
 		panel.add(panel4);
+		panel.add(panel5);
 		panel.add(panel6);
 		
 		contentpanel.setPreferredSize(new Dimension(500, 500));
